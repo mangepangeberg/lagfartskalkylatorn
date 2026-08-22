@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM
+   DESIGN TOKENS & SYSTEM (Unified Card Engine)
    ========================================================================== */
 :root {
   /* Färgpalett */
@@ -18,24 +18,24 @@
   --color-border: #E1E8ED;
   --color-border-focus: #0066FF;
 
-  /* Typografiska variabler (Fluid Clamp) */
+  /* Typografi (Fluid Clamp) */
   --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
   --font-mono: "SF Mono", "Consolas", Menlo, monospace;
 
-  --fs-2xs: clamp(0.7rem, 0.67rem + 0.15vw, 0.78rem);
-  --fs-xs: clamp(0.8rem, 0.76rem + 0.2vw, 0.88rem);
-  --fs-sm: clamp(0.9rem, 0.85rem + 0.25vw, 0.98rem);
-  --fs-base: clamp(1rem, 0.94rem + 0.3vw, 1.08rem);
-  --fs-md: clamp(1.2rem, 1.1rem + 0.4vw, 1.4rem);
-  --fs-lg: clamp(1.4rem, 1.25rem + 0.7vw, 1.75rem);
-  --fs-hero: clamp(1.8rem, 1.5rem + 1.2vw, 2.3rem);
+  --fs-2xs: clamp(0.68rem, 0.65rem + 0.15vw, 0.75rem);
+  --fs-xs: clamp(0.78rem, 0.74rem + 0.2vw, 0.85rem);
+  --fs-sm: clamp(0.88rem, 0.82rem + 0.25vw, 0.95rem);
+  --fs-base: clamp(0.96rem, 0.9rem + 0.3vw, 1.05rem);
+  --fs-md: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
+  --fs-lg: clamp(1.35rem, 1.2rem + 0.7vw, 1.65rem);
+  --fs-hero: clamp(1.7rem, 1.45rem + 1.2vw, 2.2rem);
 
-  /* Spacing */
+  /* Spacing & Micro Layout */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
-  --space-sm: 0.875rem;
-  --space-md: 1.25rem;
-  --space-lg: 1.75rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.15rem;
+  --space-lg: 1.5rem;
   --space-xl: 2.5rem;
 
   /* Form & Elevation */
@@ -44,17 +44,17 @@
   --radius-card: 20px;
   --radius-pill: 9999px;
   
-  --shadow-card: 0 4px 16px rgba(149, 157, 165, 0.06);
+  --shadow-card: 0 4px 20px rgba(149, 157, 165, 0.07);
   --shadow-sticky: 0 -8px 24px rgba(0, 0, 0, 0.08);
   --shadow-thumb: 0 3px 8px rgba(0, 0, 0, 0.12);
   --shadow-drawer: -8px 0 32px rgba(0, 0, 0, 0.15);
 
-  --max-w-app: 520px;
+  --max-w-app: 480px;
   --max-w-header: 1200px;
 }
 
 /* ==========================================================================
-   RESET & LAYOUT ENGINE
+   RESET & GRUNDSTRUKTUR
    ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -67,12 +67,12 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: var(--fs-base);
-  line-height: 1.5;
+  line-height: 1.4;
   -webkit-font-smoothing: antialiased;
 }
 
 /* ==========================================================================
-   TOP GLOBAL HEADER
+   GLOBAL HEADER
    ========================================================================== */
 .global-header {
   position: sticky;
@@ -86,7 +86,7 @@ body {
 .header-inner {
   max-width: var(--max-w-header);
   margin: 0 auto;
-  padding: 0.75rem var(--space-md);
+  padding: 0.65rem var(--space-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -108,7 +108,7 @@ body {
   color: #FFFFFF;
   font-weight: 800;
   font-size: var(--fs-sm);
-  padding: 0.3rem 0.65rem;
+  padding: 0.25rem 0.6rem;
   border-radius: var(--radius-sm);
   letter-spacing: -0.02em;
 }
@@ -125,11 +125,11 @@ body {
   border: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   font-size: var(--fs-sm);
   font-weight: 700;
   color: var(--color-ink);
-  padding: 0.45rem 0.75rem;
+  padding: 0.4rem 0.7rem;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: background-color 0.15s ease;
@@ -171,7 +171,7 @@ body {
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(360px, 85vw);
+  width: min(340px, 85vw);
   background: var(--bg-surface);
   box-shadow: var(--shadow-drawer);
   z-index: 210;
@@ -191,7 +191,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -218,14 +218,14 @@ body {
 .drawer-nav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
-  margin-top: var(--space-lg);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
 }
 
 .drawer-nav-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-2xs);
 }
 
 .drawer-group-title {
@@ -241,13 +241,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6rem 0;
+  padding: 0.55rem 0;
   font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--color-ink);
   text-decoration: none;
   border-bottom: 1px solid var(--bg-track);
-  transition: color 0.15s ease;
 }
 
 .drawer-link:hover {
@@ -259,29 +258,11 @@ body {
    ========================================================================== */
 .app-wrapper {
   max-width: var(--max-w-app);
-  margin: var(--space-sm) auto var(--space-xl) auto;
-  padding: 0 var(--space-sm);
+  margin: var(--space-xs) auto var(--space-lg) auto;
+  padding: 0 var(--space-xs);
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-}
-
-/* SEO Intro */
-.seo-intro {
-  text-align: center;
-  padding: var(--space-2xs) 0;
-}
-
-.seo-intro h1 {
-  font-size: var(--fs-md);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--color-ink);
-}
-
-.seo-intro p {
-  font-size: var(--fs-xs);
-  color: var(--color-ink-muted);
+  gap: var(--space-xs);
 }
 
 /* Kategori / Typväljare */
@@ -295,18 +276,14 @@ body {
   background: var(--bg-surface);
   border: 1.5px solid transparent;
   border-radius: var(--radius-md);
-  padding: var(--space-xs) var(--space-2xs);
+  padding: 0.5rem 0.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.25rem;
   cursor: pointer;
   box-shadow: var(--shadow-card);
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.category-card:hover {
-  transform: translateY(-1px);
+  transition: all 0.15s ease;
 }
 
 .category-card.is-active {
@@ -315,8 +292,8 @@ body {
 }
 
 .category-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   stroke: var(--color-ink-muted);
   fill: none;
   stroke-width: 2;
@@ -339,16 +316,26 @@ body {
 }
 
 /* ==========================================================================
-   INPUT KORT & SLIDERS (MED INLINE INPUT)
+   UNIFIED CONTROLS CARD (ALLA SLIDERS I EN BOX)
    ========================================================================== */
-.input-card {
+.unified-controls-card {
   background: var(--bg-surface);
   border-radius: var(--radius-card);
-  padding: 0.9rem var(--space-md);
   box-shadow: var(--shadow-card);
+  padding: 0.4rem var(--space-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.unified-field-row {
+  padding: 0.65rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+}
+
+.unified-field-row:not(:last-child) {
+  border-bottom: 1px solid var(--bg-track);
 }
 
 .card-caption {
@@ -363,13 +350,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.15rem;
 }
 
 .editable-input-box {
   display: flex;
   align-items: baseline;
-  gap: 0.35rem;
+  gap: 0.3rem;
 }
 
 .currency-input {
@@ -382,8 +369,8 @@ body {
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
-  padding: 0 0.25rem;
-  max-width: 200px;
+  padding: 0 0.2rem;
+  max-width: 180px;
   outline: none;
   transition: all 0.15s ease;
 }
@@ -404,16 +391,16 @@ body {
   color: var(--color-ink-muted);
 }
 
-/* Slider Track & Thumb */
+/* Sliders */
 .slider-container {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .app-slider {
   width: 100%;
-  height: 6px;
+  height: 5px;
   border-radius: var(--radius-pill);
   outline: none;
   -webkit-appearance: none;
@@ -423,9 +410,9 @@ body {
 
 .app-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 28px;
-  height: 20px;
-  border-radius: var(--radius-sm);
+  width: 26px;
+  height: 18px;
+  border-radius: 6px;
   background: #FFFFFF;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-thumb);
@@ -457,7 +444,7 @@ body {
   color: var(--color-ink-faint);
 }
 
-/* Bostadsrätt Panel */
+/* Bostadsrätt Notice Panel */
 .brf-panel-card {
   background: var(--bg-surface);
   border-radius: var(--radius-card);
@@ -485,16 +472,16 @@ body {
    ========================================================================== */
 .sticky-conversion-bar {
   position: sticky;
-  bottom: var(--space-sm);
+  bottom: var(--space-xs);
   z-index: 90;
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  padding: 0.85rem var(--space-md);
+  padding: 0.75rem var(--space-md);
   box-shadow: var(--shadow-sticky);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 0.35rem;
   backdrop-filter: blur(8px);
 }
 
@@ -524,7 +511,7 @@ body {
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
   border-top: 1px solid var(--bg-track);
-  padding-top: 0.4rem;
+  padding-top: 0.35rem;
 }
 
 .sticky-pills-row strong {
@@ -541,10 +528,10 @@ body {
   color: #FFFFFF;
   font-size: var(--fs-sm);
   font-weight: 700;
-  padding: 0.85rem var(--space-md);
+  padding: 0.75rem var(--space-md);
   border-radius: var(--radius-pill);
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.22);
   transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
@@ -563,7 +550,7 @@ body {
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-2xs);
   margin-top: var(--space-xs);
 }
 
@@ -578,7 +565,7 @@ body {
 }
 
 .faq-item summary {
-  padding: var(--space-xs) 0;
+  padding: 0.45rem 0;
   font-size: var(--fs-xs);
   font-weight: 700;
   cursor: pointer;
@@ -592,10 +579,10 @@ body {
 }
 
 .faq-body {
-  padding-bottom: var(--space-xs);
+  padding-bottom: 0.45rem;
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .app-footer {
@@ -605,5 +592,5 @@ body {
   font-size: var(--fs-2xs);
   color: var(--color-ink-faint);
   padding: 0 var(--space-xs);
-  margin-top: var(--space-xs);
+  margin-top: var(--space-2xs);
 }

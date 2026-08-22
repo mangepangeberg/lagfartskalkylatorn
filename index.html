@@ -50,7 +50,7 @@
 </head>
 <body>
 
-  <!-- Full Width Top Header -->
+  <!-- Full Width Header -->
   <header class="global-header">
     <div class="header-inner">
       <a href="/" class="brand-logo-wrap">
@@ -67,7 +67,7 @@
     </div>
   </header>
 
-  <!-- Off-Canvas Sidebar & Backdrop -->
+  <!-- Off-Canvas Sidebar -->
   <div class="drawer-backdrop" id="drawer-backdrop"></div>
   <aside class="drawer-panel" id="drawer-panel" aria-label="Huvudmeny">
     <div class="drawer-header">
@@ -97,7 +97,7 @@
     </nav>
   </aside>
 
-  <!-- App Main Content -->
+  <!-- App Wrapper -->
   <div class="app-wrapper">
 
     <!-- Kategori / Typväljare -->
@@ -118,18 +118,20 @@
       </button>
     </nav>
 
-    <!-- Slider Inputs Wrapper -->
-    <main id="inputs-group" style="display: flex; flex-direction: column; gap: var(--space-md);">
+    <!-- UNIFIED INPUT BOX (Alla sliders samlade) -->
+    <main id="inputs-group" class="unified-controls-card">
       
-      <!-- Card 1: Köpeskilling -->
-      <section class="input-card">
+      <!-- Rad 1: Köpeskilling -->
+      <section class="unified-field-row">
         <span class="card-caption">Köpeskilling</span>
-        <div class="val-display">
-          <span class="val-number" id="price-val">5 950 000</span>
-          <span class="val-unit">SEK</span>
+        <div class="val-display-wrap">
+          <div class="editable-input-box">
+            <input type="text" id="price-input" class="currency-input" inputmode="numeric" value="5 950 000">
+            <span class="val-unit">SEK</span>
+          </div>
         </div>
         <div class="slider-container">
-          <input type="range" id="price-slider" min="500000" max="15000000" step="50000" value="5950000" class="app-slider">
+          <input type="range" id="price-slider" min="500000" max="15000000" step="25000" value="5950000" class="app-slider">
           <div class="slider-limits">
             <span>500 kkr</span>
             <span>15 MSEK</span>
@@ -137,15 +139,17 @@
         </div>
       </section>
 
-      <!-- Card 2: Planerat Bolån -->
-      <section class="input-card">
+      <!-- Rad 2: Planerat Bolån -->
+      <section class="unified-field-row">
         <span class="card-caption">Planerat Bolån</span>
-        <div class="val-display">
-          <span class="val-number" id="loan-val">3 800 000</span>
-          <span class="val-unit">SEK</span>
+        <div class="val-display-wrap">
+          <div class="editable-input-box">
+            <input type="text" id="loan-input" class="currency-input" inputmode="numeric" value="3 800 000">
+            <span class="val-unit">SEK</span>
+          </div>
         </div>
         <div class="slider-container">
-          <input type="range" id="loan-slider" min="0" max="15000000" step="50000" value="3800000" class="app-slider">
+          <input type="range" id="loan-slider" min="0" max="15000000" step="25000" value="3800000" class="app-slider">
           <div class="slider-limits">
             <span>0 SEK</span>
             <span>Max köpeskilling</span>
@@ -153,15 +157,17 @@
         </div>
       </section>
 
-      <!-- Card 3: Befintliga Pantbrev -->
-      <section class="input-card" id="existing-pant-card">
+      <!-- Rad 3: Befintliga Pantbrev -->
+      <section class="unified-field-row" id="existing-pant-row">
         <span class="card-caption">Befintliga pantbrev i fastigheten</span>
-        <div class="val-display">
-          <span class="val-number" id="existing-pant-val">1 500 000</span>
-          <span class="val-unit">SEK</span>
+        <div class="val-display-wrap">
+          <div class="editable-input-box">
+            <input type="text" id="existing-pant-input" class="currency-input" inputmode="numeric" value="1 500 000">
+            <span class="val-unit">SEK</span>
+          </div>
         </div>
         <div class="slider-container">
-          <input type="range" id="existing-pant-slider" min="0" max="15000000" step="50000" value="1500000" class="app-slider">
+          <input type="range" id="existing-pant-slider" min="0" max="15000000" step="25000" value="1500000" class="app-slider">
           <div class="slider-limits">
             <span>0 SEK</span>
             <span>Max köpeskilling</span>
@@ -171,11 +177,11 @@
 
     </main>
 
-    <!-- Bostadsrätt Notice Panel -->
+    <!-- Bostadsrätt Panel (Dold default) -->
     <section id="brf-card" class="brf-panel-card" style="display: none;">
       <h2>0 kr i stämpelskatt</h2>
       <p>Vid köp av bostadsrätt betalar du ingen lagfart eller pantbrevskostnad till Lantmäteriet. Föreningen debiterar istället fasta administrativa avgifter:</p>
-      <div style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 4px;">
+      <div style="margin-top: 0.4rem; display: flex; flex-direction: column; gap: 4px;">
         <div style="display: flex; justify-content: space-between; font-size: var(--fs-xs);">
           <span>Överlåtelseavgift:</span>
           <strong>~1 430 kr</strong>
@@ -187,33 +193,22 @@
       </div>
     </section>
 
-    <!-- Resultatöversikt -->
-    <aside class="summary-card" aria-label="Beräknat resultat">
-      <div class="summary-hero">
-        <span class="summary-label">Total kostnad att betala</span>
-        <span class="summary-total" id="grand-total">136 450 SEK</span>
+    <!-- STICKY CONVERSION BOTTOM MODULE -->
+    <aside class="sticky-conversion-bar" aria-label="Realtidsresultat och åtgärd">
+      <div class="sticky-top-row">
+        <span class="sticky-hero-label">Totalt att betala</span>
+        <span class="sticky-hero-sum" id="grand-total">136 450 SEK</span>
       </div>
 
-      <div class="breakdown-row">
-        <span class="breakdown-label">Lagfart (1,5% + 825 kr)</span>
-        <span class="breakdown-value" id="lagfart-val">90 075 SEK</span>
+      <div class="sticky-pills-row">
+        <span>Lagfart: <strong id="lagfart-val">90 075 SEK</strong></span>
+        <span>Pantbrev: <strong id="pantbrev-val">46 375 SEK</strong></span>
       </div>
 
-      <div class="breakdown-row">
-        <span class="breakdown-label">Pantbrev (2,0% + 375 kr)</span>
-        <span class="breakdown-value" id="pantbrev-val">46 375 SEK</span>
-      </div>
-
-      <div class="breakdown-row" id="needed-pant-row">
-        <span class="breakdown-label">Nytt pantbrevsbelopp</span>
-        <span class="breakdown-value" id="needed-pant-val">2 300 000 SEK</span>
-      </div>
+      <a href="#" class="btn-dynamic-cta" id="dynamic-affiliate-cta" target="_blank" rel="noopener sponsored">
+        Jämför ränta på 3,8 MSEK &rarr;
+      </a>
     </aside>
-
-    <!-- CTA Button -->
-    <a href="#" class="btn-primary-action" id="affiliate-cta">
-      Jämför lägsta bolåneränta &rarr;
-    </a>
 
     <!-- FAQ Accordion -->
     <section class="faq-section" id="faq">

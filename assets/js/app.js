@@ -1,5 +1,5 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Motor med Tvåvägssynkning & Sticky CTA
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor med Unified Controls
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Kalkylator Element
   const categoryCards = document.querySelectorAll('.category-card');
   const inputsGroup = document.getElementById('inputs-group');
-  const existingPantCard = document.getElementById('existing-pant-card');
+  const existingPantRow = document.getElementById('existing-pant-row');
   const brfCard = document.getElementById('brf-card');
 
   // Sliders & Text Inputs
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loanInput = document.getElementById('loan-input');
   const existingPantInput = document.getElementById('existing-pant-input');
 
-  // Output Displays
+  // Outputs
   const grandTotal = document.getElementById('grand-total');
   const lagfartVal = document.getElementById('lagfart-val');
   const pantbrevVal = document.getElementById('pantbrev-val');
@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const PANTBREV_PERCENT = 0.02;
   const PANTBREV_FEE = 375;
 
-  // Formatterare
   const fmt = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 0 });
 
   function parseFormattedNumber(val) {
@@ -102,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loan = parseInt(loanSlider.value, 10);
     const existingPant = currentScenario === 'nybygge' ? 0 : parseInt(existingPantSlider.value, 10);
 
-    // Maxgränser synkas med köpeskillingen
     loanSlider.max = price;
     existingPantSlider.max = price;
 
@@ -123,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lagfartVal.textContent = `${fmt.format(totLagfart)} SEK`;
     pantbrevVal.textContent = `${fmt.format(totPantbrev)} SEK`;
 
-    // 5. Dynamisk CTA med formaterat lånebelopp
+    // 5. Dynamisk CTA
     if (loan > 0) {
       dynamicAffiliateCta.textContent = `Jämför ränta på ${formatMSEK(loan)} →`;
     } else {
@@ -144,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     input.addEventListener('focus', () => {
-      // Ta bort formatering vid redigering
       input.value = parseFormattedNumber(input.value);
       input.select();
     });
@@ -188,16 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
         brfCard.style.display = 'none';
 
         if (currentScenario === 'nybygge') {
-          existingPantCard.style.display = 'none';
+          existingPantRow.style.display = 'none';
         } else {
-          existingPantCard.style.display = 'flex';
+          existingPantRow.style.display = 'flex';
         }
       }
       calculate();
     });
   });
 
-  // Initial initiering
+  // Init
   priceInput.value = fmt.format(priceSlider.value);
   loanInput.value = fmt.format(loanSlider.value);
   existingPantInput.value = fmt.format(existingPantSlider.value);
