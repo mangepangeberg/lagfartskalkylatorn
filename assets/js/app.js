@@ -1,20 +1,30 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (100% Clean Utility)
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (Lag 1984:404 Kompatibel)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const categoryCards = document.querySelectorAll('.category-card');
   const inputsGroup = document.getElementById('inputs-group');
   const existingPantRow = document.getElementById('existing-pant-row');
+  const taxRow = document.getElementById('tax-row');
   const brfCard = document.getElementById('brf-card');
+  const priceLabel = document.getElementById('price-label');
+  const loanLabel = document.getElementById('loan-label');
 
   const priceSlider = document.getElementById('price-slider');
+  const taxSlider = document.getElementById('tax-slider');
   const loanSlider = document.getElementById('loan-slider');
   const existingPantSlider = document.getElementById('existing-pant-slider');
 
   const priceInput = document.getElementById('price-input');
+  const taxInput = document.getElementById('tax-input');
   const loanInput = document.getElementById('loan-input');
   const existingPantInput = document.getElementById('existing-pant-input');
+
+  const noTaxCheck = document.getElementById('no-tax-check');
+  const taxInputContainer = document.getElementById('tax-input-container');
+  const noTaxNotice = document.getElementById('no-tax-notice');
+  const taxBasisBadge = document.getElementById('tax-basis-badge');
 
   const grandTotal = document.getElementById('grand-total');
   const lagfartVal = document.getElementById('lagfart-val');
@@ -50,31 +60,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const price = parseInt(priceSlider.value, 10);
+    const taxVal = noTaxCheck.checked ? 0 : parseInt(taxSlider.value, 10);
     const loan = parseInt(loanSlider.value, 10);
     const existingPant = currentScenario === 'nybygge' ? 0 : parseInt(existingPantSlider.value, 10);
 
-    loanSlider.max = price;
-    existingPantSlider.max = price;
-
-    // 1. Lagfart
-    const lagfartTax = Math.round(price * LAGFART_PERCENT);
+    // 1. Lagfartsunderlag (Högsta av köpeskilling och taxeringsvärde, avrundat nedåt till fullt 1000-tal)
+    const effectiveBasis = Math.max(price, taxVal);
+    const roundedLagfartBasis = Math.floor(effectiveBasis / 1000) * 1000;
+    const lagfartTax = roundedLagfartBasis * LAGFART_PERCENT;
     const totLagfart = lagfartTax + LAGFART_FEE;
 
-    // 2. Pantbrev
-    const neededPant = Math.max(0, loan - existingPant);
-    const pantbrevTax = Math.round(neededPant * PANTBREV_PERCENT);
-    const totPantbrev = neededPant > 0 ? pantbrevTax + PANTBREV_FEE : 0;
+    // UI-badge för vad stämpelskatten styrs av
+    if (noTaxCheck.checked) {
+      taxBasisBadge.textContent = 'Taxeringsvärde saknas (Värdeintyg)';
+      taxBasisBadge.classList.remove('is-tax-driven');
+    } else if (taxVal > price) {
+      taxBasisBadge.textContent = 'Lagfart baseras på taxeringsvärde!';
+      taxBasisBadge.classList.add('is-tax-driven');
+    } else {
+      taxBasisBadge.textContent = 'Lagfart baseras på köpeskilling';
+      taxBasisBadge.classList.remove('is-tax-driven');
+    }
 
-    // 3. Totalt
+    // 2. Pantbrevsunderlag (Lånebehov utöver befintliga pantbrev, avrundat nedåt till fullt 1000-tal)
+    const neededPant = Math.max(0, loan - existingPant);
+    const roundedPantBasis = Math.floor(neededPant / 1000) * 1000;
+    const pantbrevTax = roundedPantBasis * PANTBREV_PERCENT;
+    const totPantbrev = roundedPantBasis > 0 ? pantbrevTax + PANTBREV_FEE : 0;
+
+    // 3. Totalt belopp
     const grand = totLagfart + totPantbrev;
 
-    // 4. Uppdatera DOM-fält
+    // 4. Uppdatera DOM
     grandTotal.textContent = `${fmt.format(grand)} SEK`;
     lagfartVal.textContent = `${fmt.format(totLagfart)} SEK`;
     pantbrevVal.textContent = `${fmt.format(totPantbrev)} SEK`;
 
-    // 5. Progress Tracks
+    // 5. Gradient Tracks
     updateSliderFill(priceSlider);
+    updateSliderFill(taxSlider);
     updateSliderFill(loanSlider);
     updateSliderFill(existingPantSlider);
   }
@@ -106,9 +130,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   setupSync(priceSlider, priceInput);
+  setupSync(taxSlider, taxInput);
   setupSync(loanSlider, loanInput);
   setupSync(existingPantSlider, existingPantInput);
 
+  // Checkbox för saknat taxeringsvärde
+  noTaxCheck.addEventListener('change', () => {
+    if (noTaxCheck.checked) {
+      taxInputContainer.style.display = 'none';
+      noTaxNotice.style.display = 'block';
+    } else {
+      taxInputContainer.style.display = 'block';
+      noTaxNotice.style.display = 'none';
+    }
+    calculate();
+  });
+
+  // Tabb-växling
   categoryCards.forEach(card => {
     card.addEventListener('click', () => {
       categoryCards.forEach(c => {
@@ -128,8 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
         brfCard.style.display = 'none';
 
         if (currentScenario === 'nybygge') {
+          priceLabel.textContent = 'Tomtpris';
+          loanLabel.textContent = 'Totalt Bolån (inkl. husbygge)';
           existingPantRow.style.display = 'none';
         } else {
+          priceLabel.textContent = 'Köpeskilling';
+          loanLabel.textContent = 'Planerat Bolån';
           existingPantRow.style.display = 'flex';
         }
       }
@@ -137,7 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Initiera värden
   priceInput.value = fmt.format(priceSlider.value);
+  taxInput.value = fmt.format(taxSlider.value);
   loanInput.value = fmt.format(loanSlider.value);
   existingPantInput.value = fmt.format(existingPantSlider.value);
   calculate();

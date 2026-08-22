@@ -1,8 +1,7 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM (Clean Utility Edition)
+   DESIGN TOKENS & SYSTEM (Production Master 2026)
    ========================================================================== */
 :root {
-  /* Färgpalett */
   --bg-app: #F5F7FB;
   --bg-surface: #FFFFFF;
   --bg-track: #EAEFF5;
@@ -16,8 +15,9 @@
   --color-ink-faint: #AAB8C2;
   --color-border: #E1E8ED;
   --color-border-focus: #0066FF;
+  --color-badge-bg: #E8F5E9;
+  --color-badge-text: #2E7D32;
 
-  /* Typografi (Fluid Clamp) */
   --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
   --font-mono: "SF Mono", "Consolas", Menlo, monospace;
 
@@ -29,15 +29,12 @@
   --fs-lg: clamp(1.35rem, 1.2rem + 0.7vw, 1.65rem);
   --fs-hero: clamp(1.7rem, 1.45rem + 1.2vw, 2.2rem);
 
-  /* Spacing */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1.15rem;
   --space-lg: 1.5rem;
-  --space-xl: 2.5rem;
 
-  /* Form & Elevation */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-card: 20px;
@@ -51,9 +48,6 @@
   --max-w-header: 1200px;
 }
 
-/* ==========================================================================
-   RESET & GRUNDSTRUKTUR
-   ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -69,9 +63,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ==========================================================================
-   CENTERED GLOBAL HEADER
-   ========================================================================== */
+/* Header */
 .global-header {
   position: sticky;
   top: 0;
@@ -118,9 +110,7 @@ body {
   color: var(--color-ink);
 }
 
-/* ==========================================================================
-   APP CONTENT WRAPPER
-   ========================================================================== */
+/* App Wrapper */
 .app-wrapper {
   max-width: var(--max-w-app);
   margin: var(--space-xs) auto var(--space-lg) auto;
@@ -130,7 +120,7 @@ body {
   gap: var(--space-xs);
 }
 
-/* Kategori / Typväljare */
+/* Kategori */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -180,9 +170,7 @@ body {
   color: var(--color-primary);
 }
 
-/* ==========================================================================
-   UNIFIED CONTROLS CARD
-   ========================================================================== */
+/* Controls */
 .unified-controls-card {
   background: var(--bg-surface);
   border-radius: var(--radius-card);
@@ -203,6 +191,12 @@ body {
   border-bottom: 1px solid var(--bg-track);
 }
 
+.field-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .card-caption {
   font-size: var(--fs-2xs);
   font-weight: 700;
@@ -211,11 +205,22 @@ body {
   letter-spacing: 0.04em;
 }
 
+.toggle-subtle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+}
+
 .val-display-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.15rem;
+  gap: var(--space-2xs);
 }
 
 .editable-input-box {
@@ -235,7 +240,7 @@ body {
   border-radius: var(--radius-sm);
   background: transparent;
   padding: 0 0.2rem;
-  max-width: 180px;
+  max-width: 170px;
   outline: none;
   transition: all 0.15s ease;
 }
@@ -254,6 +259,34 @@ body {
   font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--color-ink-muted);
+}
+
+.tax-status-badge {
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-track);
+  color: var(--color-ink-muted);
+  text-align: right;
+  max-width: 170px;
+  line-height: 1.2;
+}
+
+.tax-status-badge.is-tax-driven {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.subtle-notice {
+  font-size: var(--fs-2xs);
+  color: var(--color-ink-muted);
+  background: var(--bg-app);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+  border-left: 3px solid var(--color-primary);
 }
 
 /* Slider Track */
@@ -309,7 +342,7 @@ body {
   color: var(--color-ink-faint);
 }
 
-/* Bostadsrätt Panel */
+/* Bostadsrätt */
 .brf-panel-card {
   background: var(--bg-surface);
   border-radius: var(--radius-card);
@@ -323,7 +356,6 @@ body {
 .brf-panel-card h2 {
   font-size: var(--fs-sm);
   font-weight: 800;
-  color: var(--color-ink);
 }
 
 .brf-panel-card p {
@@ -332,9 +364,20 @@ body {
   line-height: 1.5;
 }
 
-/* ==========================================================================
-   STICKY BOTTOM RESULT ENGINE (Clean Display)
-   ========================================================================== */
+.brf-fees-box {
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brf-fee-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-xs);
+}
+
+/* Sticky Bottom Result */
 .sticky-conversion-bar {
   position: sticky;
   bottom: var(--space-xs);
@@ -342,11 +385,11 @@ body {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  padding: 0.85rem var(--space-md);
+  padding: 0.75rem var(--space-md);
   box-shadow: var(--shadow-sticky);
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
   backdrop-filter: blur(8px);
 }
 
@@ -376,7 +419,7 @@ body {
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
   border-top: 1px solid var(--bg-track);
-  padding-top: 0.4rem;
+  padding-top: 0.35rem;
 }
 
 .sticky-pills-row strong {
@@ -384,9 +427,13 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* ==========================================================================
-   FAQ & INFO
-   ========================================================================== */
+.sticky-meta-note {
+  font-size: var(--fs-2xs);
+  color: var(--color-ink-faint);
+  line-height: 1.2;
+}
+
+/* FAQ & Info */
 .faq-section {
   background: var(--bg-surface);
   border-radius: var(--radius-card);
