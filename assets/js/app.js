@@ -1,34 +1,35 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor & Off-Canvas Navigation
+ * Lagfartskalkylatorn - Reaktiv Motor med Tvåvägssynkning & Sticky CTA
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Drawer DOM Referenser
+  // Navigation & Drawer
   const drawerToggle = document.getElementById('drawer-toggle');
   const drawerClose = document.getElementById('drawer-close');
   const drawerBackdrop = document.getElementById('drawer-backdrop');
   const drawerPanel = document.getElementById('drawer-panel');
   const drawerLinks = document.querySelectorAll('[data-close-drawer]');
 
-  // Kalkylator DOM Referenser
+  // Kalkylator Element
   const categoryCards = document.querySelectorAll('.category-card');
   const inputsGroup = document.getElementById('inputs-group');
   const existingPantCard = document.getElementById('existing-pant-card');
   const brfCard = document.getElementById('brf-card');
-  const neededPantRow = document.getElementById('needed-pant-row');
 
+  // Sliders & Text Inputs
   const priceSlider = document.getElementById('price-slider');
   const loanSlider = document.getElementById('loan-slider');
   const existingPantSlider = document.getElementById('existing-pant-slider');
 
-  const priceVal = document.getElementById('price-val');
-  const loanVal = document.getElementById('loan-val');
-  const existingPantVal = document.getElementById('existing-pant-val');
+  const priceInput = document.getElementById('price-input');
+  const loanInput = document.getElementById('loan-input');
+  const existingPantInput = document.getElementById('existing-pant-input');
 
+  // Output Displays
   const grandTotal = document.getElementById('grand-total');
   const lagfartVal = document.getElementById('lagfart-val');
   const pantbrevVal = document.getElementById('pantbrev-val');
-  const neededPantVal = document.getElementById('needed-pant-val');
+  const dynamicAffiliateCta = document.getElementById('dynamic-affiliate-cta');
 
   let currentScenario = 'villa';
 
@@ -37,9 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const PANTBREV_PERCENT = 0.02;
   const PANTBREV_FEE = 375;
 
-  const fmt = new Intl.NumberFormat('sv-SE', {
-    maximumFractionDigits: 0
-  });
+  // Formatterare
+  const fmt = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 0 });
+
+  function parseFormattedNumber(val) {
+    return parseInt(val.replace(/\s+/g, '').replace(/[^0-9]/g, ''), 10) || 0;
+  }
+
+  function formatMSEK(num) {
+    if (num >= 1000000) {
+      const millions = (num / 1000000).toFixed(1).replace('.0', '').replace('.', ',');
+      return `${millions} MSEK`;
+    }
+    return `${fmt.format(num)} kr`;
+  }
 
   // --- Drawer Hantering ---
   function openDrawer() {
@@ -67,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- Kalkylator Progress Bar & Logic ---
+  // --- Slider Fill Update ---
   function updateSliderFill(slider) {
     const min = parseFloat(slider.min) || 0;
     const max = parseFloat(slider.max) || 100;
@@ -76,12 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
     slider.style.background = `linear-gradient(to right, #0066FF 0%, #0066FF ${percentage}%, #EAEFF5 ${percentage}%, #EAEFF5 100%)`;
   }
 
+  // --- Huvudberäkning ---
   function calculate() {
     if (currentScenario === 'bostadsratt') {
       grandTotal.textContent = '0 SEK';
       lagfartVal.textContent = '0 SEK';
       pantbrevVal.textContent = '0 SEK';
-      neededPantVal.textContent = 'Inga';
+      dynamicAffiliateCta.textContent = 'Jämför bolån för bostadsrätt →';
       return;
     }
 
@@ -89,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loan = parseInt(loanSlider.value, 10);
     const existingPant = currentScenario === 'nybygge' ? 0 : parseInt(existingPantSlider.value, 10);
 
+    // Maxgränser synkas med köpeskillingen
     loanSlider.max = price;
     existingPantSlider.max = price;
 
@@ -104,23 +118,57 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Totalt
     const grand = totLagfart + totPantbrev;
 
-    // 4. DOM Värden
-    priceVal.textContent = fmt.format(price);
-    loanVal.textContent = fmt.format(loan);
-    existingPantVal.textContent = fmt.format(existingPant);
-
+    // 4. Uppdatera DOM-fält
     grandTotal.textContent = `${fmt.format(grand)} SEK`;
     lagfartVal.textContent = `${fmt.format(totLagfart)} SEK`;
     pantbrevVal.textContent = `${fmt.format(totPantbrev)} SEK`;
-    neededPantVal.textContent = `${fmt.format(neededPant)} SEK`;
 
-    // 5. Uppdatera sliders spårfärg
+    // 5. Dynamisk CTA med formaterat lånebelopp
+    if (loan > 0) {
+      dynamicAffiliateCta.textContent = `Jämför ränta på ${formatMSEK(loan)} →`;
+    } else {
+      dynamicAffiliateCta.textContent = `Jämför bolåneräntor →`;
+    }
+
+    // 6. Progress Tracks
     updateSliderFill(priceSlider);
     updateSliderFill(loanSlider);
     updateSliderFill(existingPantSlider);
   }
 
-  // Scenarioväljare (Kortikoner)
+  // --- Tvåvägssynkning Slider <-> Text Input ---
+  function setupSync(slider, input) {
+    slider.addEventListener('input', () => {
+      input.value = fmt.format(slider.value);
+      calculate();
+    });
+
+    input.addEventListener('focus', () => {
+      // Ta bort formatering vid redigering
+      input.value = parseFormattedNumber(input.value);
+      input.select();
+    });
+
+    input.addEventListener('blur', () => {
+      let val = parseFormattedNumber(input.value);
+      val = Math.max(parseInt(slider.min, 10), Math.min(parseInt(slider.max, 10), val));
+      slider.value = val;
+      input.value = fmt.format(val);
+      calculate();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        input.blur();
+      }
+    });
+  }
+
+  setupSync(priceSlider, priceInput);
+  setupSync(loanSlider, loanInput);
+  setupSync(existingPantSlider, existingPantInput);
+
+  // Scenarion
   categoryCards.forEach(card => {
     card.addEventListener('click', () => {
       categoryCards.forEach(c => {
@@ -135,11 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentScenario === 'bostadsratt') {
         inputsGroup.style.display = 'none';
         brfCard.style.display = 'flex';
-        neededPantRow.style.display = 'none';
       } else {
         inputsGroup.style.display = 'flex';
         brfCard.style.display = 'none';
-        neededPantRow.style.display = 'flex';
 
         if (currentScenario === 'nybygge') {
           existingPantCard.style.display = 'none';
@@ -151,9 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  priceSlider.addEventListener('input', calculate);
-  loanSlider.addEventListener('input', calculate);
-  existingPantSlider.addEventListener('input', calculate);
-
+  // Initial initiering
+  priceInput.value = fmt.format(priceSlider.value);
+  loanInput.value = fmt.format(loanSlider.value);
+  existingPantInput.value = fmt.format(existingPantSlider.value);
   calculate();
 });
