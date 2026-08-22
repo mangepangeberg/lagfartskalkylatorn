@@ -1,5 +1,5 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (UX V2 Edition)
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (Final Polish Edition)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryCards = document.querySelectorAll('.category-card');
   const scenarioTitle = document.getElementById('scenario-title');
   const scenarioText = document.getElementById('scenario-text');
+  const scenarioLiveBasis = document.getElementById('scenario-live-basis');
 
   const inputsGroup = document.getElementById('inputs-group');
   const taxRow = document.getElementById('tax-row');
   const existingPantRow = document.getElementById('existing-pant-row');
   const brfCard = document.getElementById('brf-card');
-  const stickyResultBar = document.getElementById('sticky-result-bar');
 
   const priceLabel = document.getElementById('price-label');
   const loanLabel = document.getElementById('loan-label');
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const noTaxNotice = document.getElementById('no-tax-notice');
   const taxHelpBox = document.getElementById('tax-help-box');
   const taxInfoBtn = document.getElementById('tax-info-btn');
-  const taxBasisBadge = document.getElementById('tax-basis-badge');
 
   const grandTotalLabel = document.getElementById('grand-total-label');
   const grandTotal = document.getElementById('grand-total');
@@ -41,11 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const pillsSummaryRow = document.getElementById('pills-summary-row');
   const calcBreakdownWrap = document.getElementById('calc-breakdown-wrap');
-  const breakdownLagfartMath = document.getElementById('breakdown-lagfart-math');
-  const breakdownLagfartRes = document.getElementById('breakdown-lagfart-res');
-  const breakdownPantMath = document.getElementById('breakdown-pant-math');
-  const breakdownPantRes = document.getElementById('breakdown-pant-res');
-  const calculationBasisNote = document.getElementById('calculation-basis-note');
+  const breakdownLagfartText = document.getElementById('breakdown-lagfart-text');
+  const breakdownLagfartFormula = document.getElementById('breakdown-lagfart-formula');
+  const breakdownPantText = document.getElementById('breakdown-pant-text');
+  const breakdownPantFormula = document.getElementById('breakdown-pant-formula');
 
   const faqHeadline = document.getElementById('faq-headline');
   const faqItemsContainer = document.getElementById('faq-items-container');
@@ -59,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const fmt = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 0 });
 
-  // Kontextuella FAQ-databaser
   const FAQ_DATA = {
     villa: {
       title: 'Vanliga frågor om Villa & Fastighet',
@@ -74,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
           q: 'Var hittar jag fastighetens taxeringsvärde?',
-          a: 'Taxeringsvärdet för föregående år står i mäklarens objektsbeskrivning och köpekontraktet. Du kan även logga in på Skatteverkets e-tjänst för fastighetsdeklaration.'
+          a: 'Taxeringsvärdet för föregående år står i mäklarens objektsbeskrivning och köpekontraktet. Du kan även logga in på Skatteverkets e-tjänst för fastighetsuppgifter.'
         }
       ]
     },
@@ -87,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
           q: 'Hur beräknas pantbrev vid nybygge?',
-          a: 'Eftersom husbygget och tomten belånas tillsammans behöver du pantbrev för hela byggnadskreditivet/lånebeloppet. Nya pantbrev kostar 2,0% på lånebehovet utöver eventuella befintliga pantbrev.'
+          a: 'Eftersom husbygget och tomten belånas tillsammans behöver du pantbrev för hela byggnadskreditivet och lånebeloppet. Nya pantbrev kostar 2,0% på lånebehovet utöver eventuella befintliga pantbrev.'
         },
         {
           q: 'Vad gäller om tomten är nybildad och saknar taxeringsvärde?',
@@ -115,14 +112,15 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function parseFormattedNumber(val) {
-    return parseInt(val.replace(/\s+/g, '').replace(/[^0-9]/g, ''), 10) || 0;
+    if (typeof val === 'number') return val;
+    return parseInt(String(val).replace(/\s+/g, '').replace(/[^0-9]/g, ''), 10) || 0;
   }
 
   function updateSliderFill(slider) {
     const min = parseFloat(slider.min) || 0;
     const max = parseFloat(slider.max) || 100;
     const val = parseFloat(slider.value) || 0;
-    const percentage = ((val - min) / (max - min)) * 100;
+    const percentage = Math.max(0, Math.min(100, ((val - min) / (max - min)) * 100));
     slider.style.background = `linear-gradient(to right, #0066FF 0%, #0066FF ${percentage}%, #EAEFF5 ${percentage}%, #EAEFF5 100%)`;
   }
 
@@ -150,96 +148,109 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function calculate() {
-    // 1. Bostadsrättslogik
+    // 1. Bostadsrätt
     if (currentScenario === 'bostadsratt') {
       grandTotalLabel.textContent = 'Kostnad till Lantmäteriet';
       grandTotal.textContent = '0 kr';
       pillsSummaryRow.style.display = 'none';
       calcBreakdownWrap.style.display = 'none';
-      calculationBasisNote.textContent = 'Bostadsrätter är befriade från stämpelskatt och inskrivningsavgifter.';
+      scenarioLiveBasis.textContent = 'Bostadsrätter är befriade från stämpelskatt och inskrivningsavgifter.';
       return;
     }
 
     pillsSummaryRow.style.display = 'flex';
     calcBreakdownWrap.style.display = 'block';
 
-    const price = parseInt(priceSlider.value, 10);
-    const taxVal = noTaxCheck.checked ? 0 : parseInt(taxSlider.value, 10);
-    const loan = parseInt(loanSlider.value, 10);
-    const existingPant = parseInt(existingPantSlider.value, 10);
+    const price = parseFormattedNumber(priceInput.value);
+    const taxVal = noTaxCheck.checked ? 0 : parseFormattedNumber(taxInput.value);
+    const loan = parseFormattedNumber(loanInput.value);
+    const existingPant = parseFormattedNumber(existingPantInput.value);
 
-    // 2. Lagfartsunderlag (Högsta av köpeskilling och taxeringsvärde, avrundat nedåt till fullt 1 000-tal)
+    // 2. Lagfartsunderlag
     const effectiveBasis = Math.max(price, taxVal);
     const roundedLagfartBasis = Math.floor(effectiveBasis / 1000) * 1000;
     const lagfartTax = roundedLagfartBasis * LAGFART_PERCENT;
     const totLagfart = lagfartTax + LAGFART_FEE;
 
-    // Statusetikett
+    // Resonemang & Feedback
     if (noTaxCheck.checked) {
-      taxBasisBadge.textContent = 'Preliminärt: Baseras på köpeskilling';
-      taxBasisBadge.classList.remove('is-tax-driven');
       grandTotalLabel.textContent = 'Preliminär kostnad';
+      scenarioLiveBasis.textContent = `Preliminär lagfart beräknas på ${fmt.format(price)} kr (värdeintyg kan krävas).`;
+      breakdownLagfartText.textContent = `Eftersom taxeringsvärde saknas baseras lagfarten preliminärt på köpeskillingen (${fmt.format(price)} kr).`;
     } else if (taxVal > price) {
-      taxBasisBadge.textContent = `Lagfart beräknas på ${fmt.format(taxVal)} kr (taxeringsvärdet är högst)`;
-      taxBasisBadge.classList.add('is-tax-driven');
-      grandTotalLabel.textContent = 'Totalt att betala';
+      grandTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
+      scenarioLiveBasis.textContent = `Lagfarten beräknas på taxeringsvärdet (${fmt.format(taxVal)} kr) eftersom det är högre än priset.`;
+      breakdownLagfartText.textContent = `Taxeringsvärdet på ${fmt.format(taxVal)} kr är högre än köpeskillingen på ${fmt.format(price)} kr. Därför används taxeringsvärdet som underlag.`;
     } else {
-      taxBasisBadge.textContent = `Lagfart beräknas på ${fmt.format(price)} kr (köpeskillingen är högst)`;
-      taxBasisBadge.classList.remove('is-tax-driven');
-      grandTotalLabel.textContent = 'Totalt att betala';
+      grandTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
+      scenarioLiveBasis.textContent = `Lagfarten beräknas på köpeskillingen (${fmt.format(price)} kr).`;
+      breakdownLagfartText.textContent = `Köpeskillingen på ${fmt.format(price)} kr är högre än taxeringsvärdet på ${fmt.format(taxVal)} kr. Därför används köpeskillingen som underlag.`;
     }
 
-    // 3. Pantbrevsunderlag (Lånebehov utöver befintliga pantbrev, avrundat nedåt till fullt 1 000-tal)
+    // 3. Pantbrevsunderlag
     const neededPant = Math.max(0, loan - existingPant);
     const roundedPantBasis = Math.floor(neededPant / 1000) * 1000;
     const pantbrevTax = roundedPantBasis * PANTBREV_PERCENT;
     const totPantbrev = roundedPantBasis > 0 ? pantbrevTax + PANTBREV_FEE : 0;
 
-    // 4. Totalt
+    // Resonemang för pantbrev
+    if (roundedPantBasis > 0) {
+      if (existingPant > 0) {
+        breakdownPantText.textContent = `Du vill låna ${fmt.format(loan)} kr och fastigheten har redan pantbrev på ${fmt.format(existingPant)} kr. Du behöver därför nya pantbrev på ${fmt.format(neededPant)} kr.`;
+      } else {
+        breakdownPantText.textContent = `Du vill låna ${fmt.format(loan)} kr och fastigheten saknar tidigare pantbrev. Du behöver pantbrev för hela beloppet.`;
+      }
+      breakdownPantFormula.textContent = `${fmt.format(roundedPantBasis)} kr × 2,0 % + 375 kr = ${fmt.format(totPantbrev)} kr`;
+    } else {
+      breakdownPantText.textContent = `Ditt lån på ${fmt.format(loan)} kr täcks helt av befintliga pantbrev på ${fmt.format(existingPant)} kr. Inga nya pantbrev behövs.`;
+      breakdownPantFormula.textContent = `0 kr i nya pantbrev = 0 kr`;
+    }
+
+    // 4. Totalbelopp
     const grand = totLagfart + totPantbrev;
 
-    // 5. DOM Uppdatering
+    // 5. DOM-uppdatering
     grandTotal.textContent = `${fmt.format(grand)} kr`;
     lagfartVal.textContent = `${fmt.format(totLagfart)} kr`;
     pantbrevVal.textContent = `${fmt.format(totPantbrev)} kr`;
+    breakdownLagfartFormula.textContent = `${fmt.format(roundedLagfartBasis)} kr × 1,5 % + 825 kr = ${fmt.format(totLagfart)} kr`;
 
-    // 6. Så räknade vi (Breakdown)
-    breakdownLagfartMath.textContent = `${fmt.format(roundedLagfartBasis)} kr × 1,5 % + 825 kr`;
-    breakdownLagfartRes.textContent = `= ${fmt.format(totLagfart)} kr`;
+    // 6. Uppdatera sliders visuellt
+    priceSlider.value = Math.min(price, parseInt(priceSlider.max, 10));
+    taxSlider.value = Math.min(taxVal, parseInt(taxSlider.max, 10));
+    loanSlider.value = Math.min(loan, parseInt(loanSlider.max, 10));
+    existingPantSlider.value = Math.min(existingPant, parseInt(existingPantSlider.max, 10));
 
-    if (roundedPantBasis > 0) {
-      breakdownPantMath.textContent = `${fmt.format(roundedPantBasis)} kr × 2,0 % + 375 kr`;
-      breakdownPantRes.textContent = `= ${fmt.format(totPantbrev)} kr`;
-    } else {
-      breakdownPantMath.textContent = `0 kr i nya pantbrev`;
-      breakdownPantRes.textContent = `= 0 kr`;
-    }
-
-    calculationBasisNote.textContent = 'Beräknat på högsta värdet (avrundat till fullt 1 000-tal). 1 ny inteckning (375 kr).';
-
-    // 7. Track fills
     updateSliderFill(priceSlider);
     updateSliderFill(taxSlider);
     updateSliderFill(loanSlider);
     updateSliderFill(existingPantSlider);
   }
 
-  function setupSync(slider, input) {
+  // Tvåvägssynkning (Textfält ↔ Slider)
+  function setupTwoWayBinding(slider, input) {
     slider.addEventListener('input', () => {
       input.value = fmt.format(slider.value);
       calculate();
     });
 
     input.addEventListener('focus', () => {
-      input.value = parseFormattedNumber(input.value);
+      const raw = parseFormattedNumber(input.value);
+      input.value = raw > 0 ? raw : '';
       input.select();
     });
 
     input.addEventListener('blur', () => {
-      let val = parseFormattedNumber(input.value);
-      val = Math.max(parseInt(slider.min, 10), Math.min(parseInt(slider.max, 10), val));
-      slider.value = val;
-      input.value = fmt.format(val);
+      let raw = parseFormattedNumber(input.value);
+      input.value = fmt.format(raw);
+      slider.value = Math.min(raw, parseInt(slider.max, 10));
+      calculate();
+    });
+
+    input.addEventListener('input', () => {
+      // Reaktiv uppdatering under skrivning
+      const raw = parseFormattedNumber(input.value);
+      slider.value = Math.min(raw, parseInt(slider.max, 10));
       calculate();
     });
 
@@ -250,12 +261,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  setupSync(priceSlider, priceInput);
-  setupSync(taxSlider, taxInput);
-  setupSync(loanSlider, loanInput);
-  setupSync(existingPantSlider, existingPantInput);
+  setupTwoWayBinding(priceSlider, priceInput);
+  setupTwoWayBinding(taxSlider, taxInput);
+  setupTwoWayBinding(loanSlider, loanInput);
+  setupTwoWayBinding(existingPantSlider, existingPantInput);
 
-  // Hjälpknapp för taxeringsvärde
+  // Hjälpknapp taxeringsvärde
   taxInfoBtn.addEventListener('click', () => {
     taxHelpBox.style.display = taxHelpBox.style.display === 'none' ? 'block' : 'none';
   });
@@ -288,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (currentScenario === 'bostadsratt') {
         scenarioTitle.textContent = 'Köper du bostadsrätt?';
-        scenarioText.textContent = 'Vid köp av bostadsrätt betalar du ingen lagfart eller pantbrevskostnad till staten.';
+        scenarioText.textContent = 'Vid köp av bostadsrätt betalar du ingen stämpelskatt eller pantbrevskostnad till staten.';
         inputsGroup.style.display = 'none';
         brfCard.style.display = 'flex';
       } else {
@@ -312,10 +323,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Init
-  priceInput.value = fmt.format(priceSlider.value);
-  taxInput.value = fmt.format(taxSlider.value);
-  loanInput.value = fmt.format(loanSlider.value);
-  existingPantInput.value = fmt.format(existingPantSlider.value);
+  priceInput.value = fmt.format(4000000);
+  taxInput.value = fmt.format(3000000);
+  loanInput.value = fmt.format(3000000);
+  existingPantInput.value = fmt.format(2000000);
+
   renderFAQ(currentScenario);
   calculate();
 });
