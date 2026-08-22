@@ -1,5 +1,5 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (100% Clean Utility)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const grandTotal = document.getElementById('grand-total');
   const lagfartVal = document.getElementById('lagfart-val');
   const pantbrevVal = document.getElementById('pantbrev-val');
-  const dynamicAffiliateCta = document.getElementById('dynamic-affiliate-cta');
 
   let currentScenario = 'villa';
 
@@ -32,14 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function parseFormattedNumber(val) {
     return parseInt(val.replace(/\s+/g, '').replace(/[^0-9]/g, ''), 10) || 0;
-  }
-
-  function formatMSEK(num) {
-    if (num >= 1000000) {
-      const millions = (num / 1000000).toFixed(1).replace('.0', '').replace('.', ',');
-      return `${millions} MSEK`;
-    }
-    return `${fmt.format(num)} kr`;
   }
 
   function updateSliderFill(slider) {
@@ -55,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
       grandTotal.textContent = '0 SEK';
       lagfartVal.textContent = '0 SEK';
       pantbrevVal.textContent = '0 SEK';
-      dynamicAffiliateCta.textContent = 'Jämför bolån för bostadsrätt →';
       return;
     }
 
@@ -83,14 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lagfartVal.textContent = `${fmt.format(totLagfart)} SEK`;
     pantbrevVal.textContent = `${fmt.format(totPantbrev)} SEK`;
 
-    // 5. Dynamisk CTA
-    if (loan > 0) {
-      dynamicAffiliateCta.textContent = `Jämför ränta på ${formatMSEK(loan)} →`;
-    } else {
-      dynamicAffiliateCta.textContent = `Jämför bolåneräntor →`;
-    }
-
-    // 6. Progress Tracks
+    // 5. Progress Tracks
     updateSliderFill(priceSlider);
     updateSliderFill(loanSlider);
     updateSliderFill(existingPantSlider);
