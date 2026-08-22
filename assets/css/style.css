@@ -1,29 +1,24 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM (A11y & Performance Optimized Edition)
+   DESIGN TOKENS & SYSTEM (Polestar Edition with Copy & Dynamic URL Support)
    ========================================================================== */
 :root {
-  /* Polestar Neutral Palette */
   --bg-app: #F6F6F6;
   --bg-surface: #FFFFFF;
   --bg-track: #E8E8E8;
   --bg-subtle: #F0F0F0;
   --bg-overlay: rgba(17, 17, 17, 0.45);
   
-  /* Text & Ink (WCAG AA-godkänd kontrast) */
   --color-ink: #111111;
-  --color-ink-muted: #575A5E;  /* 5.5:1 kontrast mot #FFFFFF */
-  --color-ink-faint: #63666A;  /* 4.6:1 kontrast mot #F6F6F6 */
+  --color-ink-muted: #575A5E;
+  --color-ink-faint: #63666A;
   
-  /* Borders */
   --color-border: #E0E0E0;
   --color-border-hover: #B0B0B0;
   --color-border-active: #111111;
 
-  /* Polestar Swedish Gold Accent */
   --color-accent: #EA580C;
   --color-accent-hover: #C2410C;
 
-  /* Typografi */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
   --font-mono: "SF Mono", "Consolas", Menlo, monospace;
 
@@ -35,14 +30,12 @@
   --fs-lg: clamp(1.35rem, 1.22rem + 0.65vw, 1.60rem);
   --fs-hero: clamp(1.65rem, 1.45rem + 1.0vw, 2.05rem);
 
-  /* Spacing */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1.0rem;
   --space-lg: 1.5rem;
 
-  /* Form & Linjer */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-card: 10px;
@@ -248,7 +241,6 @@ body {
   cursor: pointer;
 }
 
-/* 44px Osynlig Touch Target för Hjälpknapp */
 .info-help-btn {
   position: relative;
   background: var(--bg-track);
@@ -574,7 +566,6 @@ body {
   letter-spacing: -0.02em;
 }
 
-/* 44px Touch Target för Kryssknapp */
 .sheet-close-btn {
   background: #F0F0F0;
   border: none;
@@ -668,6 +659,51 @@ body {
   line-height: 1.35;
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-xs);
+}
+
+/* Action button i Bottom Sheet */
+.sheet-action-wrap {
+  margin-top: var(--space-2xs);
+}
+
+.btn-copy-calc {
+  width: 100%;
+  background: var(--color-ink);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.75rem var(--space-md);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-copy-calc:hover {
+  background: #2B2E33;
+}
+
+.btn-copy-calc:active {
+  transform: scale(0.98);
+}
+
+.btn-copy-calc.is-copied {
+  background: var(--color-accent);
+}
+
+.copy-icon {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* FAQ */

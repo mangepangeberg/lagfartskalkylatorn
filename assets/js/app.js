@@ -1,5 +1,5 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (A11y & Performance Edition)
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor med Clipboard & URL Params
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const sheetLagfartFormula = document.getElementById('sheet-lagfart-formula');
   const sheetPantDesc = document.getElementById('sheet-pant-desc');
   const sheetPantFormula = document.getElementById('sheet-pant-formula');
+
+  const btnCopyCalc = document.getElementById('btn-copy-calc');
+  const copyBtnText = document.getElementById('copy-btn-text');
 
   const faqHeadline = document.getElementById('faq-headline');
   const faqItemsContainer = document.getElementById('faq-items-container');
@@ -169,11 +172,34 @@ document.addEventListener('DOMContentLoaded', () => {
   btnCloseSheet.addEventListener('click', () => toggleSheet(false));
   sheetOverlay.addEventListener('click', () => toggleSheet(false));
 
+  // Synka state mot URL Query Params
+  function syncURLParams() {
+    const params = new URLSearchParams();
+    params.set('typ', currentScenario);
+    
+    if (currentScenario !== 'bostadsratt') {
+      params.set('pris', parseFormattedNumber(priceInput.value));
+      if (noTaxCheck.checked) {
+        params.set('saknar_tax', '1');
+      } else {
+        params.set('tax', parseFormattedNumber(taxInput.value));
+      }
+      params.set('lan', parseFormattedNumber(loanInput.value));
+      if (currentScenario === 'villa') {
+        params.set('pant', parseFormattedNumber(existingPantInput.value));
+      }
+    }
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({}, '', newUrl);
+  }
+
   function calculate() {
     if (currentScenario === 'bostadsratt') {
       barHeroLabel.textContent = 'Totalt att betala';
       barHeroSum.textContent = '0 kr';
       btnOpenSheet.style.display = 'none';
+      syncURLParams();
       return;
     }
 
@@ -239,6 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSliderFill(taxSlider);
     updateSliderFill(loanSlider);
     updateSliderFill(existingPantSlider);
+
+    syncURLParams();
   }
 
   function setupTwoWayBinding(slider, input) {
@@ -295,48 +323,113 @@ document.addEventListener('DOMContentLoaded', () => {
     calculate();
   });
 
+  function setScenario(scenario) {
+    categoryCards.forEach(c => {
+      c.classList.remove('is-active');
+      c.setAttribute('aria-selected', 'false');
+    });
+
+    const activeCard = document.querySelector(`[data-scenario="${scenario}"]`);
+    if (activeCard) {
+      activeCard.classList.add('is-active');
+      activeCard.setAttribute('aria-selected', 'true');
+    }
+
+    currentScenario = scenario;
+    renderFAQ(currentScenario);
+
+    if (currentScenario === 'bostadsratt') {
+      scenarioTitle.textContent = 'Köper du bostadsrätt?';
+      scenarioText.textContent = 'Vid köp av bostadsrätt betalar du ingen stämpelskatt eller pantbrevskostnad till staten.';
+      inputsGroup.style.display = 'none';
+      brfCard.style.display = 'flex';
+    } else {
+      inputsGroup.style.display = 'flex';
+      brfCard.style.display = 'none';
+
+      if (currentScenario === 'nybygge') {
+        scenarioTitle.textContent = 'Köper du tomt och ska bygga hus?';
+        scenarioText.textContent = 'Lagfarten beräknas på tomtköpet medan pantbreven beräknas på det totala lånebehovet.';
+        priceLabel.textContent = 'Tomtpris';
+        loanLabel.textContent = 'Totalt lån för tomt och husbygge';
+      } else {
+        scenarioTitle.textContent = 'Köper du villa, fritidshus eller fastighet?';
+        scenarioText.textContent = 'Räkna ut lagfart och eventuella nya pantbrev utifrån köpeskilling och taxeringsvärde.';
+        priceLabel.textContent = 'Köpeskilling';
+        loanLabel.textContent = 'Hur mycket ska du låna?';
+      }
+    }
+    calculate();
+  }
+
   categoryCards.forEach(card => {
     card.addEventListener('click', () => {
-      categoryCards.forEach(c => {
-        c.classList.remove('is-active');
-        c.setAttribute('aria-selected', 'false');
-      });
-      card.classList.add('is-active');
-      card.setAttribute('aria-selected', 'true');
-
-      currentScenario = card.dataset.scenario;
-      renderFAQ(currentScenario);
-
-      if (currentScenario === 'bostadsratt') {
-        scenarioTitle.textContent = 'Köper du bostadsrätt?';
-        scenarioText.textContent = 'Vid köp av bostadsrätt betalar du ingen stämpelskatt eller pantbrevskostnad till staten.';
-        inputsGroup.style.display = 'none';
-        brfCard.style.display = 'flex';
-      } else {
-        inputsGroup.style.display = 'flex';
-        brfCard.style.display = 'none';
-
-        if (currentScenario === 'nybygge') {
-          scenarioTitle.textContent = 'Köper du tomt och ska bygga hus?';
-          scenarioText.textContent = 'Lagfarten beräknas på tomtköpet medan pantbreven beräknas på det totala lånebehovet.';
-          priceLabel.textContent = 'Tomtpris';
-          loanLabel.textContent = 'Totalt lån för tomt och husbygge';
-        } else {
-          scenarioTitle.textContent = 'Köper du villa, fritidshus eller fastighet?';
-          scenarioText.textContent = 'Räkna ut lagfart och eventuella nya pantbrev utifrån köpeskilling och taxeringsvärde.';
-          priceLabel.textContent = 'Köpeskilling';
-          loanLabel.textContent = 'Hur mycket ska du låna?';
-        }
-      }
-      calculate();
+      setScenario(card.dataset.scenario);
     });
   });
 
-  priceInput.value = fmt.format(4000000);
-  taxInput.value = fmt.format(3000000);
-  loanInput.value = fmt.format(3000000);
-  existingPantInput.value = fmt.format(2000000);
+  // Kopiera uträkning till urklipp
+  btnCopyCalc.addEventListener('click', () => {
+    const price = parseFormattedNumber(priceInput.value);
+    const taxVal = noTaxCheck.checked ? 0 : parseFormattedNumber(taxInput.value);
+    const loan = parseFormattedNumber(loanInput.value);
+    const existingPant = parseFormattedNumber(existingPantInput.value);
 
-  renderFAQ(currentScenario);
-  calculate();
+    const summaryText = `Uträkning från Lagfartskalkylatorn.se:
+----------------------------------
+${currentScenario === 'nybygge' ? 'Tomtpris' : 'Köpeskilling'}: ${fmt.format(price)} kr
+${noTaxCheck.checked ? 'Taxeringsvärde: Saknas (preliminär beräkning)' : `Taxeringsvärde: ${fmt.format(taxVal)} kr`}
+Bolån: ${fmt.format(loan)} kr
+Befintliga pantbrev: ${fmt.format(existingPant)} kr
+
+RESULTAT:
+- Lagfart: ${sheetLagfartVal.textContent}
+- Nya pantbrev: ${sheetPantbrevVal.textContent}
+----------------------------------
+TOTALT: ${sheetTotalSum.textContent}
+
+Länk till uträkningen: ${window.location.href}`;
+
+    navigator.clipboard.writeText(summaryText).then(() => {
+      btnCopyCalc.classList.add('is-copied');
+      copyBtnText.textContent = 'Kopierad!';
+      setTimeout(() => {
+        btnCopyCalc.classList.remove('is-copied');
+        copyBtnText.textContent = 'Kopiera uträkning';
+      }, 2000);
+    }).catch(() => {
+      // Fallback om clipboard blockeras
+      copyBtnText.textContent = 'Kunde inte kopiera';
+    });
+  });
+
+  // Initiera värden från URL Query Params vid förstaladdning
+  function initFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const urlScenario = params.get('typ');
+    const urlPris = params.get('pris');
+    const urlTax = params.get('tax');
+    const urlSaknarTax = params.get('saknar_tax');
+    const urlLan = params.get('lan');
+    const urlPant = params.get('pant');
+
+    priceInput.value = fmt.format(urlPris ? parseFormattedNumber(urlPris) : 4000000);
+    taxInput.value = fmt.format(urlTax ? parseFormattedNumber(urlTax) : 3000000);
+    loanInput.value = fmt.format(urlLan ? parseFormattedNumber(urlLan) : 3000000);
+    existingPantInput.value = fmt.format(urlPant ? parseFormattedNumber(urlPant) : 2000000);
+
+    if (urlSaknarTax === '1') {
+      noTaxCheck.checked = true;
+      taxInputContainer.style.display = 'none';
+      noTaxNotice.style.display = 'block';
+    }
+
+    if (urlScenario && ['villa', 'nybygge', 'bostadsratt'].includes(urlScenario)) {
+      setScenario(urlScenario);
+    } else {
+      setScenario('villa');
+    }
+  }
+
+  initFromURL();
 });

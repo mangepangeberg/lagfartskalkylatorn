@@ -2,11 +2,20 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="google-site-verification" content="kUPA4NVXmfu5gS4PZINb3g9LtNPQIDDi73juOIBhATM" />
+  
   <title>Lagfart & Pantbrev Kalkylator | Beräkna stämpelskatt 2026</title>
   <meta name="description" content="Beräkna kostnaden för lagfart (1,5%) och pantbrev (2,0%) vid fastighetsköp. Tydlig beräkning baserad på köpeskilling och taxeringsvärde enligt gällande lag.">
   <link rel="canonical" href="https://lagfartskalkylatorn.se/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lagfartskalkylatorn.se/">
+  <meta property="og:title" content="Lagfart & Pantbrev Kalkylator 2026">
+  <meta property="og:description" content="Beräkna stämpelskatt för lagfart (1,5%) och pantbrev (2,0%) vid fastighetsköp utan krångel.">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="stylesheet" href="assets/css/style.css">
 
   <!-- Vercel Web Analytics -->
@@ -20,6 +29,7 @@
       {
         "@type": "WebApplication",
         "name": "Lagfartskalkylatorn",
+        "url": "https://lagfartskalkylatorn.se/",
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript"
@@ -54,7 +64,7 @@
   <!-- Minimalist Header -->
   <header class="global-header">
     <div class="header-inner">
-      <a href="/" class="brand-logo-wrap">
+      <a href="/" class="brand-logo-wrap" aria-label="Lagfartskalkylatorn Startsida">
         <span class="brand-badge">LK</span>
         <span class="brand-name">Lagfartskalkylatorn</span>
       </a>
@@ -65,46 +75,46 @@
   <div class="app-wrapper">
 
     <!-- Segmented Scenario Control -->
-    <nav class="category-grid" role="tablist">
-      <button type="button" class="category-card is-active" data-scenario="villa" role="tab" aria-selected="true">
-        <svg class="category-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <nav class="category-grid" role="tablist" aria-label="Välj fastighetstyp">
+      <button type="button" class="category-card is-active" id="tab-villa" data-scenario="villa" role="tab" aria-selected="true" aria-controls="inputs-group">
+        <svg class="category-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         <span class="category-name">Villa</span>
       </button>
 
-      <button type="button" class="category-card" data-scenario="nybygge" role="tab" aria-selected="false">
-        <svg class="category-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+      <button type="button" class="category-card" id="tab-nybygge" data-scenario="nybygge" role="tab" aria-selected="false" aria-controls="inputs-group">
+        <svg class="category-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
         <span class="category-name">Nybygge</span>
       </button>
 
-      <button type="button" class="category-card" data-scenario="bostadsratt" role="tab" aria-selected="false">
-        <svg class="category-icon" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line></svg>
+      <button type="button" class="category-card" id="tab-bostadsratt" data-scenario="bostadsratt" role="tab" aria-selected="false" aria-controls="brf-card">
+        <svg class="category-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line></svg>
         <span class="category-name">Bostadsrätt</span>
       </button>
     </nav>
 
-    <!-- Scenario Ingress (Statisk höjd, inget layout-hopp) -->
-    <div class="scenario-intro-card" id="scenario-intro">
-      <span class="scenario-intro-title" id="scenario-title">Köper du villa, fritidshus eller fastighet?</span>
-      <span class="scenario-intro-text" id="scenario-text">Räkna ut lagfart och eventuella nya pantbrev utifrån köpeskilling och taxeringsvärde.</span>
-    </div>
+    <!-- Scenario Ingress -->
+    <section class="scenario-intro-card" id="scenario-intro" aria-live="polite">
+      <h1 class="scenario-intro-title" id="scenario-title">Köper du villa, fritidshus eller fastighet?</h1>
+      <p class="scenario-intro-text" id="scenario-text">Räkna ut lagfart och eventuella nya pantbrev utifrån köpeskilling och taxeringsvärde.</p>
+    </section>
 
     <!-- Controls Form -->
     <main id="inputs-group" class="unified-controls-card">
       
-      <!-- 1. Köpeskilling / Tomtpris -->
+      <!-- 1. Köpeskilling -->
       <section class="unified-field-row">
         <div class="field-header-row">
-          <span class="card-caption" id="price-label">Köpeskilling</span>
+          <label for="price-input" class="card-caption" id="price-label">Köpeskilling</label>
         </div>
         <div class="val-display-wrap">
           <div class="editable-input-box">
-            <input type="text" id="price-input" class="currency-input" inputmode="numeric" value="4 000 000">
+            <input type="text" id="price-input" class="currency-input" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Köpeskilling i kronor" value="4 000 000">
             <span class="val-unit">kr</span>
           </div>
         </div>
         <div class="slider-container">
-          <input type="range" id="price-slider" min="100000" max="15000000" step="25000" value="4000000" class="app-slider">
-          <div class="slider-limits">
+          <input type="range" id="price-slider" min="100000" max="15000000" step="25000" value="4000000" class="app-slider" aria-label="Justera köpeskilling med reglage">
+          <div class="slider-limits" aria-hidden="true">
             <span>100 kkr</span>
             <span>15 Mkr</span>
           </div>
@@ -115,10 +125,10 @@
       <section class="unified-field-row" id="tax-row">
         <div class="field-header-row">
           <div class="field-label-group">
-            <span class="card-caption">Taxeringsvärde (föregående år)</span>
-            <button type="button" class="info-help-btn" id="tax-info-btn" aria-label="Vad ska jag ange för taxeringsvärde?">?</button>
+            <label for="tax-input" class="card-caption">Taxeringsvärde (föregående år)</label>
+            <button type="button" class="info-help-btn" id="tax-info-btn" aria-label="Vad ska jag ange för taxeringsvärde?" aria-expanded="false">?</button>
           </div>
-          <label class="toggle-subtle">
+          <label class="toggle-subtle" for="no-tax-check">
             <input type="checkbox" id="no-tax-check">
             <span>Saknas</span>
           </label>
@@ -127,13 +137,13 @@
         <div id="tax-input-container">
           <div class="val-display-wrap">
             <div class="editable-input-box">
-              <input type="text" id="tax-input" class="currency-input" inputmode="numeric" value="3 000 000">
+              <input type="text" id="tax-input" class="currency-input" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Föregående års taxeringsvärde i kronor" value="3 000 000">
               <span class="val-unit">kr</span>
             </div>
           </div>
           <div class="slider-container">
-            <input type="range" id="tax-slider" min="0" max="15000000" step="25000" value="3000000" class="app-slider">
-            <div class="slider-limits">
+            <input type="range" id="tax-slider" min="0" max="15000000" step="25000" value="3000000" class="app-slider" aria-label="Justera taxeringsvärde med reglage">
+            <div class="slider-limits" aria-hidden="true">
               <span>0 kr</span>
               <span>15 Mkr</span>
             </div>
@@ -141,13 +151,13 @@
         </div>
 
         <!-- Info-box för taxeringshjälp -->
-        <div id="tax-help-box" class="subtle-notice-card" style="display: none;">
+        <div id="tax-help-box" class="subtle-notice-card" style="display: none;" role="region" aria-label="Information om taxeringsvärde">
           <strong>Vad ska jag ange?</strong>
           <p>Ange fastighetens taxeringsvärde för året <em>före</em> det år då lagfarten beviljas. Värdet framgår av köpekontraktet, objektsbeskrivningen eller Skatteverkets fastighetsuppgifter. Taxeringsvärde är inte samma sak som marknadsvärde.</p>
         </div>
 
         <!-- Info-box när taxeringsvärde saknas -->
-        <div id="no-tax-notice" class="subtle-notice-card" style="display: none;">
+        <div id="no-tax-notice" class="subtle-notice-card" style="display: none;" role="region" aria-label="Information vid saknat taxeringsvärde">
           <strong>Taxeringsvärde saknas</strong>
           <p>Ett värdeintyg kan behövas för att Lantmäteriet ska kunna fastställa stämpelskatten (vanligt vid nybildade fastigheter). Beräkningen nedan är därför preliminär och baseras på köpeskillingen.</p>
         </div>
@@ -156,17 +166,17 @@
       <!-- 3. Bolån -->
       <section class="unified-field-row">
         <div class="field-header-row">
-          <span class="card-caption" id="loan-label">Hur mycket ska du låna?</span>
+          <label for="loan-input" class="card-caption" id="loan-label">Hur mycket ska du låna?</label>
         </div>
         <div class="val-display-wrap">
           <div class="editable-input-box">
-            <input type="text" id="loan-input" class="currency-input" inputmode="numeric" value="3 000 000">
+            <input type="text" id="loan-input" class="currency-input" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Planerat bolån i kronor" value="3 000 000">
             <span class="val-unit">kr</span>
           </div>
         </div>
         <div class="slider-container">
-          <input type="range" id="loan-slider" min="0" max="15000000" step="25000" value="3000000" class="app-slider">
-          <div class="slider-limits">
+          <input type="range" id="loan-slider" min="0" max="15000000" step="25000" value="3000000" class="app-slider" aria-label="Justera lånebelopp med reglage">
+          <div class="slider-limits" aria-hidden="true">
             <span>0 kr</span>
             <span>15 Mkr</span>
           </div>
@@ -176,18 +186,18 @@
       <!-- 4. Befintliga pantbrev -->
       <section class="unified-field-row" id="existing-pant-row">
         <div class="field-header-row">
-          <span class="card-caption">Hur mycket finns redan i pantbrev?</span>
+          <label for="existing-pant-input" class="card-caption">Hur mycket finns redan i pantbrev?</label>
         </div>
-        <span class="field-sub-hint">Pantbrev som redan finns i fastigheten kan återanvändas och minskar behovet av nya.</span>
+        <p class="field-sub-hint">Pantbrev som redan finns i fastigheten kan återanvändas och minskar behovet av nya.</p>
         <div class="val-display-wrap">
           <div class="editable-input-box">
-            <input type="text" id="existing-pant-input" class="currency-input" inputmode="numeric" value="2 000 000">
+            <input type="text" id="existing-pant-input" class="currency-input" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Befintliga pantbrev i kronor" value="2 000 000">
             <span class="val-unit">kr</span>
           </div>
         </div>
         <div class="slider-container">
-          <input type="range" id="existing-pant-slider" min="0" max="15000000" step="25000" value="2000000" class="app-slider">
-          <div class="slider-limits">
+          <input type="range" id="existing-pant-slider" min="0" max="15000000" step="25000" value="2000000" class="app-slider" aria-label="Justera befintliga pantbrev med reglage">
+          <div class="slider-limits" aria-hidden="true">
             <span>0 kr</span>
             <span>15 Mkr</span>
           </div>
@@ -196,7 +206,7 @@
     </main>
 
     <!-- Bostadsrätt Panel -->
-    <section id="brf-card" class="brf-panel-card" style="display: none;">
+    <section id="brf-card" class="brf-panel-card" style="display: none;" aria-live="polite">
       <div class="brf-header-box">
         <h2>Ingen lagfart eller pantbrev</h2>
         <p>Bostadsrätter har varken lagfart eller pantbrev hos Lantmäteriet eftersom du köper en andel i föreningen, inte en fastighet.</p>
@@ -250,7 +260,7 @@
 
   </div>
 
-  <!-- Tesla-style Sticky Bottom Bar -->
+  <!-- Sticky Bottom Bar -->
   <aside class="sticky-tesla-bar" aria-label="Realtidsresultat">
     <div class="sticky-bar-inner">
       <div class="sticky-bar-sum-block">
@@ -258,15 +268,15 @@
         <span class="sticky-bar-sum" id="bar-hero-sum">81 200 kr</span>
       </div>
 
-      <button type="button" class="btn-open-breakdown" id="btn-open-sheet">
+      <button type="button" class="btn-open-breakdown" id="btn-open-sheet" aria-expanded="false" aria-controls="sheet-panel">
         Visa uträkning ▾
       </button>
     </div>
   </aside>
 
-  <!-- Tesla-style Bottom Sheet Modal -->
-  <div class="sheet-overlay" id="sheet-overlay"></div>
-  <div class="sheet-panel" id="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <!-- Bottom Sheet Modal med Kopiera-funktion -->
+  <div class="sheet-overlay" id="sheet-overlay" aria-hidden="true"></div>
+  <div class="sheet-panel" id="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-hidden="true">
     <div class="sheet-header">
       <h3 class="sheet-title" id="sheet-title">Uträkning & Specifikation</h3>
       <button type="button" class="sheet-close-btn" id="btn-close-sheet" aria-label="Stäng specifikation">✕</button>
@@ -300,6 +310,14 @@
       </div>
 
       <p class="sheet-footer-legal">Beloppen avrundas enligt Lantmäteriets regler nedåt till hela tusental innan stämpelskatten beräknas. Avgiften 375 kr avser 1 ny inteckning.</p>
+
+      <!-- Kopiera Uträkning & Dela-sektion -->
+      <div class="sheet-action-wrap">
+        <button type="button" class="btn-copy-calc" id="btn-copy-calc">
+          <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span id="copy-btn-text">Kopiera uträkning</span>
+        </button>
+      </div>
     </div>
   </div>
 
