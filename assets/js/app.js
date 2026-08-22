@@ -1,22 +1,13 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor med Unified Controls
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Navigation & Drawer
-  const drawerToggle = document.getElementById('drawer-toggle');
-  const drawerClose = document.getElementById('drawer-close');
-  const drawerBackdrop = document.getElementById('drawer-backdrop');
-  const drawerPanel = document.getElementById('drawer-panel');
-  const drawerLinks = document.querySelectorAll('[data-close-drawer]');
-
-  // Kalkylator Element
   const categoryCards = document.querySelectorAll('.category-card');
   const inputsGroup = document.getElementById('inputs-group');
   const existingPantRow = document.getElementById('existing-pant-row');
   const brfCard = document.getElementById('brf-card');
 
-  // Sliders & Text Inputs
   const priceSlider = document.getElementById('price-slider');
   const loanSlider = document.getElementById('loan-slider');
   const existingPantSlider = document.getElementById('existing-pant-slider');
@@ -25,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const loanInput = document.getElementById('loan-input');
   const existingPantInput = document.getElementById('existing-pant-input');
 
-  // Outputs
   const grandTotal = document.getElementById('grand-total');
   const lagfartVal = document.getElementById('lagfart-val');
   const pantbrevVal = document.getElementById('pantbrev-val');
@@ -52,33 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${fmt.format(num)} kr`;
   }
 
-  // --- Drawer Hantering ---
-  function openDrawer() {
-    drawerPanel.classList.add('is-open');
-    drawerBackdrop.classList.add('is-open');
-    drawerToggle.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDrawer() {
-    drawerPanel.classList.remove('is-open');
-    drawerBackdrop.classList.remove('is-open');
-    drawerToggle.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-  }
-
-  drawerToggle.addEventListener('click', openDrawer);
-  drawerClose.addEventListener('click', closeDrawer);
-  drawerBackdrop.addEventListener('click', closeDrawer);
-  drawerLinks.forEach(link => link.addEventListener('click', closeDrawer));
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && drawerPanel.classList.contains('is-open')) {
-      closeDrawer();
-    }
-  });
-
-  // --- Slider Fill Update ---
   function updateSliderFill(slider) {
     const min = parseFloat(slider.min) || 0;
     const max = parseFloat(slider.max) || 100;
@@ -87,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     slider.style.background = `linear-gradient(to right, #0066FF 0%, #0066FF ${percentage}%, #EAEFF5 ${percentage}%, #EAEFF5 100%)`;
   }
 
-  // --- Huvudberäkning ---
   function calculate() {
     if (currentScenario === 'bostadsratt') {
       grandTotal.textContent = '0 SEK';
@@ -134,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSliderFill(existingPantSlider);
   }
 
-  // --- Tvåvägssynkning Slider <-> Text Input ---
   function setupSync(slider, input) {
     slider.addEventListener('input', () => {
       input.value = fmt.format(slider.value);
@@ -165,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSync(loanSlider, loanInput);
   setupSync(existingPantSlider, existingPantInput);
 
-  // Scenarion
   categoryCards.forEach(card => {
     card.addEventListener('click', () => {
       categoryCards.forEach(c => {
@@ -194,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Init
   priceInput.value = fmt.format(priceSlider.value);
   loanInput.value = fmt.format(loanSlider.value);
   existingPantInput.value = fmt.format(existingPantSlider.value);

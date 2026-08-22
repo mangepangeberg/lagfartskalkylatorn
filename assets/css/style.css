@@ -1,12 +1,11 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM (Unified Card Engine)
+   DESIGN TOKENS & SYSTEM (Locked Production Edition)
    ========================================================================== */
 :root {
   /* Färgpalett */
   --bg-app: #F5F7FB;
   --bg-surface: #FFFFFF;
   --bg-track: #EAEFF5;
-  --bg-backdrop: rgba(15, 23, 42, 0.45);
   
   --color-primary: #0066FF;
   --color-primary-light: #EBF3FF;
@@ -30,7 +29,7 @@
   --fs-lg: clamp(1.35rem, 1.2rem + 0.7vw, 1.65rem);
   --fs-hero: clamp(1.7rem, 1.45rem + 1.2vw, 2.2rem);
 
-  /* Spacing & Micro Layout */
+  /* Spacing */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
@@ -47,14 +46,13 @@
   --shadow-card: 0 4px 20px rgba(149, 157, 165, 0.07);
   --shadow-sticky: 0 -8px 24px rgba(0, 0, 0, 0.08);
   --shadow-thumb: 0 3px 8px rgba(0, 0, 0, 0.12);
-  --shadow-drawer: -8px 0 32px rgba(0, 0, 0, 0.15);
 
   --max-w-app: 480px;
   --max-w-header: 1200px;
 }
 
 /* ==========================================================================
-   RESET & GRUNDSTRUKTUR
+   RESET & LAYOUT ENGINE
    ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -72,7 +70,7 @@ body {
 }
 
 /* ==========================================================================
-   GLOBAL HEADER
+   CENTERED GLOBAL HEADER
    ========================================================================== */
 .global-header {
   position: sticky;
@@ -86,9 +84,9 @@ body {
 .header-inner {
   max-width: var(--max-w-header);
   margin: 0 auto;
-  padding: 0.65rem var(--space-md);
+  padding: 0.75rem var(--space-md);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -118,139 +116,6 @@ body {
   font-size: var(--fs-md);
   letter-spacing: -0.03em;
   color: var(--color-ink);
-}
-
-.header-btn {
-  background: transparent;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  color: var(--color-ink);
-  padding: 0.4rem 0.7rem;
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-.header-btn:hover {
-  background: var(--bg-track);
-}
-
-.menu-icon {
-  width: 18px;
-  height: 18px;
-  stroke: var(--color-ink);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-}
-
-/* ==========================================================================
-   OFF-CANVAS DRAWER
-   ========================================================================== */
-.drawer-backdrop {
-  position: fixed;
-  inset: 0;
-  background: var(--bg-backdrop);
-  backdrop-filter: blur(2px);
-  z-index: 200;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.drawer-backdrop.is-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.drawer-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(340px, 85vw);
-  background: var(--bg-surface);
-  box-shadow: var(--shadow-drawer);
-  z-index: 210;
-  transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-lg);
-  overflow-y: auto;
-}
-
-.drawer-panel.is-open {
-  transform: translateX(0);
-}
-
-.drawer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.drawer-title {
-  font-size: var(--fs-md);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.drawer-close-btn {
-  background: var(--bg-track);
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: var(--fs-md);
-  color: var(--color-ink);
-}
-
-.drawer-nav {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin-top: var(--space-md);
-}
-
-.drawer-nav-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-}
-
-.drawer-group-title {
-  font-family: var(--font-mono);
-  font-size: var(--fs-2xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-ink-muted);
-}
-
-.drawer-link {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.55rem 0;
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--color-ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--bg-track);
-}
-
-.drawer-link:hover {
-  color: var(--color-primary);
 }
 
 /* ==========================================================================
@@ -316,7 +181,7 @@ body {
 }
 
 /* ==========================================================================
-   UNIFIED CONTROLS CARD (ALLA SLIDERS I EN BOX)
+   UNIFIED CONTROLS CARD
    ========================================================================== */
 .unified-controls-card {
   background: var(--bg-surface);
@@ -391,7 +256,7 @@ body {
   color: var(--color-ink-muted);
 }
 
-/* Sliders */
+/* Slider Track */
 .slider-container {
   display: flex;
   flex-direction: column;
@@ -444,7 +309,7 @@ body {
   color: var(--color-ink-faint);
 }
 
-/* Bostadsrätt Notice Panel */
+/* Bostadsrätt Panel */
 .brf-panel-card {
   background: var(--bg-surface);
   border-radius: var(--radius-card);
@@ -541,7 +406,7 @@ body {
 }
 
 /* ==========================================================================
-   FAQ & FOOTER
+   FAQ & INFO
    ========================================================================== */
 .faq-section {
   background: var(--bg-surface);

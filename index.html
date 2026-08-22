@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- GSC Verification Tag -->
   <meta name="google-site-verification" content="kUPA4NVXmfu5gS4PZINb3g9LtNPQIDDi73juOIBhATM" />
-
   <title>Lagfart & Pantbrev Kalkylator | Snabb stämpelskattberäkning 2026</title>
   <meta name="description" content="Beräkna stämpelskatt för lagfart (1,5%) och pantbrev (2,0%) vid fastighetsköp. Aktuella inskrivningsavgifter från Lantmäteriet 2026.">
   <link rel="canonical" href="https://lagfartskalkylatorn.se/">
   <link rel="stylesheet" href="assets/css/style.css">
 
+  <!-- Vercel Analytics (Cookiefri realtidsmätning) -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Schema.org Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,52 +51,15 @@
 </head>
 <body>
 
-  <!-- Full Width Header -->
+  <!-- Centered Top Header -->
   <header class="global-header">
     <div class="header-inner">
       <a href="/" class="brand-logo-wrap">
         <span class="brand-badge">LK</span>
         <span class="brand-name">Lagfartskalkylatorn</span>
       </a>
-
-      <div class="header-actions">
-        <button type="button" class="header-btn" id="drawer-toggle" aria-label="Öppna meny" aria-expanded="false">
-          <svg class="menu-icon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-          <span>Meny</span>
-        </button>
-      </div>
     </div>
   </header>
-
-  <!-- Off-Canvas Sidebar -->
-  <div class="drawer-backdrop" id="drawer-backdrop"></div>
-  <aside class="drawer-panel" id="drawer-panel" aria-label="Huvudmeny">
-    <div class="drawer-header">
-      <span class="drawer-title">Meny</span>
-      <button type="button" class="drawer-close-btn" id="drawer-close" aria-label="Stäng meny">&times;</button>
-    </div>
-
-    <nav class="drawer-nav">
-      <div class="drawer-nav-group">
-        <span class="drawer-group-title">Guider & Fakta</span>
-        <a href="#faq" class="drawer-link" data-close-drawer>Vad är lagfart? &rarr;</a>
-        <a href="#faq" class="drawer-link" data-close-drawer>Hur fungerar pantbrev? &rarr;</a>
-        <a href="#faq" class="drawer-link" data-close-drawer>Stämpelskatt vid nybygge &rarr;</a>
-      </div>
-
-      <div class="drawer-nav-group">
-        <span class="drawer-group-title">Finansiering</span>
-        <a href="#" class="drawer-link" id="drawer-affiliate-link">Jämför bolåneräntor &rarr;</a>
-        <a href="#" class="drawer-link">Lånelöftekalkyl &rarr;</a>
-      </div>
-
-      <div class="drawer-nav-group">
-        <span class="drawer-group-title">Om verktyget</span>
-        <a href="#" class="drawer-link">Källor & Lantmäteriet 2026 &rarr;</a>
-        <a href="#" class="drawer-link">Integritetspolicy &rarr;</a>
-      </div>
-    </nav>
-  </aside>
 
   <!-- App Wrapper -->
   <div class="app-wrapper">
@@ -118,10 +82,8 @@
       </button>
     </nav>
 
-    <!-- UNIFIED INPUT BOX (Alla sliders samlade) -->
+    <!-- Unified Input Controls -->
     <main id="inputs-group" class="unified-controls-card">
-      
-      <!-- Rad 1: Köpeskilling -->
       <section class="unified-field-row">
         <span class="card-caption">Köpeskilling</span>
         <div class="val-display-wrap">
@@ -139,7 +101,6 @@
         </div>
       </section>
 
-      <!-- Rad 2: Planerat Bolån -->
       <section class="unified-field-row">
         <span class="card-caption">Planerat Bolån</span>
         <div class="val-display-wrap">
@@ -157,7 +118,6 @@
         </div>
       </section>
 
-      <!-- Rad 3: Befintliga Pantbrev -->
       <section class="unified-field-row" id="existing-pant-row">
         <span class="card-caption">Befintliga pantbrev i fastigheten</span>
         <div class="val-display-wrap">
@@ -174,10 +134,9 @@
           </div>
         </div>
       </section>
-
     </main>
 
-    <!-- Bostadsrätt Panel (Dold default) -->
+    <!-- Bostadsrätt Panel -->
     <section id="brf-card" class="brf-panel-card" style="display: none;">
       <h2>0 kr i stämpelskatt</h2>
       <p>Vid köp av bostadsrätt betalar du ingen lagfart eller pantbrevskostnad till Lantmäteriet. Föreningen debiterar istället fasta administrativa avgifter:</p>
@@ -193,7 +152,7 @@
       </div>
     </section>
 
-    <!-- STICKY CONVERSION BOTTOM MODULE -->
+    <!-- Sticky Bottom Conversion Module -->
     <aside class="sticky-conversion-bar" aria-label="Realtidsresultat och åtgärd">
       <div class="sticky-top-row">
         <span class="sticky-hero-label">Totalt att betala</span>
@@ -205,34 +164,50 @@
         <span>Pantbrev: <strong id="pantbrev-val">46 375 SEK</strong></span>
       </div>
 
+      <!-- Förberedd för Adtraction-spårningslänk -->
       <a href="#" class="btn-dynamic-cta" id="dynamic-affiliate-cta" target="_blank" rel="noopener sponsored">
         Jämför ränta på 3,8 MSEK &rarr;
       </a>
     </aside>
 
-    <!-- FAQ Accordion -->
+    <!-- FAQ & Information -->
     <section class="faq-section" id="faq">
-      <h2 class="faq-title">Vanliga frågor</h2>
+      <h2 class="faq-title">Regler & Vanliga frågor</h2>
       
-      <details class="faq-item">
-        <summary>Hur beräknas lagfartskostnaden? <span>+</span></summary>
+      <details class="faq-item" open>
+        <summary>Vad är lagfart och hur beräknas kostnaden? <span>+</span></summary>
         <div class="faq-body">
-          Stämpelskatten för lagfart är 1,5% av köpeskillingen för privatpersoner. Är taxeringsvärdet högre baseras skatten på det. En fast avgift på 825 kr tillkommer alltid från Lantmäteriet.
+          Lagfart är det officiella ägarbeviset för en fastighet. Stämpelskatten är <strong>1,5%</strong> av köpeskillingen (eller taxeringsvärdet om det är högre) plus <strong>825 kr</strong> i fast expeditionsavgift till Lantmäteriet. Ansökan ska skickas in inom 3 månader från köpet.
         </div>
       </details>
 
       <details class="faq-item">
-        <summary>När måste man ta ut nya pantbrev? <span>+</span></summary>
+        <summary>Hur fungerar pantbrev och när måste man ta ut nya? <span>+</span></summary>
         <div class="faq-body">
-          Du betalar endast för nya pantbrev om ditt bolån överstiger de pantbrev som redan finns uttagna i huset. Kostnaden är 2,0% på det överstigande beloppet plus 375 kr per pantbrev.
+          Pantbrev är bankens säkerhet i fastigheten. Du betalar endast för nya pantbrev om ditt bolån överstiger de pantbrev som säljaren redan tagit ut. Kostnaden är <strong>2,0%</strong> på det nya beloppet plus <strong>375 kr</strong> i administrativ avgift per pantbrev.
         </div>
       </details>
+
+      <details class="faq-item">
+        <summary>Hur fungerar stämpelskatt vid nybygge & tomt? <span>+</span></summary>
+        <div class="faq-body">
+          Om du köper en obebyggd tomt betalar du endast 1,5% lagfart på tomtpriset, inte på entreprenaden (själva husbygget). Däremot måste nya pantbrev oftast tas ut för hela lånebeloppet (2,0%).
+        </div>
+      </details>
+    </section>
+
+    <!-- Källor & Info -->
+    <section class="faq-section">
+      <h2 class="faq-title">Källor & Information</h2>
+      <p class="faq-body" style="padding-bottom: 0;">
+        Lagfartskalkylatorn.se är ett oberoende beräkningsverktyg. Alla beräkningar följer officiella regler och avgifter för 2026 enligt <em>Lag (1984:404) om stämpelskatt vid inskrivningsmyndigheter</em> och Lantmäteriet. Beräkningar sker lokalt i din webbläsare.
+      </p>
     </section>
 
     <!-- Footer -->
     <footer class="app-footer">
       <span>Lagfartskalkylatorn.se</span>
-      <span>Oberoende verktyg</span>
+      <span>© 2026</span>
     </footer>
 
   </div>
