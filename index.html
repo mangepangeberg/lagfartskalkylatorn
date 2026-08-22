@@ -50,17 +50,58 @@
 </head>
 <body>
 
+  <!-- Full Width Top Header -->
+  <header class="global-header">
+    <div class="header-inner">
+      <a href="/" class="brand-logo-wrap">
+        <span class="brand-badge">LK</span>
+        <span class="brand-name">Lagfartskalkylatorn</span>
+      </a>
+
+      <div class="header-actions">
+        <button type="button" class="header-btn" id="drawer-toggle" aria-label="Öppna meny" aria-expanded="false">
+          <svg class="menu-icon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <span>Meny</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Off-Canvas Sidebar & Backdrop -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="drawer-panel" id="drawer-panel" aria-label="Huvudmeny">
+    <div class="drawer-header">
+      <span class="drawer-title">Meny</span>
+      <button type="button" class="drawer-close-btn" id="drawer-close" aria-label="Stäng meny">&times;</button>
+    </div>
+
+    <nav class="drawer-nav">
+      <div class="drawer-nav-group">
+        <span class="drawer-group-title">Guider & Fakta</span>
+        <a href="#faq" class="drawer-link" data-close-drawer>Vad är lagfart? &rarr;</a>
+        <a href="#faq" class="drawer-link" data-close-drawer>Hur fungerar pantbrev? &rarr;</a>
+        <a href="#faq" class="drawer-link" data-close-drawer>Stämpelskatt vid nybygge &rarr;</a>
+      </div>
+
+      <div class="drawer-nav-group">
+        <span class="drawer-group-title">Finansiering</span>
+        <a href="#" class="drawer-link" id="drawer-affiliate-link">Jämför bolåneräntor &rarr;</a>
+        <a href="#" class="drawer-link">Lånelöftekalkyl &rarr;</a>
+      </div>
+
+      <div class="drawer-nav-group">
+        <span class="drawer-group-title">Om verktyget</span>
+        <a href="#" class="drawer-link">Källor & Lantmäteriet 2026 &rarr;</a>
+        <a href="#" class="drawer-link">Integritetspolicy &rarr;</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- App Main Content -->
   <div class="app-wrapper">
-    
-    <!-- Top Header -->
-    <header class="app-header">
-      <h1 class="app-title">Lagfartskalkylator</h1>
-      <span class="header-badge">Lantmäteriet 2026</span>
-    </header>
 
     <!-- Kategori / Typväljare -->
     <nav class="category-grid" role="tablist">
-      
       <button type="button" class="category-card is-active" data-scenario="villa" role="tab" aria-selected="true">
         <svg class="category-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         <span class="category-name">Villa / Tomt</span>
@@ -75,7 +116,6 @@
         <svg class="category-icon" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line></svg>
         <span class="category-name">Bostadsrätt</span>
       </button>
-
     </nav>
 
     <!-- Slider Inputs Wrapper -->
@@ -131,7 +171,7 @@
 
     </main>
 
-    <!-- Bostadsrätt Notice Panel (Dold default) -->
+    <!-- Bostadsrätt Notice Panel -->
     <section id="brf-card" class="brf-panel-card" style="display: none;">
       <h2>0 kr i stämpelskatt</h2>
       <p>Vid köp av bostadsrätt betalar du ingen lagfart eller pantbrevskostnad till Lantmäteriet. Föreningen debiterar istället fasta administrativa avgifter:</p>
@@ -176,7 +216,7 @@
     </a>
 
     <!-- FAQ Accordion -->
-    <section class="faq-section">
+    <section class="faq-section" id="faq">
       <h2 class="faq-title">Vanliga frågor</h2>
       
       <details class="faq-item">

@@ -1,8 +1,16 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor med Dynamic Progress Fill
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor & Off-Canvas Navigation
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Drawer DOM Referenser
+  const drawerToggle = document.getElementById('drawer-toggle');
+  const drawerClose = document.getElementById('drawer-close');
+  const drawerBackdrop = document.getElementById('drawer-backdrop');
+  const drawerPanel = document.getElementById('drawer-panel');
+  const drawerLinks = document.querySelectorAll('[data-close-drawer]');
+
+  // Kalkylator DOM Referenser
   const categoryCards = document.querySelectorAll('.category-card');
   const inputsGroup = document.getElementById('inputs-group');
   const existingPantCard = document.getElementById('existing-pant-card');
@@ -33,7 +41,33 @@ document.addEventListener('DOMContentLoaded', () => {
     maximumFractionDigits: 0
   });
 
-  // Funktion för att uppdatera det blå färgspåret på sliders
+  // --- Drawer Hantering ---
+  function openDrawer() {
+    drawerPanel.classList.add('is-open');
+    drawerBackdrop.classList.add('is-open');
+    drawerToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawerPanel.classList.remove('is-open');
+    drawerBackdrop.classList.remove('is-open');
+    drawerToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  drawerToggle.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  drawerBackdrop.addEventListener('click', closeDrawer);
+  drawerLinks.forEach(link => link.addEventListener('click', closeDrawer));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawerPanel.classList.contains('is-open')) {
+      closeDrawer();
+    }
+  });
+
+  // --- Kalkylator Progress Bar & Logic ---
   function updateSliderFill(slider) {
     const min = parseFloat(slider.min) || 0;
     const max = parseFloat(slider.max) || 100;
@@ -55,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loan = parseInt(loanSlider.value, 10);
     const existingPant = currentScenario === 'nybygge' ? 0 : parseInt(existingPantSlider.value, 10);
 
-    // Max-gränser
     loanSlider.max = price;
     existingPantSlider.max = price;
 
