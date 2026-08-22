@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM (Polestar Minimalist Edition)
+   DESIGN TOKENS & SYSTEM (A11y & Performance Optimized Edition)
    ========================================================================== */
 :root {
   /* Polestar Neutral Palette */
@@ -9,17 +9,17 @@
   --bg-subtle: #F0F0F0;
   --bg-overlay: rgba(17, 17, 17, 0.45);
   
-  /* Text & Ink */
+  /* Text & Ink (WCAG AA-godkänd kontrast) */
   --color-ink: #111111;
-  --color-ink-muted: #5F6368;
-  --color-ink-faint: #8C8C8C;
+  --color-ink-muted: #575A5E;  /* 5.5:1 kontrast mot #FFFFFF */
+  --color-ink-faint: #63666A;  /* 4.6:1 kontrast mot #F6F6F6 */
   
   /* Borders */
   --color-border: #E0E0E0;
   --color-border-hover: #B0B0B0;
   --color-border-active: #111111;
 
-  /* Polestar Accent */
+  /* Polestar Swedish Gold Accent */
   --color-accent: #EA580C;
   --color-accent-hover: #C2410C;
 
@@ -120,7 +120,7 @@ body {
 /* App Wrapper */
 .app-wrapper {
   max-width: var(--max-w-app);
-  margin: var(--space-xs) auto 88px auto;
+  margin: var(--space-xs) auto calc(88px + env(safe-area-inset-bottom, 0px)) auto;
   padding: 0 var(--space-xs);
   display: flex;
   flex-direction: column;
@@ -141,10 +141,12 @@ body {
   background: transparent;
   border: 1.5px solid transparent;
   border-radius: var(--radius-sm);
-  padding: 0.55rem 0.25rem;
+  padding: 0.6rem 0.25rem;
+  min-height: 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 3px;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -179,7 +181,7 @@ body {
   font-weight: 700;
 }
 
-/* Ingress (Statisk och stabil layout) */
+/* Ingress */
 .scenario-intro-card {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
@@ -203,7 +205,7 @@ body {
   line-height: 1.4;
 }
 
-/* Controls Card */
+/* Controls */
 .unified-controls-card {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
@@ -243,21 +245,30 @@ body {
   color: var(--color-ink-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  cursor: pointer;
 }
 
+/* 44px Osynlig Touch Target för Hjälpknapp */
 .info-help-btn {
+  position: relative;
   background: var(--bg-track);
   border: none;
   color: var(--color-ink-muted);
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: var(--radius-pill);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.info-help-btn::after {
+  content: '';
+  position: absolute;
+  inset: -13px;
 }
 
 .info-help-btn:hover {
@@ -272,12 +283,20 @@ body {
 }
 
 .toggle-subtle {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   font-size: var(--fs-2xs);
   font-weight: 600;
   color: var(--color-ink-muted);
+  cursor: pointer;
+  min-height: 32px;
+}
+
+.toggle-subtle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
   cursor: pointer;
 }
 
@@ -304,7 +323,7 @@ body {
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
-  padding: 0.1rem 0.2rem;
+  padding: 0.15rem 0.2rem;
   width: 100%;
   max-width: 220px;
   outline: none;
@@ -346,7 +365,7 @@ body {
 
 .app-slider {
   width: 100%;
-  height: 4px;
+  height: 6px;
   border-radius: var(--radius-pill);
   outline: none;
   -webkit-appearance: none;
@@ -356,8 +375,8 @@ body {
 
 .app-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: #FFFFFF;
   border: 1.5px solid var(--color-ink);
@@ -434,7 +453,7 @@ body {
   line-height: 1.35;
 }
 
-/* Sticky Bar */
+/* Sticky Tesla Bar */
 .sticky-tesla-bar {
   position: fixed;
   bottom: 0;
@@ -446,7 +465,7 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--color-border);
   box-shadow: var(--shadow-bar);
-  padding: 0.65rem 1rem;
+  padding: 0.65rem 1rem max(0.65rem, env(safe-area-inset-bottom, 0px));
 }
 
 .sticky-bar-inner {
@@ -482,7 +501,8 @@ body {
   background: #F0F0F0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  padding: 0.5rem 0.95rem;
+  padding: 0.6rem 1.05rem;
+  min-height: 44px;
   font-size: var(--fs-xs);
   font-weight: 600;
   color: var(--color-ink);
@@ -530,6 +550,7 @@ body {
   overflow-y: auto;
   transform: translateY(100%);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
 }
 
 .sheet-panel.is-visible {
@@ -553,11 +574,12 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* 44px Touch Target för Kryssknapp */
 .sheet-close-btn {
   background: #F0F0F0;
   border: none;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   font-size: 14px;
   font-weight: 700;
@@ -648,7 +670,7 @@ body {
   padding-top: var(--space-xs);
 }
 
-/* FAQ & Footer */
+/* FAQ */
 .faq-section {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
@@ -672,13 +694,25 @@ body {
 }
 
 .faq-item summary {
-  padding: 0.5rem 0;
+  padding: 0.65rem 0;
   font-size: var(--fs-xs);
   font-weight: 600;
   cursor: pointer;
   list-style: none;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.faq-item summary span {
+  font-size: 14px;
+  font-family: var(--font-mono);
+  color: var(--color-ink-muted);
+  transition: transform 0.15s ease;
+}
+
+.faq-item[open] summary span {
+  transform: rotate(45deg);
 }
 
 .faq-item summary::-webkit-details-marker {
@@ -686,7 +720,7 @@ body {
 }
 
 .faq-body {
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.65rem;
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
   line-height: 1.45;

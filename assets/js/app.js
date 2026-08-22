@@ -1,5 +1,5 @@
 /**
- * Lagfartskalkylatorn - Polestar Clean Engine
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (A11y & Performance Edition)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (index === 0) details.open = true;
 
       const summary = document.createElement('summary');
-      summary.innerHTML = `${item.q} <span>+</span>`;
+      summary.innerHTML = `${item.q} <span aria-hidden="true">+</span>`;
 
       const body = document.createElement('div');
       body.className = 'faq-body';
@@ -153,10 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (open) {
       sheetOverlay.classList.add('is-visible');
       sheetPanel.classList.add('is-visible');
+      sheetPanel.setAttribute('aria-hidden', 'false');
+      btnOpenSheet.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
     } else {
       sheetOverlay.classList.remove('is-visible');
       sheetPanel.classList.remove('is-visible');
+      sheetPanel.setAttribute('aria-hidden', 'true');
+      btnOpenSheet.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     }
   }
@@ -273,7 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTwoWayBinding(existingPantSlider, existingPantInput);
 
   taxInfoBtn.addEventListener('click', () => {
-    taxHelpBox.style.display = taxHelpBox.style.display === 'none' ? 'block' : 'none';
+    const isHidden = taxHelpBox.style.display === 'none';
+    taxHelpBox.style.display = isHidden ? 'block' : 'none';
+    taxInfoBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
   });
 
   noTaxCheck.addEventListener('change', () => {
@@ -281,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
       taxInputContainer.style.display = 'none';
       noTaxNotice.style.display = 'block';
       taxHelpBox.style.display = 'none';
+      taxInfoBtn.setAttribute('aria-expanded', 'false');
     } else {
       taxInputContainer.style.display = 'block';
       noTaxNotice.style.display = 'none';
