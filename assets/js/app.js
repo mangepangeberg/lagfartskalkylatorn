@@ -1,9 +1,8 @@
 /**
- * Lagfartskalkylatorn - Tesla-Style Modular Engine
+ * Lagfartskalkylatorn - Polestar Edition Engine
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // DOM Referenser
   const categoryCards = document.querySelectorAll('.category-card');
   const scenarioTitle = document.getElementById('scenario-title');
   const scenarioText = document.getElementById('scenario-text');
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const taxHelpBox = document.getElementById('tax-help-box');
   const taxInfoBtn = document.getElementById('tax-info-btn');
 
-  // Sticky Bar & Sheet Elements
   const barHeroLabel = document.getElementById('bar-hero-label');
   const barHeroSum = document.getElementById('bar-hero-sum');
   const btnOpenSheet = document.getElementById('btn-open-sheet');
@@ -126,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const max = parseFloat(slider.max) || 100;
     const val = parseFloat(slider.value) || 0;
     const percentage = Math.max(0, Math.min(100, ((val - min) / (max - min)) * 100));
-    slider.style.background = `linear-gradient(to right, #171A20 0%, #171A20 ${percentage}%, #E2E8F0 ${percentage}%, #E2E8F0 100%)`;
+    slider.style.background = `linear-gradient(to right, #EA580C 0%, #EA580C ${percentage}%, #E8E8E8 ${percentage}%, #E8E8E8 100%)`;
   }
 
   function renderFAQ(scenario) {
@@ -169,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
   sheetOverlay.addEventListener('click', () => toggleSheet(false));
 
   function calculate() {
-    // 1. Bostadsrätt
     if (currentScenario === 'bostadsratt') {
       barHeroLabel.textContent = 'Kostnad till staten';
       barHeroSum.textContent = '0 kr';
@@ -185,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loan = parseFormattedNumber(loanInput.value);
     const existingPant = parseFormattedNumber(existingPantInput.value);
 
-    // 2. Lagfartsunderlag
+    // Lagfart
     const effectiveBasis = Math.max(price, taxVal);
     const roundedLagfartBasis = Math.floor(effectiveBasis / 1000) * 1000;
     const lagfartTax = roundedLagfartBasis * LAGFART_PERCENT;
@@ -208,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sheetLagfartDesc.textContent = `Köpeskillingen på ${fmt.format(price)} kr är högre än taxeringsvärdet på ${fmt.format(taxVal)} kr. Därför används köpeskillingen som underlag.`;
     }
 
-    // 3. Pantbrevsunderlag
+    // Pantbrev
     const neededPant = Math.max(0, loan - existingPant);
     const roundedPantBasis = Math.floor(neededPant / 1000) * 1000;
     const pantbrevTax = roundedPantBasis * PANTBREV_PERCENT;
@@ -226,17 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
       sheetPantFormula.textContent = `0 kr i nya pantbrev = 0 kr`;
     }
 
-    // 4. Totalt
     const grand = totLagfart + totPantbrev;
 
-    // 5. DOM-uppdatering
     barHeroSum.textContent = `${fmt.format(grand)} kr`;
     sheetTotalSum.textContent = `${fmt.format(grand)} kr`;
     sheetLagfartVal.textContent = `${fmt.format(totLagfart)} kr`;
     sheetPantbrevVal.textContent = `${fmt.format(totPantbrev)} kr`;
     sheetLagfartFormula.textContent = `${fmt.format(roundedLagfartBasis)} kr × 1,5 % + 825 kr = ${fmt.format(totLagfart)} kr`;
 
-    // 6. Sliders
     priceSlider.value = Math.min(price, parseInt(priceSlider.max, 10));
     taxSlider.value = Math.min(taxVal, parseInt(taxSlider.max, 10));
     loanSlider.value = Math.min(loan, parseInt(loanSlider.max, 10));
@@ -248,7 +242,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSliderFill(existingPantSlider);
   }
 
-  // Tvåvägsbindning
   function setupTwoWayBinding(slider, input) {
     slider.addEventListener('input', () => {
       input.value = fmt.format(slider.value);
@@ -337,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Init
   priceInput.value = fmt.format(4000000);
   taxInput.value = fmt.format(3000000);
   loanInput.value = fmt.format(3000000);

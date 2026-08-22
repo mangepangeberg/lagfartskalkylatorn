@@ -1,23 +1,30 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM (Tesla-Inspired Minimalist Edition)
+   DESIGN TOKENS & SYSTEM (Polestar-Inspired Monochrome & Orange Accent)
    ========================================================================== */
 :root {
-  /* Sober färgpalett */
-  --bg-app: #F8FAFC;
+  /* Polestar Neutral Palette */
+  --bg-app: #F6F6F6;
   --bg-surface: #FFFFFF;
-  --bg-track: #E2E8F0;
-  --bg-overlay: rgba(0, 0, 0, 0.45);
+  --bg-track: #E8E8E8;
+  --bg-subtle: #F0F0F0;
+  --bg-overlay: rgba(17, 17, 17, 0.45);
   
-  --color-primary: #171A20;       /* Tidlös Tesla-svart */
-  --color-primary-accent: #2563EB;/* Subtil funktionell länkblå */
+  /* Text & Ink */
+  --color-ink: #111111;
+  --color-ink-muted: #5F6368;
+  --color-ink-faint: #8C8C8C;
   
-  --color-ink: #171A20;
-  --color-ink-muted: #5C5E62;
-  --color-ink-faint: #8E8E93;
-  --color-border: #E2E8F0;
-  --color-border-active: #171A20;
+  /* Borders */
+  --color-border: #E0E0E0;
+  --color-border-hover: #B0B0B0;
+  --color-border-active: #111111;
 
-  /* Typografi (Fluid Clamp & Snäva letter-spacings) */
+  /* Polestar Performance Accent (Warm Swedish Gold / Orange) */
+  --color-accent: #EA580C;            /* Primär Polestar-orange */
+  --color-accent-hover: #C2410C;      /* Djupare orange hover */
+  --color-accent-subtle: #FFF7ED;     /* 5% tint för aktiva ytor */
+
+  /* Typografi (Fluid & Snäv spårning) */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
   --font-mono: "SF Mono", "Consolas", Menlo, monospace;
 
@@ -37,15 +44,15 @@
   --space-lg: 1.5rem;
 
   /* Form & Linjer */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-card: 14px;
-  --radius-sheet: 20px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-card: 10px;
+  --radius-sheet: 16px;
   --radius-pill: 9999px;
   
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-bar: 0 -4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-sheet: 0 -10px 40px rgba(0, 0, 0, 0.2);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-bar: 0 -2px 12px rgba(0, 0, 0, 0.05);
+  --shadow-sheet: 0 -8px 32px rgba(0, 0, 0, 0.18);
 
   --max-w-app: 460px;
   --max-w-header: 1200px;
@@ -64,7 +71,7 @@ body {
   font-size: var(--fs-base);
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 /* ==========================================================================
@@ -118,39 +125,40 @@ body {
    ========================================================================== */
 .app-wrapper {
   max-width: var(--max-w-app);
-  margin: var(--space-xs) auto 90px auto; /* 90px bottenmarginal för sticky bar */
+  margin: var(--space-xs) auto 88px auto;
   padding: 0 var(--space-xs);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-/* Segmented Control / Tabs */
+/* Polestar Segmented Tabs */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: #ECEFF3;
-  padding: 3px;
+  background: #EAEAEA;
+  padding: 2px;
   border-radius: var(--radius-md);
   gap: 2px;
 }
 
 .category-card {
   background: transparent;
-  border: none;
+  border: 1.5px solid transparent;
   border-radius: var(--radius-sm);
-  padding: 0.5rem 0.25rem;
+  padding: 0.55rem 0.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .category-card.is-active {
   background: var(--bg-surface);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-subtle);
 }
 
 .category-icon {
@@ -176,12 +184,12 @@ body {
   font-weight: 700;
 }
 
-/* Sober Ingress */
+/* Ingress */
 .scenario-intro-card {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 0.65rem var(--space-md);
+  border-radius: var(--radius-card);
+  padding: 0.75rem var(--space-md);
   box-shadow: var(--shadow-subtle);
   display: flex;
   flex-direction: column;
@@ -197,18 +205,18 @@ body {
 .scenario-intro-text {
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .scenario-live-basis {
   font-size: var(--fs-2xs);
-  color: var(--color-primary-accent);
+  color: var(--color-accent);
   font-weight: 600;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 /* ==========================================================================
-   INPUTS & SLIDERS (Tesla-style)
+   INPUTS & SLIDERS
    ========================================================================== */
 .unified-controls-card {
   background: var(--bg-surface);
@@ -221,7 +229,7 @@ body {
 }
 
 .unified-field-row {
-  padding: 0.65rem 0;
+  padding: 0.7rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -240,7 +248,7 @@ body {
 .field-label-group {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .card-caption {
@@ -255,8 +263,8 @@ body {
   background: var(--bg-track);
   border: none;
   color: var(--color-ink-muted);
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   border-radius: var(--radius-pill);
   font-size: 10px;
   font-weight: 700;
@@ -266,10 +274,15 @@ body {
   justify-content: center;
 }
 
+.info-help-btn:hover {
+  background: var(--color-border);
+  color: var(--color-ink);
+}
+
 .field-sub-hint {
   font-size: var(--fs-2xs);
   color: var(--color-ink-faint);
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .toggle-subtle {
@@ -291,7 +304,7 @@ body {
 .editable-input-box {
   display: flex;
   align-items: baseline;
-  gap: 0.3rem;
+  gap: 0.35rem;
   width: 100%;
 }
 
@@ -313,12 +326,12 @@ body {
 }
 
 .currency-input:hover {
-  background: #F1F5F9;
+  background: #F0F0F0;
 }
 
 .currency-input:focus {
   background: #FFFFFF;
-  border-color: var(--color-border-active);
+  border-color: var(--color-accent);
 }
 
 .val-unit {
@@ -328,21 +341,21 @@ body {
 }
 
 .subtle-notice-card {
-  background: #F8FAFC;
-  border-left: 2px solid var(--color-ink);
-  border-radius: 4px;
-  padding: 0.5rem 0.65rem;
-  margin-top: 0.25rem;
+  background: #FAFAFA;
+  border-left: 2px solid var(--color-accent);
+  border-radius: 2px;
+  padding: 0.55rem 0.7rem;
+  margin-top: 0.3rem;
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
   line-height: 1.4;
 }
 
-/* Minimalist Slider */
+/* Polestar Accent Slider */
 .slider-container {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
 
 .app-slider {
@@ -352,7 +365,7 @@ body {
   outline: none;
   -webkit-appearance: none;
   cursor: pointer;
-  background: linear-gradient(to right, var(--color-ink) 0%, var(--color-ink) 50%, var(--bg-track) 50%, var(--bg-track) 100%);
+  background: linear-gradient(to right, var(--color-accent) 0%, var(--color-accent) 50%, var(--bg-track) 50%, var(--bg-track) 100%);
 }
 
 .app-slider::-webkit-slider-thumb {
@@ -362,14 +375,19 @@ body {
   border-radius: 50%;
   background: #FFFFFF;
   border: 1.5px solid var(--color-ink);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   cursor: grab;
-  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, border-color 0.1s ease;
+}
+
+.app-slider::-webkit-slider-thumb:hover {
+  border-color: var(--color-accent);
 }
 
 .app-slider::-webkit-slider-thumb:active {
   cursor: grabbing;
   transform: scale(1.15);
+  border-color: var(--color-accent);
 }
 
 .slider-limits {
@@ -431,15 +449,15 @@ body {
 }
 
 /* ==========================================================================
-   TESLA-INSPIRED SLIM STICKY BAR
-   ========================================================================= */
+   STICKY BAR & BOTTOM SHEET
+   ========================================================================== */
 .sticky-tesla-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 90;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--color-border);
@@ -477,10 +495,10 @@ body {
 }
 
 .btn-open-breakdown {
-  background: #F1F5F9;
+  background: #F0F0F0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  padding: 0.5rem 0.9rem;
+  padding: 0.5rem 0.95rem;
   font-size: var(--fs-xs);
   font-weight: 600;
   color: var(--color-ink);
@@ -492,12 +510,11 @@ body {
 }
 
 .btn-open-breakdown:hover {
-  background: #E2E8F0;
+  background: #E5E5E5;
+  border-color: var(--color-border-hover);
 }
 
-/* ==========================================================================
-   TESLA-INSPIRED BOTTOM SHEET MODAL
-   ========================================================================== */
+/* Bottom Sheet */
 .sheet-overlay {
   position: fixed;
   inset: 0;
@@ -553,7 +570,7 @@ body {
 }
 
 .sheet-close-btn {
-  background: #F1F5F9;
+  background: #F0F0F0;
   border: none;
   width: 28px;
   height: 28px;
@@ -565,6 +582,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.sheet-close-btn:hover {
+  background: #E0E0E0;
 }
 
 .sheet-content {
@@ -628,7 +649,7 @@ body {
   font-family: var(--font-mono);
   font-size: var(--fs-2xs);
   color: var(--color-ink);
-  background: #F1F5F9;
+  background: #F4F4F4;
   padding: 4px 8px;
   border-radius: var(--radius-sm);
   margin-top: 3px;
