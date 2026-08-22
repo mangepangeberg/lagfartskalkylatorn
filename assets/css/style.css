@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM (Polestar-Inspired Monochrome & Orange Accent)
+   DESIGN TOKENS & SYSTEM (Polestar Minimalist Edition)
    ========================================================================== */
 :root {
   /* Polestar Neutral Palette */
@@ -19,12 +19,11 @@
   --color-border-hover: #B0B0B0;
   --color-border-active: #111111;
 
-  /* Polestar Performance Accent (Warm Swedish Gold / Orange) */
-  --color-accent: #EA580C;            /* Primär Polestar-orange */
-  --color-accent-hover: #C2410C;      /* Djupare orange hover */
-  --color-accent-subtle: #FFF7ED;     /* 5% tint för aktiva ytor */
+  /* Polestar Accent */
+  --color-accent: #EA580C;
+  --color-accent-hover: #C2410C;
 
-  /* Typografi (Fluid & Snäv spårning) */
+  /* Typografi */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
   --font-mono: "SF Mono", "Consolas", Menlo, monospace;
 
@@ -74,9 +73,7 @@ body {
   letter-spacing: -0.015em;
 }
 
-/* ==========================================================================
-   HEADER
-   ========================================================================== */
+/* Header */
 .global-header {
   position: sticky;
   top: 0;
@@ -120,9 +117,7 @@ body {
   color: var(--color-ink);
 }
 
-/* ==========================================================================
-   APP CONTENT
-   ========================================================================== */
+/* App Wrapper */
 .app-wrapper {
   max-width: var(--max-w-app);
   margin: var(--space-xs) auto 88px auto;
@@ -132,7 +127,7 @@ body {
   gap: var(--space-xs);
 }
 
-/* Polestar Segmented Tabs */
+/* Tabs */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -184,7 +179,7 @@ body {
   font-weight: 700;
 }
 
-/* Ingress */
+/* Ingress (Statisk och stabil layout) */
 .scenario-intro-card {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
@@ -208,16 +203,7 @@ body {
   line-height: 1.4;
 }
 
-.scenario-live-basis {
-  font-size: var(--fs-2xs);
-  color: var(--color-accent);
-  font-weight: 600;
-  margin-top: 3px;
-}
-
-/* ==========================================================================
-   INPUTS & SLIDERS
-   ========================================================================== */
+/* Controls Card */
 .unified-controls-card {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
@@ -351,7 +337,7 @@ body {
   line-height: 1.4;
 }
 
-/* Polestar Accent Slider */
+/* Slider Track */
 .slider-container {
   display: flex;
   flex-direction: column;
@@ -448,9 +434,7 @@ body {
   line-height: 1.35;
 }
 
-/* ==========================================================================
-   STICKY BAR & BOTTOM SHEET
-   ========================================================================== */
+/* Sticky Bar */
 .sticky-tesla-bar {
   position: fixed;
   bottom: 0;
@@ -664,9 +648,7 @@ body {
   padding-top: var(--space-xs);
 }
 
-/* ==========================================================================
-   FAQ & INFO
-   ========================================================================== */
+/* FAQ & Footer */
 .faq-section {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);

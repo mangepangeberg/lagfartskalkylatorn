@@ -1,12 +1,11 @@
 /**
- * Lagfartskalkylatorn - Polestar Edition Engine
+ * Lagfartskalkylatorn - Polestar Clean Engine
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const categoryCards = document.querySelectorAll('.category-card');
   const scenarioTitle = document.getElementById('scenario-title');
   const scenarioText = document.getElementById('scenario-text');
-  const scenarioLiveBasis = document.getElementById('scenario-live-basis');
 
   const inputsGroup = document.getElementById('inputs-group');
   const taxRow = document.getElementById('tax-row');
@@ -171,7 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
       barHeroLabel.textContent = 'Kostnad till staten';
       barHeroSum.textContent = '0 kr';
       btnOpenSheet.style.display = 'none';
-      scenarioLiveBasis.textContent = 'Bostadsrätter är befriade från stämpelskatt och inskrivningsavgifter.';
       return;
     }
 
@@ -191,17 +189,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (noTaxCheck.checked) {
       barHeroLabel.textContent = 'Preliminär kostnad';
       sheetTotalLabel.textContent = 'Preliminär kostnad för lagfart & pantbrev';
-      scenarioLiveBasis.textContent = `Preliminär lagfart beräknas på ${fmt.format(price)} kr (värdeintyg kan krävas).`;
       sheetLagfartDesc.textContent = `Eftersom taxeringsvärde saknas baseras lagfarten preliminärt på köpeskillingen (${fmt.format(price)} kr).`;
     } else if (taxVal > price) {
       barHeroLabel.textContent = 'Totalt att betala';
       sheetTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
-      scenarioLiveBasis.textContent = `Lagfarten beräknas på taxeringsvärdet (${fmt.format(taxVal)} kr) eftersom det är högre än priset.`;
       sheetLagfartDesc.textContent = `Taxeringsvärdet på ${fmt.format(taxVal)} kr är högre än köpeskillingen på ${fmt.format(price)} kr. Därför används taxeringsvärdet som underlag.`;
     } else {
       barHeroLabel.textContent = 'Totalt att betala';
       sheetTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
-      scenarioLiveBasis.textContent = `Lagfarten beräknas på köpeskillingen (${fmt.format(price)} kr).`;
       sheetLagfartDesc.textContent = `Köpeskillingen på ${fmt.format(price)} kr är högre än taxeringsvärdet på ${fmt.format(taxVal)} kr. Därför används köpeskillingen som underlag.`;
     }
 
