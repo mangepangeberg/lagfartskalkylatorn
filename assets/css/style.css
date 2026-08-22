@@ -1,53 +1,53 @@
 /* ==========================================================================
-   DESIGN TOKENS & SYSTEM (Final Polish Edition)
+   DESIGN TOKENS & SYSTEM (Tesla-Inspired Minimalist Edition)
    ========================================================================== */
 :root {
-  /* Färgpalett - Strikt semantisk */
-  --bg-app: #F5F7FB;
+  /* Sober färgpalett */
+  --bg-app: #F8FAFC;
   --bg-surface: #FFFFFF;
-  --bg-track: #EAEFF5;
-  --bg-subtle: #F8FAFC;
+  --bg-track: #E2E8F0;
+  --bg-overlay: rgba(0, 0, 0, 0.45);
   
-  --color-primary: #0066FF;
-  --color-primary-light: #EBF3FF;
-  --color-primary-hover: #0052CC;
+  --color-primary: #171A20;       /* Tidlös Tesla-svart */
+  --color-primary-accent: #2563EB;/* Subtil funktionell länkblå */
   
-  --color-ink: #14171A;
-  --color-ink-muted: #5B7083;
-  --color-ink-faint: #8899A6;
-  --color-border: #E1E8ED;
-  --color-border-focus: #0066FF;
+  --color-ink: #171A20;
+  --color-ink-muted: #5C5E62;
+  --color-ink-faint: #8E8E93;
+  --color-border: #E2E8F0;
+  --color-border-active: #171A20;
 
-  /* Typografi (Fluid Clamp) */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  /* Typografi (Fluid Clamp & Snäva letter-spacings) */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
   --font-mono: "SF Mono", "Consolas", Menlo, monospace;
 
-  --fs-2xs: clamp(0.70rem, 0.66rem + 0.15vw, 0.78rem);
-  --fs-xs: clamp(0.80rem, 0.75rem + 0.2vw, 0.88rem);
-  --fs-sm: clamp(0.90rem, 0.84rem + 0.25vw, 0.98rem);
-  --fs-base: clamp(0.98rem, 0.92rem + 0.3vw, 1.08rem);
-  --fs-md: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
-  --fs-lg: clamp(1.40rem, 1.25rem + 0.7vw, 1.75rem);
-  --fs-hero: clamp(1.85rem, 1.55rem + 1.2vw, 2.35rem);
+  --fs-2xs: clamp(0.68rem, 0.65rem + 0.12vw, 0.74rem);
+  --fs-xs: clamp(0.78rem, 0.74rem + 0.18vw, 0.84rem);
+  --fs-sm: clamp(0.88rem, 0.84rem + 0.22vw, 0.94rem);
+  --fs-base: clamp(0.96rem, 0.90rem + 0.28vw, 1.04rem);
+  --fs-md: clamp(1.15rem, 1.05rem + 0.35vw, 1.25rem);
+  --fs-lg: clamp(1.35rem, 1.22rem + 0.65vw, 1.60rem);
+  --fs-hero: clamp(1.65rem, 1.45rem + 1.0vw, 2.05rem);
 
   /* Spacing */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
-  --space-md: 1.15rem;
+  --space-md: 1.0rem;
   --space-lg: 1.5rem;
 
-  /* Form & Elevation */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-card: 20px;
+  /* Form & Linjer */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-card: 14px;
+  --radius-sheet: 20px;
   --radius-pill: 9999px;
   
-  --shadow-card: 0 4px 20px rgba(149, 157, 165, 0.07);
-  --shadow-sticky: 0 -8px 24px rgba(0, 0, 0, 0.08);
-  --shadow-thumb: 0 3px 8px rgba(0, 0, 0, 0.12);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-bar: 0 -4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-sheet: 0 -10px 40px rgba(0, 0, 0, 0.2);
 
-  --max-w-app: 480px;
+  --max-w-app: 460px;
   --max-w-header: 1200px;
 }
 
@@ -62,11 +62,14 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: var(--fs-base);
-  line-height: 1.45;
+  line-height: 1.4;
   -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
 }
 
-/* Header */
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
 .global-header {
   position: sticky;
   top: 0;
@@ -94,134 +97,138 @@ body {
 }
 
 .brand-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-primary);
+  background: var(--color-ink);
   color: #FFFFFF;
-  font-weight: 800;
-  font-size: var(--fs-sm);
-  padding: 0.25rem 0.6rem;
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  padding: 0.2rem 0.5rem;
   border-radius: var(--radius-sm);
   letter-spacing: -0.02em;
 }
 
 .brand-name {
-  font-weight: 800;
-  font-size: var(--fs-md);
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  font-size: var(--fs-base);
+  letter-spacing: -0.02em;
   color: var(--color-ink);
 }
 
-/* App Wrapper */
+/* ==========================================================================
+   APP CONTENT
+   ========================================================================== */
 .app-wrapper {
   max-width: var(--max-w-app);
-  margin: var(--space-xs) auto var(--space-lg) auto;
+  margin: var(--space-xs) auto 90px auto; /* 90px bottenmarginal för sticky bar */
   padding: 0 var(--space-xs);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-/* Kategori */
+/* Segmented Control / Tabs */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-xs);
+  background: #ECEFF3;
+  padding: 3px;
+  border-radius: var(--radius-md);
+  gap: 2px;
 }
 
 .category-card {
-  background: var(--bg-surface);
-  border: 1.5px solid transparent;
-  border-radius: var(--radius-md);
-  padding: 0.55rem 0.25rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 2px;
   cursor: pointer;
-  box-shadow: var(--shadow-card);
   transition: all 0.15s ease;
 }
 
 .category-card.is-active {
-  background: var(--color-primary-light);
-  border-color: var(--color-primary);
+  background: var(--bg-surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .category-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   stroke: var(--color-ink-muted);
   fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .category-card.is-active .category-icon {
-  stroke: var(--color-primary);
+  stroke: var(--color-ink);
 }
 
 .category-name {
-  font-size: var(--fs-xs);
-  font-weight: 700;
+  font-size: var(--fs-2xs);
+  font-weight: 600;
   color: var(--color-ink-muted);
 }
 
 .category-card.is-active .category-name {
-  color: var(--color-primary);
+  color: var(--color-ink);
+  font-weight: 700;
 }
 
-/* Scenario Ingress */
+/* Sober Ingress */
 .scenario-intro-card {
   background: var(--bg-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 0.75rem var(--space-md);
-  box-shadow: var(--shadow-card);
+  padding: 0.65rem var(--space-md);
+  box-shadow: var(--shadow-subtle);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .scenario-intro-title {
   font-size: var(--fs-xs);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--color-ink);
 }
 
 .scenario-intro-text {
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
-  line-height: 1.45;
+  line-height: 1.35;
 }
 
 .scenario-live-basis {
   font-size: var(--fs-2xs);
-  color: var(--color-primary);
+  color: var(--color-primary-accent);
   font-weight: 600;
   margin-top: 2px;
 }
 
-/* Formulärkort */
+/* ==========================================================================
+   INPUTS & SLIDERS (Tesla-style)
+   ========================================================================== */
 .unified-controls-card {
   background: var(--bg-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  padding: 0.4rem var(--space-md);
+  box-shadow: var(--shadow-subtle);
+  padding: 0.2rem var(--space-md);
   display: flex;
   flex-direction: column;
 }
 
 .unified-field-row {
-  padding: 0.75rem 0;
+  padding: 0.65rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.25rem;
 }
 
 .unified-field-row:not(:last-child) {
-  border-bottom: 1px solid var(--bg-track);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .field-header-row {
@@ -233,7 +240,7 @@ body {
 .field-label-group {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .card-caption {
@@ -241,33 +248,28 @@ body {
   font-weight: 700;
   color: var(--color-ink-muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .info-help-btn {
   background: var(--bg-track);
   border: none;
   color: var(--color-ink-muted);
-  width: 17px;
-  height: 17px;
+  width: 15px;
+  height: 15px;
   border-radius: var(--radius-pill);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s ease;
-}
-
-.info-help-btn:hover {
-  background: var(--color-border);
 }
 
 .field-sub-hint {
   font-size: var(--fs-2xs);
   color: var(--color-ink-faint);
-  line-height: 1.35;
+  line-height: 1.3;
 }
 
 .toggle-subtle {
@@ -283,28 +285,27 @@ body {
 .val-display-wrap {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 0.15rem;
+  margin: 0.1rem 0;
 }
 
 .editable-input-box {
   display: flex;
   align-items: baseline;
-  gap: 0.35rem;
+  gap: 0.3rem;
   width: 100%;
 }
 
 .currency-input {
   font-family: var(--font-sans);
   font-size: var(--fs-lg);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--color-ink);
   font-variant-numeric: tabular-nums;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
-  padding: 0.1rem 0.25rem;
+  padding: 0.1rem 0.2rem;
   width: 100%;
   max-width: 220px;
   outline: none;
@@ -312,79 +313,63 @@ body {
 }
 
 .currency-input:hover {
-  background: var(--bg-app);
+  background: #F1F5F9;
 }
 
 .currency-input:focus {
   background: #FFFFFF;
-  border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
+  border-color: var(--color-border-active);
 }
 
 .val-unit {
   font-size: var(--fs-sm);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink-muted);
 }
 
 .subtle-notice-card {
-  background: var(--bg-subtle);
-  border-left: 3px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  padding: 0.6rem 0.75rem;
-  margin-top: 0.35rem;
+  background: #F8FAFC;
+  border-left: 2px solid var(--color-ink);
+  border-radius: 4px;
+  padding: 0.5rem 0.65rem;
+  margin-top: 0.25rem;
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
-.subtle-notice-card p + p {
-  margin-top: 4px;
-}
-
-/* Slider Track */
+/* Minimalist Slider */
 .slider-container {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .app-slider {
   width: 100%;
-  height: 5px;
+  height: 4px;
   border-radius: var(--radius-pill);
   outline: none;
   -webkit-appearance: none;
   cursor: pointer;
-  background: linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) 50%, var(--bg-track) 50%, var(--bg-track) 100%);
+  background: linear-gradient(to right, var(--color-ink) 0%, var(--color-ink) 50%, var(--bg-track) 50%, var(--bg-track) 100%);
 }
 
 .app-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 26px;
+  width: 18px;
   height: 18px;
-  border-radius: 6px;
+  border-radius: 50%;
   background: #FFFFFF;
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-thumb);
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: grab;
-  position: relative;
-  background-image: repeating-linear-gradient(
-    90deg,
-    #CBD5E1,
-    #CBD5E1 1.5px,
-    transparent 1.5px,
-    transparent 4.5px
-  );
-  background-size: 8px 8px;
-  background-position: center;
-  background-repeat: no-repeat;
   transition: transform 0.1s ease;
 }
 
 .app-slider::-webkit-slider-thumb:active {
   cursor: grabbing;
-  transform: scale(1.05);
+  transform: scale(1.15);
 }
 
 .slider-limits {
@@ -398,23 +383,18 @@ body {
 /* Bostadsrätt Panel */
 .brf-panel-card {
   background: var(--bg-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: var(--space-md);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-subtle);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-.brf-header-box {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
 .brf-header-box h2 {
   font-size: var(--fs-sm);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .brf-header-box p {
@@ -423,7 +403,7 @@ body {
 }
 
 .brf-section-block {
-  border-top: 1px solid var(--bg-track);
+  border-top: 1px solid var(--color-border);
   padding-top: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -441,141 +421,237 @@ body {
 .brf-fee-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
   font-size: var(--fs-xs);
 }
 
 .brf-disclaimer {
   font-size: var(--fs-2xs);
   color: var(--color-ink-faint);
-  line-height: 1.4;
-  margin-top: 2px;
+  line-height: 1.35;
 }
 
-/* Sticky Bottom Result */
-.sticky-conversion-bar {
-  position: sticky;
-  bottom: var(--space-xs);
+/* ==========================================================================
+   TESLA-INSPIRED SLIM STICKY BAR
+   ========================================================================= */
+.sticky-tesla-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 90;
-  background: var(--bg-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  padding: 0.85rem var(--space-md);
-  box-shadow: var(--shadow-sticky);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-bar);
+  padding: 0.65rem 1rem;
+}
+
+.sticky-bar-inner {
+  max-width: var(--max-w-app);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sticky-bar-sum-block {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  backdrop-filter: blur(8px);
 }
 
-.sticky-top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.sticky-hero-label {
-  font-size: var(--fs-xs);
-  font-weight: 700;
+.sticky-bar-label {
+  font-size: 11px;
+  font-weight: 600;
   color: var(--color-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.sticky-hero-sum {
-  font-size: var(--fs-hero);
+.sticky-bar-sum {
+  font-size: var(--fs-md);
   font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--color-primary);
-  font-variant-numeric: tabular-nums;
-}
-
-.sticky-pills-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--fs-xs);
-  color: var(--color-ink-muted);
-  border-top: 1px solid var(--bg-track);
-  padding-top: 0.45rem;
-}
-
-.sticky-pills-row strong {
+  letter-spacing: -0.03em;
   color: var(--color-ink);
   font-variant-numeric: tabular-nums;
 }
 
-/* Så räknade vi */
-.calc-breakdown-details {
-  border-top: 1px dashed var(--bg-track);
-  padding-top: 0.4rem;
-}
-
-.calc-breakdown-summary {
-  font-size: var(--fs-2xs);
-  font-weight: 700;
-  color: var(--color-primary);
+.btn-open-breakdown {
+  background: #F1F5F9;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 0.9rem;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--color-ink);
   cursor: pointer;
-  list-style: none;
   display: flex;
   align-items: center;
   gap: 4px;
+  transition: all 0.15s ease;
 }
 
-.calc-breakdown-summary::-webkit-details-marker {
-  display: none;
+.btn-open-breakdown:hover {
+  background: #E2E8F0;
 }
 
-.calc-breakdown-body {
-  padding-top: 0.5rem;
+/* ==========================================================================
+   TESLA-INSPIRED BOTTOM SHEET MODAL
+   ========================================================================== */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sheet-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 201;
+  background: var(--bg-surface);
+  border-top-left-radius: var(--radius-sheet);
+  border-top-right-radius: var(--radius-sheet);
+  box-shadow: var(--shadow-sheet);
+  max-height: 85vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sheet-panel.is-visible {
+  transform: translateY(0);
+}
+
+.sheet-header {
+  position: sticky;
+  top: 0;
+  background: var(--bg-surface);
+  padding: 1rem var(--space-md) 0.75rem var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sheet-title {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.sheet-close-btn {
+  background: #F1F5F9;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-content {
+  max-width: var(--max-w-app);
+  margin: 0 auto;
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: var(--space-md);
 }
 
-.breakdown-block {
+.sheet-total-box {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-sm);
 }
 
-.breakdown-headline {
-  font-size: var(--fs-2xs);
+.sheet-total-hero {
+  font-size: var(--fs-hero);
   font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-xs);
+  color: var(--color-ink-muted);
+}
+
+.sheet-breakdown-row strong {
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet-narrative-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sheet-block-title {
+  font-size: var(--fs-xs);
+  font-weight: 700;
   color: var(--color-ink);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
-.breakdown-narrative {
-  font-size: var(--fs-2xs);
+.sheet-block-desc {
+  font-size: var(--fs-xs);
   color: var(--color-ink-muted);
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-.breakdown-formula {
+.sheet-formula {
   font-family: var(--font-mono);
   font-size: var(--fs-2xs);
   color: var(--color-ink);
-  font-weight: 600;
-  background: var(--bg-app);
-  padding: 3px 6px;
+  background: #F1F5F9;
+  padding: 4px 8px;
   border-radius: var(--radius-sm);
-  margin-top: 2px;
+  margin-top: 3px;
   display: inline-block;
 }
 
-.breakdown-footer-legal {
+.sheet-footer-legal {
   font-size: var(--fs-2xs);
   color: var(--color-ink-faint);
   line-height: 1.35;
-  border-top: 1px solid var(--bg-track);
-  padding-top: 0.4rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-xs);
 }
 
-/* FAQ & Info */
+/* ==========================================================================
+   FAQ & INFO
+   ========================================================================== */
 .faq-section {
   background: var(--bg-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: var(--space-md);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-subtle);
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
@@ -584,18 +660,18 @@ body {
 
 .faq-title {
   font-size: var(--fs-sm);
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: var(--space-2xs);
 }
 
 .faq-item {
-  border-top: 1px solid var(--bg-track);
+  border-top: 1px solid var(--color-border);
 }
 
 .faq-item summary {
   padding: 0.5rem 0;
   font-size: var(--fs-xs);
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   list-style: none;
   display: flex;
@@ -610,7 +686,7 @@ body {
   padding-bottom: 0.5rem;
   font-size: var(--fs-2xs);
   color: var(--color-ink-muted);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 .app-footer {

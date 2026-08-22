@@ -1,5 +1,5 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor (Final Polish Edition)
+ * Lagfartskalkylatorn - Tesla-Style Modular Engine
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,17 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const taxHelpBox = document.getElementById('tax-help-box');
   const taxInfoBtn = document.getElementById('tax-info-btn');
 
-  const grandTotalLabel = document.getElementById('grand-total-label');
-  const grandTotal = document.getElementById('grand-total');
-  const lagfartVal = document.getElementById('lagfart-val');
-  const pantbrevVal = document.getElementById('pantbrev-val');
+  // Sticky Bar & Sheet Elements
+  const barHeroLabel = document.getElementById('bar-hero-label');
+  const barHeroSum = document.getElementById('bar-hero-sum');
+  const btnOpenSheet = document.getElementById('btn-open-sheet');
+  const btnCloseSheet = document.getElementById('btn-close-sheet');
+  const sheetOverlay = document.getElementById('sheet-overlay');
+  const sheetPanel = document.getElementById('sheet-panel');
 
-  const pillsSummaryRow = document.getElementById('pills-summary-row');
-  const calcBreakdownWrap = document.getElementById('calc-breakdown-wrap');
-  const breakdownLagfartText = document.getElementById('breakdown-lagfart-text');
-  const breakdownLagfartFormula = document.getElementById('breakdown-lagfart-formula');
-  const breakdownPantText = document.getElementById('breakdown-pant-text');
-  const breakdownPantFormula = document.getElementById('breakdown-pant-formula');
+  const sheetTotalLabel = document.getElementById('sheet-total-label');
+  const sheetTotalSum = document.getElementById('sheet-total-sum');
+  const sheetLagfartVal = document.getElementById('sheet-lagfart-val');
+  const sheetPantbrevVal = document.getElementById('sheet-pantbrev-val');
+  const sheetLagfartDesc = document.getElementById('sheet-lagfart-desc');
+  const sheetLagfartFormula = document.getElementById('sheet-lagfart-formula');
+  const sheetPantDesc = document.getElementById('sheet-pant-desc');
+  const sheetPantFormula = document.getElementById('sheet-pant-formula');
 
   const faqHeadline = document.getElementById('faq-headline');
   const faqItemsContainer = document.getElementById('faq-items-container');
@@ -121,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const max = parseFloat(slider.max) || 100;
     const val = parseFloat(slider.value) || 0;
     const percentage = Math.max(0, Math.min(100, ((val - min) / (max - min)) * 100));
-    slider.style.background = `linear-gradient(to right, #0066FF 0%, #0066FF ${percentage}%, #EAEFF5 ${percentage}%, #EAEFF5 100%)`;
+    slider.style.background = `linear-gradient(to right, #171A20 0%, #171A20 ${percentage}%, #E2E8F0 ${percentage}%, #E2E8F0 100%)`;
   }
 
   function renderFAQ(scenario) {
@@ -147,19 +152,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function toggleSheet(open) {
+    if (open) {
+      sheetOverlay.classList.add('is-visible');
+      sheetPanel.classList.add('is-visible');
+      document.body.style.overflow = 'hidden';
+    } else {
+      sheetOverlay.classList.remove('is-visible');
+      sheetPanel.classList.remove('is-visible');
+      document.body.style.overflow = '';
+    }
+  }
+
+  btnOpenSheet.addEventListener('click', () => toggleSheet(true));
+  btnCloseSheet.addEventListener('click', () => toggleSheet(false));
+  sheetOverlay.addEventListener('click', () => toggleSheet(false));
+
   function calculate() {
     // 1. Bostadsrätt
     if (currentScenario === 'bostadsratt') {
-      grandTotalLabel.textContent = 'Kostnad till Lantmäteriet';
-      grandTotal.textContent = '0 kr';
-      pillsSummaryRow.style.display = 'none';
-      calcBreakdownWrap.style.display = 'none';
+      barHeroLabel.textContent = 'Kostnad till staten';
+      barHeroSum.textContent = '0 kr';
+      btnOpenSheet.style.display = 'none';
       scenarioLiveBasis.textContent = 'Bostadsrätter är befriade från stämpelskatt och inskrivningsavgifter.';
       return;
     }
 
-    pillsSummaryRow.style.display = 'flex';
-    calcBreakdownWrap.style.display = 'block';
+    btnOpenSheet.style.display = 'flex';
 
     const price = parseFormattedNumber(priceInput.value);
     const taxVal = noTaxCheck.checked ? 0 : parseFormattedNumber(taxInput.value);
@@ -172,19 +191,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const lagfartTax = roundedLagfartBasis * LAGFART_PERCENT;
     const totLagfart = lagfartTax + LAGFART_FEE;
 
-    // Resonemang & Feedback
     if (noTaxCheck.checked) {
-      grandTotalLabel.textContent = 'Preliminär kostnad';
+      barHeroLabel.textContent = 'Preliminär kostnad';
+      sheetTotalLabel.textContent = 'Preliminär kostnad för lagfart & pantbrev';
       scenarioLiveBasis.textContent = `Preliminär lagfart beräknas på ${fmt.format(price)} kr (värdeintyg kan krävas).`;
-      breakdownLagfartText.textContent = `Eftersom taxeringsvärde saknas baseras lagfarten preliminärt på köpeskillingen (${fmt.format(price)} kr).`;
+      sheetLagfartDesc.textContent = `Eftersom taxeringsvärde saknas baseras lagfarten preliminärt på köpeskillingen (${fmt.format(price)} kr).`;
     } else if (taxVal > price) {
-      grandTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
+      barHeroLabel.textContent = 'Totalt att betala';
+      sheetTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
       scenarioLiveBasis.textContent = `Lagfarten beräknas på taxeringsvärdet (${fmt.format(taxVal)} kr) eftersom det är högre än priset.`;
-      breakdownLagfartText.textContent = `Taxeringsvärdet på ${fmt.format(taxVal)} kr är högre än köpeskillingen på ${fmt.format(price)} kr. Därför används taxeringsvärdet som underlag.`;
+      sheetLagfartDesc.textContent = `Taxeringsvärdet på ${fmt.format(taxVal)} kr är högre än köpeskillingen på ${fmt.format(price)} kr. Därför används taxeringsvärdet som underlag.`;
     } else {
-      grandTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
+      barHeroLabel.textContent = 'Totalt att betala';
+      sheetTotalLabel.textContent = 'Total kostnad för lagfart & pantbrev';
       scenarioLiveBasis.textContent = `Lagfarten beräknas på köpeskillingen (${fmt.format(price)} kr).`;
-      breakdownLagfartText.textContent = `Köpeskillingen på ${fmt.format(price)} kr är högre än taxeringsvärdet på ${fmt.format(taxVal)} kr. Därför används köpeskillingen som underlag.`;
+      sheetLagfartDesc.textContent = `Köpeskillingen på ${fmt.format(price)} kr är högre än taxeringsvärdet på ${fmt.format(taxVal)} kr. Därför används köpeskillingen som underlag.`;
     }
 
     // 3. Pantbrevsunderlag
@@ -193,29 +214,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const pantbrevTax = roundedPantBasis * PANTBREV_PERCENT;
     const totPantbrev = roundedPantBasis > 0 ? pantbrevTax + PANTBREV_FEE : 0;
 
-    // Resonemang för pantbrev
     if (roundedPantBasis > 0) {
       if (existingPant > 0) {
-        breakdownPantText.textContent = `Du vill låna ${fmt.format(loan)} kr och fastigheten har redan pantbrev på ${fmt.format(existingPant)} kr. Du behöver därför nya pantbrev på ${fmt.format(neededPant)} kr.`;
+        sheetPantDesc.textContent = `Du vill låna ${fmt.format(loan)} kr och fastigheten har redan pantbrev på ${fmt.format(existingPant)} kr. Du behöver därför nya pantbrev på ${fmt.format(neededPant)} kr.`;
       } else {
-        breakdownPantText.textContent = `Du vill låna ${fmt.format(loan)} kr och fastigheten saknar tidigare pantbrev. Du behöver pantbrev för hela beloppet.`;
+        sheetPantDesc.textContent = `Du vill låna ${fmt.format(loan)} kr och fastigheten saknar tidigare pantbrev. Du behöver pantbrev för hela beloppet.`;
       }
-      breakdownPantFormula.textContent = `${fmt.format(roundedPantBasis)} kr × 2,0 % + 375 kr = ${fmt.format(totPantbrev)} kr`;
+      sheetPantFormula.textContent = `${fmt.format(roundedPantBasis)} kr × 2,0 % + 375 kr = ${fmt.format(totPantbrev)} kr`;
     } else {
-      breakdownPantText.textContent = `Ditt lån på ${fmt.format(loan)} kr täcks helt av befintliga pantbrev på ${fmt.format(existingPant)} kr. Inga nya pantbrev behövs.`;
-      breakdownPantFormula.textContent = `0 kr i nya pantbrev = 0 kr`;
+      sheetPantDesc.textContent = `Ditt lån på ${fmt.format(loan)} kr täcks helt av befintliga pantbrev på ${fmt.format(existingPant)} kr. Inga nya pantbrev behövs.`;
+      sheetPantFormula.textContent = `0 kr i nya pantbrev = 0 kr`;
     }
 
-    // 4. Totalbelopp
+    // 4. Totalt
     const grand = totLagfart + totPantbrev;
 
     // 5. DOM-uppdatering
-    grandTotal.textContent = `${fmt.format(grand)} kr`;
-    lagfartVal.textContent = `${fmt.format(totLagfart)} kr`;
-    pantbrevVal.textContent = `${fmt.format(totPantbrev)} kr`;
-    breakdownLagfartFormula.textContent = `${fmt.format(roundedLagfartBasis)} kr × 1,5 % + 825 kr = ${fmt.format(totLagfart)} kr`;
+    barHeroSum.textContent = `${fmt.format(grand)} kr`;
+    sheetTotalSum.textContent = `${fmt.format(grand)} kr`;
+    sheetLagfartVal.textContent = `${fmt.format(totLagfart)} kr`;
+    sheetPantbrevVal.textContent = `${fmt.format(totPantbrev)} kr`;
+    sheetLagfartFormula.textContent = `${fmt.format(roundedLagfartBasis)} kr × 1,5 % + 825 kr = ${fmt.format(totLagfart)} kr`;
 
-    // 6. Uppdatera sliders visuellt
+    // 6. Sliders
     priceSlider.value = Math.min(price, parseInt(priceSlider.max, 10));
     taxSlider.value = Math.min(taxVal, parseInt(taxSlider.max, 10));
     loanSlider.value = Math.min(loan, parseInt(loanSlider.max, 10));
@@ -227,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSliderFill(existingPantSlider);
   }
 
-  // Tvåvägssynkning (Textfält ↔ Slider)
+  // Tvåvägsbindning
   function setupTwoWayBinding(slider, input) {
     slider.addEventListener('input', () => {
       input.value = fmt.format(slider.value);
@@ -248,16 +269,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     input.addEventListener('input', () => {
-      // Reaktiv uppdatering under skrivning
       const raw = parseFormattedNumber(input.value);
       slider.value = Math.min(raw, parseInt(slider.max, 10));
       calculate();
     });
 
     input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        input.blur();
-      }
+      if (e.key === 'Enter') input.blur();
     });
   }
 
@@ -266,12 +284,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTwoWayBinding(loanSlider, loanInput);
   setupTwoWayBinding(existingPantSlider, existingPantInput);
 
-  // Hjälpknapp taxeringsvärde
   taxInfoBtn.addEventListener('click', () => {
     taxHelpBox.style.display = taxHelpBox.style.display === 'none' ? 'block' : 'none';
   });
 
-  // Checkbox för saknat taxeringsvärde
   noTaxCheck.addEventListener('change', () => {
     if (noTaxCheck.checked) {
       taxInputContainer.style.display = 'none';
@@ -284,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
     calculate();
   });
 
-  // Scenario-växling
   categoryCards.forEach(card => {
     card.addEventListener('click', () => {
       categoryCards.forEach(c => {
