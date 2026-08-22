@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Metadata -->
+  <title>Lagfart & Pantbrev Kalkylator | Beräkna stämpelskatt & avgifter</title>
+  <meta name="description" content="Räkna ut exakt kostnad för lagfart (1,5%) och nya pantbrev (2%) vid köp av villa, tomt eller nyproduktion. Blixtsnabb kalkylator för 2026.">
+  <link rel="canonical" href="https://www.lagfartskalkylatorn.se/">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Schema.org WebApplication + FAQPage JSON-LD för Google & AI -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Lagfart- och pantbrevskalkylator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "SEK"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Hur mycket kostar lagfart vid köp av villa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "För privatpersoner är stämpelskatten för lagfart 1,5% av köpeskillingen plus en fast expeditionsavgift på 825 kronor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Måste jag betala lagfart för en bostadsrätt?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nej, vid köp av bostadsrätt betalar du varken lagfart eller pantbrev. Däremot tar föreningen oftast ut en överlåtelseavgift och pantsättningsavgift."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Vad kostar pantbrev vid nyproduktion eller tomtköp?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Om det inte finns några tidigare pantbrev uttagna betalar du 2,0% på hela bolånebeloppet plus 375 kronor per nytt pantbrev."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="site-header">
+      <span class="brand-title">Lagfartskalkylatorn.se</span>
+      <span class="badge-year">Aktuella regler</span>
+    </header>
+
+    <main>
+      
+      <!-- Hero -->
+      <section class="hero-intro">
+        <h1>Räkna ut lagfart & pantbrev</h1>
+        <p>Beräkna de administrativa engångskostnaderna direkt vid ditt bostadsköp.</p>
+      </section>
+
+      <!-- Kalkylatorkort med Scenario-väljare -->
+      <section class="calculator-card" aria-label="Beräkningsverktyg">
+        
+        <!-- Scenario Toggles (Segmented Control) -->
+        <div class="scenario-nav" role="tablist" aria-label="Typ av bostadsköp">
+          <button type="button" class="scenario-btn is-active" data-scenario="villa" role="tab" aria-selected="true">
+            Villa / Fastighet
+          </button>
+          <button type="button" class="scenario-btn" data-scenario="nybygge" role="tab" aria-selected="false">
+            Nybygge / Tomt
+          </button>
+          <button type="button" class="scenario-btn" data-scenario="bostadsratt" role="tab" aria-selected="false">
+            Bostadsrätt
+          </button>
+        </div>
+
+        <!-- REGLAGE-CONTAINER (Visas för Fastighet & Nybygge) -->
+        <div id="property-controls" class="controls-stack">
+          
+          <!-- Input 1: Köpeskilling -->
+          <div class="control-group">
+            <div class="control-label-row">
+              <label for="price-slider">Köpeskilling (Bostadens pris)</label>
+              <span class="val-display" id="price-display">5 950 000 kr</span>
+            </div>
+            <input type="range" id="price-slider" min="500000" max="15000000" step="50000" value="5950000" class="range-slider">
+          </div>
+
+          <!-- Input 2: Bolån -->
+          <div class="control-group">
+            <div class="control-label-row">
+              <label for="loan-slider">Ditt planerade bolån</label>
+              <span class="val-display" id="loan-display">3 800 000 kr</span>
+            </div>
+            <input type="range" id="loan-slider" min="0" max="15000000" step="50000" value="3800000" class="range-slider">
+          </div>
+
+          <!-- Input 3: Befintliga Pantbrev (Döljs automatiskt vid Nybygge) -->
+          <div class="control-group" id="existing-pant-group">
+            <div class="control-label-row">
+              <label for="existing-pant-slider">Finns redan pantbrev i huset?</label>
+              <span class="val-display" id="existing-pant-display">1 500 000 kr</span>
+            </div>
+            <input type="range" id="existing-pant-slider" min="0" max="15000000" step="50000" value="1500000" class="range-slider">
+            <span class="input-hint">Befintliga pantbrev följer med huset gratis.</span>
+          </div>
+
+          <!-- Resultat Fastighet / Nybygge -->
+          <div class="result-grid">
+            <div class="result-stat-box">
+              <div class="stat-heading">Lagfart (Stämpelskatt)</div>
+              <div class="stat-value" id="lagfart-total">90 075 kr</div>
+              <div class="stat-breakdown" id="lagfart-detail">1,5% skatt + 825 kr avgift</div>
+            </div>
+
+            <div class="result-stat-box">
+              <div class="stat-heading">Nya Pantbrev</div>
+              <div class="stat-value" id="pantbrev-total">46 375 kr</div>
+              <div class="stat-breakdown" id="pantbrev-detail">2% skatt + 375 kr avgift</div>
+            </div>
+
+            <div class="result-total-box">
+              <div>
+                <div class="stat-heading">Totalt att betala vid tillträde</div>
+                <div class="stat-value" id="grand-total">136 450 kr</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SPECIALVY: BOSTADSRÄTT (Dold som default) -->
+        <div id="brf-message-box" class="brf-box" style="display: none;">
+          <div class="brf-badge">Ingen lagfart eller pantbrev</div>
+          <h2 class="brf-title">0 kr i stämpelskatt vid köp av lägenhet</h2>
+          <p class="brf-desc">
+            När du köper en bostadsrätt köper du inte en fastighet, utan en nyttjanderätt i en förening. Därför betalar du <strong>varken lagfart (1,5%) eller pantbrev (2%)</strong>.
+          </p>
+          
+          <div class="brf-fee-grid">
+            <div class="brf-fee-card">
+              <span class="brf-fee-label">Överlåtelseavgift (Föreningen)</span>
+              <span class="brf-fee-val">~1 430 kr</span>
+              <span class="brf-fee-sub">Engångsavgift för medlemskap</span>
+            </div>
+            <div class="brf-fee-card">
+              <span class="brf-fee-label">Pantsättningsavgift (Föreningen)</span>
+              <span class="brf-fee-val">~570 kr / lån</span>
+              <span class="brf-fee-sub">Administreras av banken</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Kunskap & FAQ -->
+      <section class="knowledge-section" aria-label="Fakta och vanliga frågor">
+        <h2 class="section-heading">Vanliga frågor om lagfart & pantbrev</h2>
+        
+        <div class="faq-list">
+          
+          <details class="faq-item">
+            <summary class="faq-summary">
+              <span>Hur beräknas stämpelskatten för lagfart?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-body">
+              <p>Stämpelskatten för lagfart är 1,5% av köpeskillingen för privatpersoner. Utöver skatten tillkommer alltid Lantmäteriets fasta administrationsavgift på 825 kr.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-summary">
+              <span>Varför betalar man pantbrev vid nyproduktion eller tomtköp?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-body">
+              <p>Vid ett nybygge eller en avstyckad tomt finns det sällan några pantbrev uttagna sedan tidigare. Därför måste du betala 2% stämpelskatt på hela ditt bolånebelopp plus 375 kr per pantbrev.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-summary">
+              <span>Kan man baka in lagfart och pantbrev i bolånet?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-body">
+              <p>Normalt nej. Bolånet får maximalt täcka 85% av bostadens köpeskilling. Kostnaden för lagfart och pantbrev måste därför vanligtvis betalas med egna sparpengar (kontant) vid tillträdet.</p>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <span>&copy; 2026 Lagfartskalkylatorn</span>
+      <span>Uppdaterad enligt Lantmäteriets regler</span>
+    </footer>
+
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
