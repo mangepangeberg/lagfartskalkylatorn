@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lagfartskalkylatorn.se/sitemap.xml
