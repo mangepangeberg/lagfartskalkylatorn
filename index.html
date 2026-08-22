@@ -32,7 +32,7 @@
             "name": "Hur beräknas lagfartskostnaden för privatpersoner?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Stämpelskatten är 1,5% på det högsta av köpeskillingen och föregående års taxeringsvärde, avrundat nedåt till fullt tusental kr, plus 825 kr i expeditionsavgift till Lantmäteriet."
+              "text": "Stämpelskatten är 1,5% på det högsta av köpeskillingen och föregående års taxeringsvärde (avrundat nedåt till helt tusental kr), plus 825 kr i expeditionsavgift till Lantmäteriet."
             }
           },
           {
@@ -41,14 +41,6 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Stämpelskatten är 2,0% på det nya inteckningsbelopp som inte täcks av befintliga pantbrev (avrundat nedåt till helt tusental kr), plus 375 kr i expeditionsavgift per ny inteckning."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Vad gäller om fastigheten saknar taxeringsvärde?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Om fastigheten är nybildad eller saknar taxeringsvärde från föregående år fastställer Lantmäteriet jämförelsevärdet via ett särskilt värdeintyg från sakkunnig (t.ex. mäklare eller värderingsman)."
             }
           }
         ]
@@ -90,23 +82,31 @@
       </button>
     </nav>
 
+    <!-- Dynamisk Scenario Ingress -->
+    <div class="scenario-intro-card" id="scenario-intro">
+      <span class="scenario-intro-title" id="scenario-title">Köper du villa, fritidshus eller fastighet?</span>
+      <span class="scenario-intro-text" id="scenario-text">Räkna ut lagfart och eventuella nya pantbrev utifrån köpeskilling och taxeringsvärde.</span>
+    </div>
+
     <!-- Controls Form -->
     <main id="inputs-group" class="unified-controls-card">
       
       <!-- 1. Köpeskilling / Tomtpris -->
       <section class="unified-field-row">
-        <span class="card-caption" id="price-label">Köpeskilling</span>
+        <div class="field-header-row">
+          <span class="card-caption" id="price-label">Köpeskilling</span>
+        </div>
         <div class="val-display-wrap">
           <div class="editable-input-box">
             <input type="text" id="price-input" class="currency-input" inputmode="numeric" value="4 000 000">
-            <span class="val-unit">SEK</span>
+            <span class="val-unit">kr</span>
           </div>
         </div>
         <div class="slider-container">
           <input type="range" id="price-slider" min="100000" max="15000000" step="25000" value="4000000" class="app-slider">
           <div class="slider-limits">
             <span>100 kkr</span>
-            <span>15 MSEK</span>
+            <span>15 Mkr</span>
           </div>
         </div>
       </section>
@@ -114,7 +114,10 @@
       <!-- 2. Taxeringsvärde (Lagfartsunderlag) -->
       <section class="unified-field-row" id="tax-row">
         <div class="field-header-row">
-          <span class="card-caption">Föregående års taxeringsvärde</span>
+          <div class="field-label-group">
+            <span class="card-caption">Föregående års taxeringsvärde</span>
+            <button type="button" class="info-help-btn" id="tax-info-btn" aria-label="Hjälp om taxeringsvärde">?</button>
+          </div>
           <label class="toggle-subtle">
             <input type="checkbox" id="no-tax-check">
             <span>Saknas</span>
@@ -125,127 +128,150 @@
           <div class="val-display-wrap">
             <div class="editable-input-box">
               <input type="text" id="tax-input" class="currency-input" inputmode="numeric" value="3 000 000">
-              <span class="val-unit">SEK</span>
+              <span class="val-unit">kr</span>
             </div>
-            <span class="tax-status-badge" id="tax-basis-badge">Lagfart baseras på köpeskilling</span>
+            <span class="status-pill-badge" id="tax-basis-badge">✓ Köpeskillingen är högst</span>
           </div>
           <div class="slider-container">
             <input type="range" id="tax-slider" min="0" max="15000000" step="25000" value="3000000" class="app-slider">
             <div class="slider-limits">
-              <span>0 SEK</span>
-              <span>15 MSEK</span>
+              <span>0 kr</span>
+              <span>15 Mkr</span>
             </div>
           </div>
         </div>
 
+        <!-- Info-box för taxeringshjälp -->
+        <div id="tax-help-box" class="subtle-notice-card" style="display: none;">
+          <strong>Vilket taxeringsvärde ska jag ange?</strong>
+          <p>Ange fastighetens taxeringsvärde för året <em>före</em> det år då lagfarten beviljas. Värdet framgår av köpekontraktet eller Skatteverkets fastighetsuppgifter. Taxeringsvärdet är inte samma sak som marknadsvärdet.</p>
+        </div>
+
         <!-- Info-box när taxeringsvärde saknas -->
-        <div id="no-tax-notice" class="subtle-notice" style="display: none;">
-          <strong>Värdeintyg krävs:</strong> Om fastigheten saknar taxeringsvärde för föregående år (t.ex. vid nybildad tomt) fastställer Lantmäteriet stämpelskatten utifrån ett värdeintyg från mäklare eller värderingsman. Kalkylen baseras tills vidare enbart på köpeskillingen.
+        <div id="no-tax-notice" class="subtle-notice-card" style="display: none;">
+          <strong>Taxeringsvärde saknas (Preliminär beräkning)</strong>
+          <p>Om fastigheten är nybildad eller saknar taxeringsvärde från föregående år fastställer Lantmäteriet stämpelskatten utifrån ett värdeintyg från sakkunnig (t.ex. mäklare). Beräkningen nedan är därför preliminär och baseras på tomtpriset/köpeskillingen.</p>
         </div>
       </section>
 
       <!-- 3. Planerat bolån -->
       <section class="unified-field-row">
-        <span class="card-caption" id="loan-label">Planerat Bolån</span>
+        <div class="field-header-row">
+          <span class="card-caption" id="loan-label">Hur mycket ska du låna?</span>
+        </div>
         <div class="val-display-wrap">
           <div class="editable-input-box">
             <input type="text" id="loan-input" class="currency-input" inputmode="numeric" value="3 000 000">
-            <span class="val-unit">SEK</span>
+            <span class="val-unit">kr</span>
           </div>
         </div>
         <div class="slider-container">
           <input type="range" id="loan-slider" min="0" max="15000000" step="25000" value="3000000" class="app-slider">
           <div class="slider-limits">
-            <span>0 SEK</span>
-            <span>15 MSEK</span>
+            <span>0 kr</span>
+            <span>15 Mkr</span>
           </div>
         </div>
       </section>
 
       <!-- 4. Befintliga pantbrev -->
       <section class="unified-field-row" id="existing-pant-row">
-        <span class="card-caption">Befintliga pantbrev i fastigheten</span>
+        <div class="field-header-row">
+          <span class="card-caption">Befintliga pantbrev i fastigheten</span>
+        </div>
+        <span class="field-sub-hint">Pantbrev som redan finns i fastigheten kan återanvändas och minskar behovet av nya.</span>
         <div class="val-display-wrap">
           <div class="editable-input-box">
             <input type="text" id="existing-pant-input" class="currency-input" inputmode="numeric" value="2 000 000">
-            <span class="val-unit">SEK</span>
+            <span class="val-unit">kr</span>
           </div>
         </div>
         <div class="slider-container">
           <input type="range" id="existing-pant-slider" min="0" max="15000000" step="25000" value="2000000" class="app-slider">
           <div class="slider-limits">
-            <span>0 SEK</span>
-            <span>15 MSEK</span>
+            <span>0 kr</span>
+            <span>15 Mkr</span>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- Bostadsrätt Panel -->
+    <!-- Bostadsrätt Panel (100% Separat Presentation) -->
     <section id="brf-card" class="brf-panel-card" style="display: none;">
-      <h2>0 kr i stämpelskatt till Lantmäteriet</h2>
-      <p>Vid köp av bostadsrätt köper du en andel i en bostadsrättsförening med nyttjanderätt till lägenheten. Du betalar därför varken lagfart eller pantbrev.</p>
-      <div class="brf-fees-box">
+      <div class="brf-header-box">
+        <h2>Ingen lagfart eller pantbrev</h2>
+        <p>Bostadsrätter har varken lagfart eller pantbrev hos Lantmäteriet eftersom du köper en andel i föreningen, inte en fastighet.</p>
+      </div>
+
+      <div class="brf-section-block">
+        <span class="brf-section-title">Till Lantmäteriet</span>
         <div class="brf-fee-row">
-          <span>Föreningens överlåtelseavgift (engångs):</span>
-          <strong>~1 430 kr (2,5% av prisbasbelopp)</strong>
+          <span>Stämpelskatt & avgifter:</span>
+          <strong>0 kr</strong>
+        </div>
+      </div>
+
+      <div class="brf-section-block">
+        <span class="brf-section-title">Eventuella avgifter till föreningen</span>
+        <div class="brf-fee-row">
+          <span>Överlåtelseavgift:</span>
+          <strong>~1 430 kr</strong>
         </div>
         <div class="brf-fee-row">
-          <span>Pantsättningsavgift (per lån):</span>
-          <strong>~570 kr (1% av prisbasbelopp)</strong>
+          <span>Pantsättningsavgift:</span>
+          <strong>~570 kr / lån</strong>
         </div>
+        <p class="brf-disclaimer">Föreningen bestämmer i sina stadgar om dessa avgifter tas ut. Beloppen styrs av prisbasbeloppet för 2026.</p>
       </div>
     </section>
 
     <!-- Sticky Bottom Result Module -->
-    <aside class="sticky-conversion-bar" aria-label="Realtidsresultat">
+    <aside class="sticky-conversion-bar" id="sticky-result-bar" aria-label="Realtidsresultat">
       <div class="sticky-top-row">
-        <span class="sticky-hero-label">Totalt att betala</span>
-        <span class="sticky-hero-sum" id="grand-total">81 200 SEK</span>
+        <span class="sticky-hero-label" id="grand-total-label">Totalt att betala</span>
+        <span class="sticky-hero-sum" id="grand-total">81 200 kr</span>
       </div>
 
-      <div class="sticky-pills-row">
-        <span>Lagfart: <strong id="lagfart-val">60 825 SEK</strong></span>
-        <span>Pantbrev: <strong id="pantbrev-val">20 375 SEK</strong></span>
+      <div class="sticky-pills-row" id="pills-summary-row">
+        <span>Lagfart: <strong id="lagfart-val">60 825 kr</strong></span>
+        <span>Pantbrev: <strong id="pantbrev-val">20 375 kr</strong></span>
       </div>
-      <div class="sticky-meta-note">
-        <span id="calculation-basis-note">Beräkningsunderlag: Högsta värde avrundat till helt tusental. 1 ny inteckning (375 kr).</span>
+
+      <!-- Expanderbar matematisk förklaring -->
+      <details class="calc-breakdown-details" id="calc-breakdown-wrap">
+        <summary class="calc-breakdown-summary">Så räknade vi ▾</summary>
+        <div class="calc-breakdown-body">
+          <div class="calc-breakdown-line">
+            <span id="breakdown-lagfart-math">4 000 000 kr × 1,5 % + 825 kr</span>
+            <span id="breakdown-lagfart-res">= 60 825 kr</span>
+          </div>
+          <div class="calc-breakdown-line">
+            <span id="breakdown-pant-math">1 000 000 kr × 2,0 % + 375 kr</span>
+            <span id="breakdown-pant-res">= 20 375 kr</span>
+          </div>
+        </div>
+      </details>
+
+      <div class="sticky-meta-note" id="sticky-meta-note">
+        <span id="calculation-basis-note">Beräknat på högsta värdet (avrundat till fullt 1 000-tal). 1 ny inteckning (375 kr).</span>
       </div>
     </aside>
 
-    <!-- FAQ & Lagregler -->
+    <!-- Dynamisk Kontextuell FAQ -->
     <section class="faq-section" id="faq">
-      <h2 class="faq-title">Regler & Vanliga frågor</h2>
-      
-      <details class="faq-item" open>
-        <summary>Hur beräknas lagfart (stämpelskatt)? <span>+</span></summary>
-        <div class="faq-body">
-          För privatpersoner är stämpelskatten <strong>1,5%</strong>. Enligt lag beräknas skatten på det <em>högsta</em> av köpeskillingen och föregående års taxeringsvärde (jämförelsevärdet), avrundat nedåt till helt tusental kronor. Därtill tillkommer Lantmäteriets fasta expeditionsavgift på <strong>825 kr</strong>.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>Hur beräknas pantbrev och expeditionsavgift? <span>+</span></summary>
-        <div class="faq-body">
-          Pantbrev kostar <strong>2,0%</strong> i stämpelskatt på det belopp som inte täcks av redan befintliga pantbrev i fastigheten (avrundat nedåt till fullt tusental). Lantmäteriet tar ut en expeditionsavgift på <strong>375 kr per ny inteckning</strong>. Kalkylatorn utgår från att beloppet tas ut som en samlad inteckning.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>Vad gäller vid nybygge & tomtköp? <span>+</span></summary>
-        <div class="faq-body">
-          Vid köp av tomt beräknas lagfarten på själva fastighetsförvärvet (tomtpriset eller dess taxeringsvärde), inte på entreprenadkontraktet för husbygget. Däremot måste nya pantbrev tas ut för hela lånebeloppet inklusive byggkreditivet om tomten saknar tidigare inteckningar.
-        </div>
-      </details>
+      <h2 class="faq-title" id="faq-headline">Vanliga frågor om Villa & Fastighet</h2>
+      <div id="faq-items-container">
+        <!-- Genereras dynamiskt via JS baserat på scenario -->
+      </div>
     </section>
 
     <!-- Källor & Juridisk avgränsning -->
     <section class="faq-section">
       <h2 class="faq-title">Avgränsning & Källor</h2>
       <p class="faq-body" style="padding-bottom: 0;">
-        Lagfartskalkylatorn är utformad för att beräkna kostnaden vid vanliga fastighetsköp för privatpersoner utifrån Lantmäteriets gällande avgifter och <em>Lag (1984:404) om stämpelskatt vid inskrivningsmyndigheter</em>. 
+        Lagfartskalkylatorn är utformad för att beräkna kostnaden vid vanliga fastighetsköp för privatpersoner utifrån Lantmäteriets avgifter och <em>Lag (1984:404) om stämpelskatt vid inskrivningsmyndigheter</em>.
         <br><br>
-        Kalkylatorn omfattar inte juridiska personer (skattesats 4,25%), arv, gåva, bodelning eller tomträtter. Beräkningen är vägledande – Lantmäteriet fastställer det slutgiltiga beslutet vid inskrivningsärendet.
+        Kalkylatorn omfattar inte juridiska personer (skattesats 4,25%), arv, gåva, bodelning eller tomträtter. Beräkningen är vägledande – Lantmäteriet fastställer det slutgiltiga beslutet.
       </p>
     </section>
 
