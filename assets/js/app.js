@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function calculate() {
     if (currentScenario === 'bostadsratt') {
-      barHeroLabel.textContent = 'Kostnad till staten';
+      barHeroLabel.textContent = 'Totalt att betala';
       barHeroSum.textContent = '0 kr';
       btnOpenSheet.style.display = 'none';
       return;
