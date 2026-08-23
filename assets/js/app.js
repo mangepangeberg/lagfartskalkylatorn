@@ -433,3 +433,53 @@ Länk till uträkningen: ${window.location.href}`;
 
   initFromURL();
 });
+
+/* --- Formspree Feedback Hantering --- */
+document.addEventListener('DOMContentLoaded', () => {
+  const voteBtns = document.querySelectorAll('.feedback-vote-btn');
+  const inputContainer = document.getElementById('feedback-input-container');
+  const voteInput = document.getElementById('feedback-vote-input');
+  const feedbackForm = document.getElementById('feedback-form');
+  const successMsg = document.getElementById('feedback-success-msg');
+
+  // Formspree endpoint
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mbgrergp';
+
+  voteBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      voteBtns.forEach(b => b.classList.remove('is-selected'));
+      btn.classList.add('is-selected');
+      const voteValue = btn.getAttribute('data-vote');
+      voteInput.value = voteValue;
+      inputContainer.style.display = 'block';
+    });
+  });
+
+  if (feedbackForm) {
+    feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(feedbackForm);
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          feedbackForm.querySelector('.feedback-btns-row').style.display = 'none';
+          inputContainer.style.display = 'none';
+          successMsg.style.display = 'block';
+        } else {
+          alert('Något gick fel vid skickandet. Försök igen senare.');
+        }
+      } catch (err) {
+        console.error('Formspree error:', err);
+        alert('Kunde inte nå servern. Kontrollera din anslutning.');
+      }
+    });
+  }
+});
