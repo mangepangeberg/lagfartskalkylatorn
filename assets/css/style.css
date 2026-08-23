@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Lagfartskalkylatorn
+   Lagfartskalkylatorn - Huvudstilmall (Polestar/Tesla Stram Estetik)
    ========================================================================== */
 
 :root {
@@ -42,7 +42,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  padding-bottom: 120px; /* Utrymme för sticky bar */
+  padding-bottom: 120px;
 }
 
 /* Header */
@@ -114,7 +114,7 @@ body {
 
 .category-card {
   background: transparent;
-  border: none;
+  border: 2px solid transparent;
   border-radius: var(--radius-control);
   padding: 0.875rem 0.5rem;
   display: flex;
@@ -132,9 +132,10 @@ body {
 }
 
 .category-card.is-active {
-  background: var(--color-ink);
-  color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border-color: var(--color-accent);
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.1);
 }
 
 .category-icon {
