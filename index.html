@@ -9,6 +9,11 @@
   <meta name="description" content="Beräkna kostnaden för lagfart (1,5%) och pantbrev (2,0%) vid fastighetsköp. Tydlig beräkning baserad på köpeskilling och taxeringsvärde enligt gällande lag.">
   <link rel="canonical" href="https://lagfartskalkylatorn.se/">
 
+  <!-- Favicon & PWA Manifest -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#111111">
+
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lagfartskalkylatorn.se/">
@@ -21,18 +26,38 @@
   <!-- Vercel Web Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
 
-  <!-- Schema.org Data -->
+  <!-- Avancerad Strukturerad Data (Schema.org / E-E-A-T & GEO med Bolagskoppling) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebApplication",
+        "@type": "SoftwareApplication",
         "name": "Lagfartskalkylatorn",
         "url": "https://lagfartskalkylatorn.se/",
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "All",
-        "browserRequirements": "Requires JavaScript"
+        "browserRequirements": "Requires JavaScript",
+        "description": "Beräkningsverktyg för stämpelskatt, lagfart och pantbrev vid fastighetsköp enligt svensk lag (1984:404).",
+        "author": {
+          "@type": "Organization",
+          "name": "Magnus Berg Consulting AB",
+          "url": "https://www.allabolag.se/foretag/magnus-berg-consulting-ab/%C3%A4lvsj%C3%B6/designers-formgivare/2KJ4BZPI5YCXC"
+        },
+        "creator": {
+          "@type": "Person",
+          "name": "Magnus Berg"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://lagfartskalkylatorn.se/#website",
+        "url": "https://lagfartskalkylatorn.se/",
+        "name": "Lagfartskalkylatorn",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Magnus Berg Consulting AB"
+        }
       },
       {
         "@type": "FAQPage",
@@ -60,6 +85,13 @@
   </script>
 </head>
 <body>
+
+  <!-- Graceful Degradation / NoScript Fallback -->
+  <noscript>
+    <div style="padding: 2rem; text-align: center; background: #FFF3CD; color: #856404; font-family: sans-serif;">
+      <strong>JavaScript krävs:</strong> Lagfartskalkylatorn behöver JavaScript aktiverat i din webbläsare för att kunna beräkna stämpelskatt och avgifter i realtid.
+    </div>
+  </noscript>
 
   <!-- Minimalist Header -->
   <header class="global-header">
@@ -248,16 +280,12 @@
       <p class="faq-body" style="padding-bottom: 0;">
         Lagfartskalkylatorn är utformad för att beräkna kostnaden vid vanliga fastighetsköp för privatpersoner utifrån Lantmäteriets avgifter och <em>Lag (1984:404) om stämpelskatt vid inskrivningsmyndigheter</em>.
         <br><br>
-        Kalkylatorn omfattar inte juridiska personer (skattesats 4,25%), arv, gåva, bodelning eller tomträtter. Beräkningen är vägledande – Lantmäteriet fastställer det slutgiltiga beslutet. Sidan är byggd av Mange Berg.
-        
+        Kalkylatorn omfattar inte juridiska personer (skattesats 4,25%), arv, gåva, bodelning eller tomträtter. Beräkningen är vägledande – Lantmäteriet fastställer det slutgiltiga beslutet.
+        <br><br>
+        Sidan är byggd och underhålls av <strong>Magnus Berg Consulting AB</strong>.
       </p>
     </section>
-<!--
-    <footer class="app-footer">
-      <span>Lagfartskalkylatorn.se</span>
-      <span>Vägledande beräkning för privatpersoner © 2026</span>
-    </footer>
--->
+
   </div>
 
   <!-- Sticky Bottom Bar -->
