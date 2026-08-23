@@ -25,7 +25,7 @@
   --radius-pill: 9999px;
   
   --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.03);
-  --shadow-sheet: 0 -10px 40px rgba(0, 0, 0, 0.15);
+  --shadow-sheet: 0 -20px 50px rgba(0, 0, 0, 0.15);
 }
 
 /* Grundläggande reset & typografi */
@@ -100,7 +100,7 @@ body {
   gap: 1.5rem;
 }
 
-/* Scenario Tabs / Grid (Full klickbarhet) */
+/* Scenario Tabs / Grid */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -533,7 +533,7 @@ body {
   background: var(--color-accent);
 }
 
-/* Sheet Modal & Overlay */
+/* Sheet Modal & Overlay (Fullbredds Bottom-Sheet med centrerat innehåll) */
 .sheet-overlay {
   position: fixed;
   inset: 0;
@@ -551,19 +551,16 @@ body {
   pointer-events: auto;
 }
 
-/* Sheet Panel: Alltid förankrad i botten och expanderar uppåt i 600px bredd */
 .sheet-panel {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  margin: 0 auto;
   width: 100%;
-  max-width: 100%;
   background: var(--color-surface);
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  padding: 1.75rem;
+  padding: 2rem 1.50rem;
   box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.15);
   transform: translateY(100%);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -574,6 +571,13 @@ body {
 
 .sheet-panel.is-visible {
   transform: translateY(0);
+}
+
+/* Begränsa och centrera innehållet inuti fullbredds-panelen på desktop för perfekt läsbarhet */
+.sheet-header,
+.sheet-content {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .sheet-header {

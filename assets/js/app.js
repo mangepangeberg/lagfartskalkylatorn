@@ -1,5 +1,5 @@
 /**
- * Lagfartskalkylatorn - Reaktiv Beräkningsmotor med Clipboard, URL Params & 10 SEO/GEO FAQ
+ * Lagfartskalkylatorn - Reaktiv Beräkningsmotor med Vercel Analytics Tracking, URL Params & FAQ
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -66,136 +66,46 @@ document.addEventListener('DOMContentLoaded', () => {
     villa: {
       title: 'Vanliga frågor om Villa & Fastighet',
       items: [
-        {
-          q: 'Hur beräknas lagfarten för en villa?',
-          a: 'Lagfarten (stämpelskatten) är 1,5% på det högsta beloppet av köpeskillingen och föregående års taxeringsvärde, avrundat nedåt till helt tusental kronor. Dessutom tillkommer Lantmäteriets fasta expeditionsavgift på 825 kr.'
-        },
-        {
-          q: 'Hur fungerar pantbrev vid fastighetsköp?',
-          a: 'Pantbrev är bankens säkerhet för lånet. Du betalar endast för nya pantbrev om ditt bolån överstiger de pantbrev som säljaren redan tagit ut i fastigheten. Kostnaden är 2,0% på det nya beloppet plus 375 kr i expeditionsavgift per ny inteckning.'
-        },
-        {
-          q: 'Var hittar jag fastighetens taxeringsvärde?',
-          a: 'Taxeringsvärdet för föregående år står i mäklarens objektsbeskrivning och köpekontraktet. Du kan även logga in på Skatteverkets e-tjänst för fastighetsuppgifter.'
-        },
-        {
-          q: 'Vem betalar stämpelskatten till Lantmäteriet?',
-          a: 'Det är alltid köparen av fastigheten som är skyldig att betala stämpelskatt för både lagfart och nya pantbrev enligt svensk lag (1984:404).'
-        },
-        {
-          q: 'Vad händer om taxeringsvärdet är högre än köpeskillingen?',
-          a: 'Enligt fastighetstaxeringslagen och stämpelskattelagen används det belopp som är högst av köpeskillingen och föregående års taxeringsvärde som beräkningsunderlag.'
-        },
-        {
-          q: 'Kan man återanvända gamla pantbrev?',
-          a: 'Ja! Om säljaren har befintliga pantbrev i fastigheten som inte är belånade upp till maxbeloppet kan dessa återanvändas, vilket sparar dig 2,0% i stämpelskatt på det täckta beloppet.'
-        },
-        {
-          q: 'Hur lång tid tar det att få lagfarten beviljad?',
-          a: 'Inskrivningsmyndigheten (Lantmäteriet) handlägger ansökningar om lagfart. Handläggningstiderna varierar beroende på arbetsbelastning, men brukar ta mellan ett par veckor upp till några månader.'
-        },
-        {
-          q: 'Måste jag betala pantbrev om jag köper kontant?',
-          a: 'Nej. Om du köper fastigheten helt utan bolån behöver du varken ta ut nya pantbrev eller betala pantbrevsskatt (2,0%). Du betalar endast stämpelskatt för lagfarten (1,5%).'
-        },
-        {
-          q: 'Vad är skillnaden mellan lagfart och pantbrev?',
-          a: 'Lagfart är beviset på att du äger fastigheten. Pantbrev är ett skriftligt bevis (inteckning) på att banken har säkerhet i fastigheten för ett lån.'
-        },
-        {
-          q: 'Tillkommer det några andra avgifter till Lantmäteriet?',
-          a: 'Ja, utöver stämpelskatten tillkommer en fast expeditionsavgift på 825 kr för lagfart samt 375 kr per utfärdat pantbrev.'
-        }
+        { q: 'Hur beräknas lagfarten för en villa?', a: 'Lagfarten (stämpelskatten) är 1,5% på det högsta beloppet av köpeskillingen och föregående års taxeringsvärde, avrundat nedåt till helt tusental kronor. Dessutom tillkommer Lantmäteriets fasta expeditionsavgift på 825 kr.' },
+        { q: 'Hur fungerar pantbrev vid fastighetsköp?', a: 'Pantbrev är bankens säkerhet för lånet. Du betalar endast för nya pantbrev om ditt bolån överstiger de pantbrev som säljaren redan tagit ut i fastigheten. Kostnaden är 2,0% på det nya beloppet plus 375 kr i expeditionsavgift per ny inteckning.' },
+        { q: 'Var hittar jag fastighetens taxeringsvärde?', a: 'Taxeringsvärdet för föregående år står i mäklarens objektsbeskrivning och köpekontraktet. Du kan även logga in på Skatteverkets e-tjänst för fastighetsuppgifter.' },
+        { q: 'Vem betalar stämpelskatten till Lantmäteriet?', a: 'Det är alltid köparen av fastigheten som är skyldig att betala stämpelskatt för både lagfart och nya pantbrev enligt svensk lag (1984:404).' },
+        { q: 'Vad händer om taxeringsvärdet är högre än köpeskillingen?', a: 'Enligt fastighetstaxeringslagen och stämpelskattelagen används det belopp som är högst av köpeskillingen och föregående års taxeringsvärde som beräkningsunderlag.' },
+        { q: 'Kan man återanvända gamla pantbrev?', a: 'Ja! Om säljaren har befintliga pantbrev i fastigheten som inte är belånade upp till maxbeloppet kan dessa återanvändas, vilket sparar dig 2,0% i stämpelskatt på det täckta beloppet.' },
+        { q: 'Hur lång tid tar det att få lagfarten beviljad?', a: 'Inskrivningsmyndigheten (Lantmäteriet) handlägger ansökningar om lagfart. Handläggningstiderna varierar beroende på arbetsbelastning, men brukar ta mellan ett par veckor upp till några månader.' },
+        { q: 'Måste jag betala pantbrev om jag köper kontant?', a: 'Nej. Om du köper fastigheten helt utan bolån behöver du varken ta ut nya pantbrev eller betala pantbrevsskatt (2,0%). Du betalar endast stämpelskatt för lagfarten (1,5%).' },
+        { q: 'Vad är skillnaden mellan lagfart och pantbrev?', a: 'Lagfart är beviset på att du äger fastigheten. Pantbrev är ett skriftligt bevis (inteckning) på att banken har säkerhet i fastigheten för ett lån.' },
+        { q: 'Tillkommer det några andra avgifter till Lantmäteriet?', a: 'Ja, utöver stämpelskatten tillkommer en fast expeditionsavgift på 825 kr för lagfart samt 375 kr per utfärdat pantbrev.' }
       ]
     },
     nybygge: {
       title: 'Vanliga frågor om Tomt & Nybygge',
       items: [
-        {
-          q: 'Betalar jag lagfart på husets entreprenadkostnad?',
-          a: 'Nej. När du köper en tomt beräknas lagfarten enbart på själva fastighetsförvärvet (tomtpriset eller tomtens taxeringsvärde), inte på entreprenadkontraktet för husbygget.'
-        },
-        {
-          q: 'Hur beräknas pantbrev vid nybygge?',
-          a: 'Eftersom husbygget och tomten belånas tillsammans behöver du pantbrev för hela byggnadskreditivet och lånebeloppet. Nya pantbrev kostar 2,0% på lånebehovet utöver eventuella befintliga pantbrev.'
-        },
-        {
-          q: 'Vad gäller om tomten är nybildad och saknar taxeringsvärde?',
-          a: 'För nybildade tomter fastställer Lantmäteriet jämförelsevärdet genom ett särskilt värdeintyg från mäklare eller värderingsman.'
-        },
-        {
-          q: 'Hur fungerar byggnadskreditiv och pantbrev?',
-          a: 'Banken betalar ut pengar i takt med att huset byggs via ett byggnadskreditiv. Pantbreven måste finnas på plats innan banken kan betala ut lånet till entreprenören.'
-        },
-        {
-          q: 'Ingår stämpelskatt i totalpriset från husleverantören?',
-          a: 'Oftast inte. Husleverantörernas kalkylblad exkluderar i regel lagfart och pantbrev eftersom dessa avgifter betalas direkt till staten via Lantmäteriet.'
-        },
-        {
-          q: 'När betalas stämpelskatten vid nybygge?',
-          a: 'Lagfarten för tomten söks och betalas strax efter att du har tillträtt tomten. Pantbreven tas ut i etapper i takt med att byggkreditivet utökas.'
-        },
-        {
-          q: 'Kan man stycka av mark utan att betala ny lagfart?',
-          a: 'Nej, avstyckning och nybildning av fastigheter medför att en ny fastighet skapas, vilket kräver egen lagfart.'
-        },
-        {
-          q: 'Hur undviker man dubbla kostnader vid nyköp?',
-          a: 'Genom att köpa en fastighet där tomten säljs separat från entreprenaden är det endast tomtpriset som utgör underlag för lagfartsskatt.'
-        },
-        {
-          q: 'Vilken lag styr avgifter vid nybyggnation?',
-          a: 'Stämpelskatten regleras av Lag (1984:404) om stämpelskatt vid inskrivningsmyndigheter.'
-        },
-        {
-          q: 'Vem skickar in ansökan om lagfart för nybygge?',
-          a: 'Köparen (eller banken/mäklaren på uppdrag av köparen) skickar in ansökan till Lantmäteriet så fort fastighetsaffären är genomförd.'
-        }
+        { q: 'Betalar jag lagfart på husets entreprenadkostnad?', a: 'Nej. När du köper en tomt beräknas lagfarten enbart på själva fastighetsförvärvet (tomtpriset eller tomtens taxeringsvärde), inte på entreprenadkontraktet för husbygget.' },
+        { q: 'Hur beräknas pantbrev vid nybygge?', a: 'Eftersom husbygget och tomten belånas tillsammans behöver du pantbrev för hela byggnadskreditivet och lånebeloppet. Nya pantbrev kostar 2,0% på lånebehovet utöver eventuella befintliga pantbrev.' },
+        { q: 'Vad gäller om tomten är nybildad och saknar taxeringsvärde?', a: 'För nybildade tomter fastställer Lantmäteriet jämförelsevärdet genom ett särskilt värdeintyg från mäklare eller värderingsman.' },
+        { q: 'Hur fungerar byggnadskreditiv och pantbrev?', a: 'Banken betalar ut pengar i takt med att huset byggs via ett byggnadskreditiv. Pantbreven måste finnas på plats innan banken kan betala ut lånet till entreprenören.' },
+        { q: 'Ingår stämpelskatt i totalpriset från husleverantören?', a: 'Oftast inte. Husleverantörernas kalkylblad exkluderar i regel lagfart och pantbrev eftersom dessa avgifter betalas direkt till staten via Lantmäteriet.' },
+        { q: 'När betalas stämpelskatten vid nybygge?', a: 'Lagfarten för tomten söks och betalas strax efter att du har tillträtt tomten. Pantbreven tas ut i etapper i takt med att byggkreditivet utökas.' },
+        { q: 'Kan man stycka av mark utan att betala ny lagfart?', a: 'Nej, avstyckning och nybildning av fastigheter medför att en ny fastighet skapas, vilket kräver egen lagfart.' },
+        { q: 'Hur undviker man dubbla kostnader vid nyköp?', a: 'Genom att köpa en fastighet där tomten säljs separat från entreprenaden är det endast tomtpriset som utgör underlag för lagfartsskatt.' },
+        { q: 'Vilken lag styr avgifter vid nybyggnation?', a: 'Stämpelskatten regleras av Lag (1984:404) om stämpelskatt vid inskrivningsmyndigheter.' },
+        { q: 'Vem skickar in ansökan om lagfart för nybygge?', a: 'Köparen (eller banken/mäklaren på uppdrag av köparen) skickar in ansökan till Lantmäteriet så fort fastighetsaffären är genomförd.' }
       ]
     },
     bostadsratt: {
       title: 'Vanliga frågor om Bostadsrätt',
       items: [
-        {
-          q: 'Varför betalar man ingen lagfart för bostadsrätt?',
-          a: 'Vid köp av bostadsrätt köper du inte fast egendom, utan en andel i bostadsrättsföreningen med tillhörande nyttjanderätt. Därför betalas ingen stämpelskatt till Lantmäteriet.'
-        },
-        {
-          q: 'Varför tas inga pantbrev ut?',
-          a: 'Eftersom föreningen äger fastigheten kan inte privatpersoner ta ut pantbrev. Banken tar istället pant i din bostadsrättsandel direkt via föreningens lägenhetsregister.'
-        },
-        {
-          q: 'Vad är överlåtelse- och pantsättningsavgift?',
-          a: 'Det är administrativa avgifter som föreningen har rätt att ta ut enligt sina stadgar för att registrera ägarbytet och pantsättningen i lägenhetsregistret.'
-        },
-        {
-          q: 'Vem betalar överlåtelseavgiften?',
-          a: 'Enligt bostadsrättslagen får föreningens stadgar ange om överlåtelseavgiften (maximalt 2,5 % av prisbasbeloppet) betalas av säljare eller köpare. Vanligtvis betalas den av köparen.'
-        },
-        {
-          q: 'Vad kostar en pantsättningsavgift?',
-          a: 'Pantsättningsavgiften uppgår till maximalt 1 % av prisbasbeloppet per pantnotering och tas ut av föreningen för att registrera bankens pant.'
-        },
-        {
-          q: 'Behöver man mäklare vid bostadsrättsköp?',
-          a: 'Det är frivilligt, men vanligast är att affären förmedlas av en fastighetsmäklare. Samma regler för handpenning och kontrakt gäller som vid fastighetsköp.'
-        },
-        {
-          q: 'Gäller köplagen eller jordabalken för bostadsrätt?',
-          a: 'Köp av bostadsrätt regleras av köplagen (och bostadsrättslagen), till skillnad från fastigheter (villor) som styrs av jordabalken.'
-        },
-        {
-          q: 'Kan föreningen neka ett medlemskap vid köp?',
-          a: 'Ja, bostadsrättsföreningen måste godkänna köparen som medlem i föreningen innan överlåtelsen kan gå igenom.'
-        },
-        {
-          q: 'Finns det dolda kostnader vid bostadsrättsköp?',
-          a: 'Utöver köpeskillingen tillkommer eventuella avgifter till föreningen, pantbrev existerar som sagt inte men avgifter för bolån tas ut av banken.'
-        },
-        {
-          q: 'Hur påverkar prisbasbeloppet avgifterna 2026?',
-          a: 'Prisbasbeloppet styr taket för föreningens maximala överlåtelse- och pantsättningsavgifter, vilka justeras årligen.'
-        }
+        { q: 'Varför betalar man ingen lagfart för bostadsrätt?', a: 'Vid köp av bostadsrätt köper du inte fast egendom, utan en andel i bostadsrättsföreningen med tillhörande nyttjanderätt. Därför betalas ingen stämpelskatt till Lantmäteriet.' },
+        { q: 'Varför tas inga pantbrev ut?', a: 'Eftersom föreningen äger fastigheten kan inte privatpersoner ta ut pantbrev. Banken tar istället pant i din bostadsrättsandel direkt via föreningens lägenhetsregister.' },
+        { q: 'Vad är överlåtelse- och pantsättningsavgift?', a: 'Det är administrativa avgifter som föreningen har rätt att ta ut enligt sina stadgar för att registrera ägarbytet och pantsättningen i lägenhetsregistret.' },
+        { q: 'Vem betalar överlåtelseavgiften?', a: 'Enligt bostadsrättslagen får föreningens stadgar ange om överlåtelseavgiften (maximalt 2,5 % av prisbasbeloppet) betalas av säljare eller köpare. Vanligtvis betalas den av köparen.' },
+        { q: 'Vad kostar en pantsättningsavgift?', a: 'Pantsättningsavgiften uppgår till maximalt 1 % av prisbasbeloppet per pantnotering och tas ut av föreningen för att registrera bankens pant.' },
+        { q: 'Behöver man mäklare vid bostadsrättsköp?', a: 'Det är frivilligt, men vanligast är att affären förmedlas av en fastighetsmäklare. Samma regler för handpenning och kontrakt gäller som vid fastighetsköp.' },
+        { q: 'Gäller köplagen eller jordabalken för bostadsrätt?', a: 'Köp av bostadsrätt regleras av köplagen (och bostadsrättslagen), till skillnad från fastigheter (villor) som styrs av jordabalken.' },
+        { q: 'Kan föreningen neka ett medlemskap vid köp?', a: 'Ja, bostadsrättsföreningen måste godkänna köparen som medlem i föreningen innan överlåtelsen kan gå igenom.' },
+        { q: 'Finns det dolda kostnader vid bostadsrättsköp?', a: 'Utöver köpeskillingen tillkommer eventuella avgifter till föreningen, pantbrev existerar som sagt inte men avgifter för bolån tas ut av banken.' },
+        { q: 'Hur påverkar prisbasbeloppet avgifterna 2026?', a: 'Prisbasbeloppet styr taket för föreningens maximala överlåtelse- och pantsättningsavgifter, vilka justeras årligen.' }
       ]
     }
   };
@@ -243,6 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
       sheetPanel.setAttribute('aria-hidden', 'false');
       btnOpenSheet.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
+
+      // TRACKING: Klick på "Visa uträkning"
+      if (window.va) window.va('track', { name: 'visa_utrakning_klick' });
     } else {
       sheetOverlay.classList.remove('is-visible');
       sheetPanel.classList.remove('is-visible');
@@ -419,6 +332,9 @@ document.addEventListener('DOMContentLoaded', () => {
     currentScenario = scenario;
     renderFAQ(currentScenario);
 
+    // TRACKING: Byt av fastighetstyp (Villa / Nybygge / Bostadsrätt)
+    if (window.va) window.va('track', { name: 'scenario_byte', data: { typ: scenario } });
+
     if (currentScenario === 'bostadsratt') {
       scenarioTitle.textContent = 'Köper du bostadsrätt?';
       scenarioText.textContent = 'Vid köp av bostadsrätt betalar du ingen stämpelskatt eller pantbrevskostnad till staten.';
@@ -473,6 +389,10 @@ Länk till uträkningen: ${window.location.href}`;
     navigator.clipboard.writeText(summaryText).then(() => {
       btnCopyCalc.classList.add('is-copied');
       copyBtnText.textContent = 'Kopierad!';
+
+      // TRACKING: Guld-KPI! Användaren kopierar uträkningen
+      if (window.va) window.va('track', { name: 'kopiera_utrakning' });
+
       setTimeout(() => {
         btnCopyCalc.classList.remove('is-copied');
         copyBtnText.textContent = 'Kopiera uträkning';
@@ -529,6 +449,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const voteValue = btn.getAttribute('data-vote');
       voteInput.value = voteValue;
       inputContainer.style.display = 'block';
+
+      // TRACKING: Feedback tumme upp/ner
+      if (window.va) window.va('track', { name: 'feedback_tumme', data: { röst: voteValue } });
     });
   });
 
@@ -550,6 +473,9 @@ document.addEventListener('DOMContentLoaded', () => {
           feedbackForm.querySelector('.feedback-btns-row').style.display = 'none';
           inputContainer.style.display = 'none';
           successMsg.style.display = 'block';
+
+          // TRACKING: Inskickad feedback-kommentar
+          if (window.va) window.va('track', { name: 'feedback_skickad' });
         } else {
           alert('Något gick fel vid skickandet. Försök igen senare.');
         }
