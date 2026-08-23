@@ -7,7 +7,7 @@
   
   <title>Lagfart & Pantbrev Kalkylator | Beräkna stämpelskatt 2026</title>
   <meta name="description" content="Räkna ut lagfart, stämpelskatt och pantbrev på några sekunder. Oberoende kalkylator för köp av villa, fritidshus och tomt enligt svensk lag (1984:404).">
-  <meta property="og:description" content="Räkna ut lagfart, stämpelskatt och pantbrev på några sekunder. Oberoende kalkylator för köp av villa, fritidshus och tomt enligt svensk lag (1984:404).">
+  <link rel="canonical" href="https://lagfartskalkylatorn.se/">
 
   <!-- Favicon & PWA Manifest -->
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
@@ -18,7 +18,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lagfartskalkylatorn.se/">
   <meta property="og:title" content="Lagfart & Pantbrev Kalkylator 2026">
-  <meta property="og:description" content="Beräkna stämpelskatt för lagfart (1,5%) och pantbrev (2,0%) vid fastighetsköp utan krångel.">
+  <meta property="og:description" content="Räkna ut lagfart, stämpelskatt och pantbrev på några sekunder. Oberoende kalkylator för köp av villa, fritidshus och tomt enligt svensk lag (1984:404).">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="assets/css/style.css">
@@ -284,6 +284,32 @@
         <br><br>
         Sidan är byggd och underhålls av <strong>Magnus Berg Consulting AB</strong>.
       </p>
+    </section>
+
+    <!-- Feedback & Kontakt-widget (Formspree) -->
+    <section class="faq-section" id="feedback-section">
+      <h2 class="faq-title">Tyck till eller hör av dig</h2>
+      <p class="faq-body" style="padding-bottom: 1rem;">
+        Hittade du något fel, har du ett förslag på förbättring eller vill du diskutera ett samarbete? Lämna gärna feedback direkt här!
+      </p>
+      
+      <form id="feedback-form" class="feedback-form-card">
+        <div class="feedback-btns-row">
+          <button type="button" class="feedback-vote-btn" data-vote="Bra jobbat! 👍">Bra verktyg 👍</button>
+          <button type="button" class="feedback-vote-btn" data-vote="Behöver förbättras 👎">Kan bli bättre 👎</button>
+        </div>
+
+        <div id="feedback-input-container" style="display: none; margin-top: 1rem;">
+          <input type="hidden" name="vote" id="feedback-vote-input" value="">
+          <textarea name="message" id="feedback-text-input" rows="3" class="feedback-textarea" placeholder="Skriv din kommentar, idé eller fråga här (valfritt)..." aria-label="Din feedback"></textarea>
+          <input type="email" name="email" id="feedback-email-input" class="feedback-email-input" placeholder="Din e-post (om du vill ha svar)..." aria-label="Din e-postadress">
+          <button type="submit" class="feedback-submit-btn">Skicka feedback</button>
+        </div>
+
+        <div id="feedback-success-msg" style="display: none; margin-top: 1rem; color: #155724; background: #D4EDDA; padding: 1rem; border-radius: 8px; font-size: 0.9rem; text-align: center;">
+          Tack för din feedback! Den har skickats till Magnus. 🚀
+        </div>
+      </form>
     </section>
 
   </div>
