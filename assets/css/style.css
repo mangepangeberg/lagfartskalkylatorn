@@ -398,7 +398,7 @@ body {
   margin-top: 0.25rem;
 }
 
-/* FAQ */
+/* --- FAQ & Integrerade Källor --- */
 .faq-section {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -441,6 +441,34 @@ body {
   color: var(--color-muted);
   margin-top: 0.5rem;
   line-height: 1.6;
+}
+
+/* Integrerad Källbox i FAQ */
+.faq-sources-box {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.faq-sources-title {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.faq-sources-text {
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.faq-sources-text strong {
+  color: var(--color-ink);
+  font-weight: 600;
 }
 
 /* Sticky Tesla Bar */
