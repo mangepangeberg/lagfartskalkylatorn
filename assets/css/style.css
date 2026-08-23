@@ -183,20 +183,15 @@ body {
   box-shadow: var(--shadow-subtle);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.5rem; /* Sätter ett enhetligt och luftigt avstånd mellan alla fält */
 }
 
 .unified-field-row {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.unified-field-row:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
+  padding-bottom: 0; /* Inga extra marginaler som skapar oreda */
+  border-bottom: none; /* Tagit bort de tunna linjerna helt för renare UX */
 }
 
 #tax-input-container {
