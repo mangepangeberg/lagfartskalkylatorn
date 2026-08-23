@@ -547,6 +547,24 @@ body {
   pointer-events: auto;
 }
 
+/* Sheet Modal (Tesla-elegant: Bottom-sheet på mobil, centrerad exklusiv modal på desktop) */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 200;
+}
+
+.sheet-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .sheet-panel {
   position: fixed;
   bottom: 0;
@@ -561,7 +579,7 @@ body {
   padding: 1.75rem;
   box-shadow: var(--shadow-sheet);
   transform: translateY(100%);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
   z-index: 201;
   max-height: 85vh;
   overflow-y: auto;
@@ -569,6 +587,24 @@ body {
 
 .sheet-panel.is-visible {
   transform: translateY(0);
+}
+
+/* Desktop-optimering: Centrerad Tesla-modal på större skärmar */
+@media (min-width: 640px) {
+  .sheet-panel {
+    bottom: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    border-radius: 24px;
+    max-height: 85vh;
+    opacity: 0;
+  }
+
+  .sheet-panel.is-visible {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 .sheet-header {
